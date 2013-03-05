@@ -1,0 +1,152 @@
+/* style.css */
+
+@font-face {
+  font-family: 'Rockwell';
+  src: url('images/rockwell.eot');
+  src: local('x'),
+    url('images/rockwell.ttf') format('woff'),
+    url('images/rockwell.woff') format('woff'),
+    url('images/rockwell.otf') format('opentype'),
+    url('images/rockwell.svg#grablau') format('svg');
+}
+
+@font-face {
+  font-family: 'New Athletic M54';
+  src: url('images/new_athletic_m54.eot');
+  src: local('x'),
+    url('images/new_athletic_m54.ttf') format('woff'),
+    url('images/new_athletic_m54.woff') format('woff'),
+    url('images/new_athletic_m54.otf') format('opentype'),
+    url('images/new_athletic_m54.svg#grablau') format('svg');
+}
+
+body {
+  padding-bottom: 40px;
+  color: #5a5a5a;
+}
+
+.navbar-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 11;
+  margin-top: 20px;
+  margin-bottom: -90px; /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
+}
+
+.navbar .navbar-inner {
+  border: 0;
+  -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+     -moz-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+          box-shadow: 0 2px 10px rgba(0,0,0,.25);
+}
+
+.navbar .brand {
+  padding: 14px 20px 16px; /* Increase vertical padding to match navbar links */
+  font-size: 16px;
+  font-weight: bold;
+  text-shadow: 0 -1px 0 rgba(0,0,0,.5);
+}
+
+.navbar .nav > li > a {
+  padding: 15px 20px;
+}
+
+.navbar .btn-navbar {
+  margin-top: 10px;
+}
+
+/* Carousel base class */
+.carousel .container {
+  position: relative;
+  z-index: 9;
+}
+
+.carousel-control {
+  height: 80px;
+  margin-top: 0;
+  font-size: 120px;
+  text-shadow: 0 1px 1px rgba(0,0,0,.4);
+  background-color: transparent;
+  border: 0;
+  z-index: 10;
+}
+
+.carousel .item {
+  xheight: 500px;
+  height: auto;
+}
+.carousel img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  xheight: 500px;
+  height: auto;
+}
+
+.carousel-caption {
+  background: rgba( 0, 0, 0, 0.5 );
+  position: static;
+  xmax-width: 550px;
+  padding: 3px 20px;
+  margin-top: 430px;
+}
+.carousel-caption h1,
+.carousel-caption .lead {
+  margin: 0;
+  line-height: 1.25;
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0,0,0,.4);
+  text-align: center;
+}
+/*
+@media (max-width: 979px) {
+  .container.navbar-wrapper {
+    margin-bottom: 0;
+    width: auto;
+  }
+  .navbar-inner {
+    border-radius: 0;
+    margin: -20px 0;
+  }
+
+  .carousel .item {
+    height: 500px;
+  }
+  .carousel img {
+    width: auto;
+    height: 500px;
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar-inner {
+    margin: -20px;
+  }
+
+  .carousel {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+  .carousel .item {
+    height: 300px;
+  }
+  .carousel img {
+    height: 300px;
+  }
+  .carousel-caption {
+    width: 65%;
+    padding: 0 70px;
+    margin-top: 100px;
+  }
+  .carousel-caption h1 {
+    font-size: 30px;
+  }
+  .carousel-caption .lead,
+  .carousel-caption .btn {
+    font-size: 18px;
+  }
+}
+*/
