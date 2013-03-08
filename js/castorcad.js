@@ -1,3 +1,3 @@
 !function ( $ ) {
-    $('#myCarousel').carousel( { interval: 10000 } );
+    $('#banner').carousel( { interval: 10000 } );
 } ( window.jQuery );

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,118 +11,110 @@
     
     <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     
-    <title>CastorCAD</title>
-    
-    <!-- Le fav and touch icons -->
-    <!--link rel="shortcut icon" href="../assets/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png"-->
+    <title>CastorCAD ::: Contact</title>
     
   </head>
   
   <body>
-    <!-- Navigation -->
-    <div class="navbar-wrapper">
-      <div class="container">
-        <div class="navbar navbar-inverse">
-          <div class="navbar-inner">
-            <!-- Responsive Navbar Part 1: Button for triggering responsive navbar (not covered in tutorial). Include responsive CSS to utilize. -->
-            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="brand" href="#index">CastorCAD</a>
-            <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
-            <div class="nav-collapse collapse">
-              <ul class="nav">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="a_propos.html">A propos</a></li>
-                <li class="active"><a href="contact.html">Contact</a></li>
-              </ul>
-            </div>
+    <!-- navigation: start -->
+    <div class="navigation navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          
+          <a class="brand" href="index.html">CastorCAD</a>
+          
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="index.html">Accueil</a></li>
+              <li><a href="a_propos.html">A propos</a></li>
+              <li class="active"><a href="contact.html">Contact</a></li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
-    <!-- Navigation -->
+    <!-- navigation: end   -->
     
-    <!-- Carousel, Banner -->
-    <div id="myCarousel" class="carousel slide">
+    <!-- banner: start -->
+    <div id="banner" class="banner carousel slide">
       <div class="carousel-inner">
         <div class="item active">
           <img src="images/01.jpg" alt="">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Villa in Marrakech</h1>
-            </div>
+          
+          <div class="carousel-caption">
+            <h3>Villa à Marrakech</h3>
           </div>
         </div>
         
         <div class="item">
           <img src="images/02.jpg" alt="">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Villa in Marrakech</h1>
-            </div>
+          
+          <div class="carousel-caption">
+            <h3>Villa à Marrakech</h3>
           </div>
         </div>
         
         <div class="item">
           <img src="images/03.jpg" alt="">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Villa in Marrakech</h1>
-            </div>
+          
+          <div class="carousel-caption">
+            <h3>Villa à Marrakech</h3>
           </div>
         </div>
       </div>
       
-      <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-      <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+      <a class="carousel-control left"  href="#banner" data-slide="prev">&lsaquo;</a>
+      <a class="carousel-control right" href="#banner" data-slide="next">&rsaquo;</a>
     </div>
-    <!-- Carousel, Banner -->
+    <!-- banner: end   -->
     
     <div class="container">
-      <div class="row">
-        <h2>Contact Us</h2>
+      <!-- contact form content: start -->
+      <div class="contact row">
+        <div class="span10">
+        <h3>Contact</h3>
+        </div>
         
-        <form class="span6">
-          <div class="span3">
-            <label>Full Name</label>
-            <input type="text" class="span3" placeholder="Your Full Name">
-
-            <label>Email Address</label>
-            <input type="text" id="inputIcon" class="span3" placeholder="Your email address">
-
-            <label>Phone</label>
-            <input type="text" id="inputIcon" class="span3" placeholder="Your phone number">
+        <form>
+          <div class="control-group span4">
+            <label class="control-label">Nom et Prénom</label>
+            <input name="name" type="text" id="inputIcon" class="span4" placeholder="Nom et Prénom">
+            
+            <label>E-mail</label>
+            <input name="email" type="text" id="inputIcon" class="span4" placeholder="E-mail">
+            
+            <label>Société</label>
+            <input name="companie" type="text" id="inputIcon" class="span4" placeholder="Société">
           </div>
-
-          <div class="span5">
+          
+          <div class="control-group span7">
             <label>Message</label>
-            <textarea name="message" id="message" class="input-xlarge span5" rows="6"></textarea>
+            <textarea name="message" id="message" class="input-xlarge span7" rows="8"></textarea>
           </div>
-
-          <div class="span5">
-            <button type="submit" class="btn btn-primary pull-bottom">Send</button>
+          
+          <div class="control-group span11">
+            <button type="submit" class="btn btn-primary pull-bottom">Envoyer</button>
+            <button type="" class="btn btn-primary pull-bottom">Vider</button>
           </div>
         </form>
-        
-        <div class="span5">
-          <iframe 
-            width="500" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-            src="https://maps.google.com/maps?q=castorcad&amp;hl=en&amp;sll=31.633333,-8&amp;sspn=0.165741,0.338173&amp;t=h&amp;ie=UTF8&amp;source=embed&amp;ll=31.633799,-8.004227&amp;spn=0.029231,0.043001&amp;z=14&amp;output=embed">
-          </iframe>
-          <br />
-          <a href="https://maps.google.com/maps?q=castorcad&amp;hl=en&amp;sll=31.633333,-8&amp;sspn=0.165741,0.338173&amp;t=h&amp;ie=UTF8&amp;source=embed&amp;ll=31.633799,-8.004227&amp;spn=0.029231,0.043001&amp;z=14"
-          target="blank" />View Larger Map</a>
-        </div>
+      </div>
+      <!-- contact form content: end   -->
+      
+      <div class="map row">
+        <iframe 
+          width="500" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" class="span11"
+          src="https://maps.google.com/maps?q=castorcad&amp;hl=en&amp;sll=31.633333,-8&amp;sspn=0.165741,0.338173&amp;t=h&amp;ie=UTF8&amp;source=embed&amp;ll=31.633799,-8.004227&amp;spn=0.029231,0.043001&amp;z=14&amp;output=embed">
+        </iframe>
       </div>
       
-      <hr class="featurette-divider">
+      <hr class="divider">
       
+      <!-- footer: start -->
       <footer>
         <p>
           <a href="index.html">Accueil</a> &middot; 
@@ -139,7 +131,7 @@
           Téléphone: 05 24 42 16 68 &middot; 
         </p>
       </footer>
-
+      <!-- footer: end   -->
     </div>
     
     <script src="bootstrap/js/bootstrap.js"></script>
