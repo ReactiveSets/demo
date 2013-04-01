@@ -63,6 +63,9 @@ var client_min = xs.set( [
     { name: 'node_modules/excess/lib/order.js'     },
     { name: 'node_modules/excess/lib/aggregate.js' },
     { name: 'node_modules/excess/lib/join.js'      },
+    { name: 'node_modules/excess/lib/selector.js'  },
+    // { name: 'node_modules/excess/node_modules/node-uuid/uuid.js'  },
+    { name: 'node_modules/excess/lib/form.js'      }
     
     //{ name: 'test/xs_tests.js'        }
   ], { auto_increment: true }  ) // will auto-increment the id attribute starting at 1
@@ -90,6 +93,7 @@ xs.set( [
     { name: 'images/07.jpg' },
     { name: 'images/08.jpg' },
     { name: 'images/09.jpg' },
+    { name: 'images/contact.jpg' }
   ], { auto_increment: true } )
   .watch()
   .union( [ client_min ] )
