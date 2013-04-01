@@ -55,6 +55,7 @@ var servers = xs.set( [
 var client_min = xs.set( [
     { name: 'js/es5.js'    },
     { name: 'js/json2.js'  },
+    { name: 'js/uuid.js'   },
     
     { name: 'node_modules/excess/lib/xs.js'        },
     { name: 'node_modules/excess/lib/code.js'      },
@@ -64,7 +65,6 @@ var client_min = xs.set( [
     { name: 'node_modules/excess/lib/aggregate.js' },
     { name: 'node_modules/excess/lib/join.js'      },
     { name: 'node_modules/excess/lib/selector.js'  },
-    // { name: 'node_modules/excess/node_modules/node-uuid/uuid.js'  },
     { name: 'node_modules/excess/lib/form.js'      }
     
     //{ name: 'test/xs_tests.js'        }
