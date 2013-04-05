@@ -106,12 +106,75 @@ xs.set( [
   .serve( servers )
 ;
 
+var contact_form_fields = xs.set(
+  [
+    {
+        id   : 'model'
+      , model: 'contact_form_fields'
+      , name : 'model'
+      , type : 'hidden'
+      , value: 'user_profile'
+    },
+    
+    {
+        id   : 'id'
+      , model: 'contact_form_fields'
+      , name : 'uuid'
+      , type : 'hidden'
+      , value: { type: 'UUID' }
+    },
+    
+    {
+        id       : 'name'
+      , model    : 'contact_form_fields'
+      , name     : 'name'
+      , type     : 'text'
+      , label    : 'Nom & Prénom'
+      , style    : { field: 'span4', label: 'control-label', container: 'control-group' }
+      , mandatory: true
+    },
+    
+    {
+        id       : 'email'
+      , model    : 'contact_form_fields'
+      , name     : 'email'
+      , type     : 'email'
+      , label    : 'Email'
+      , style    : { field: 'span4', label: 'control-label', container: 'control-group' }
+      , mandatory: true
+    },
+    
+    {
+        id     : 'compagnie'
+      , model  : 'contact_form_fields'
+      , name   : 'compagnie'
+      , type   : 'text'
+      , label  : 'Société'
+      , style: { field: 'span4', label: 'control-label', container: 'control-group' }
+    },
+    
+    {
+        id       : 'message'
+      , model    : 'contact_form_fields'
+      , name     : 'message'
+      , type     : 'text_area'
+      , label    : 'Message'
+      , rows     : 8
+      , style    : { field: 'input-xlarge span7', label: 'control-label', container: 'control-group demo' }
+      , mandatory: true
+    }
+  ] )
+;
+
 XS.Compose( 'my_socket_io_clients', function( source, servers, client_composition, options ) {
   return source.map_reduce( servers.socket_io_clients(), client_composition, options );
 } );
 
 // socket.io server
-xs.my_socket_io_clients( servers, function( source, client, options ) {
+contact_form_fields
+  .trace( 'contact_form_fields to clients' )
+  
+  .my_socket_io_clients( servers, function( source, client, options ) {
     return source.plug( client.socket );
   } )
   
