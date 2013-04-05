@@ -57,17 +57,22 @@ var client_min = xs.set( [
     { name: 'js/json2.js'  },
     { name: 'js/uuid.js'   },
     
-    { name: 'node_modules/excess/lib/xs.js'        },
-    { name: 'node_modules/excess/lib/code.js'      },
-    { name: 'node_modules/excess/lib/pipelet.js'   },
-    { name: 'node_modules/excess/lib/filter.js'    },
-    { name: 'node_modules/excess/lib/order.js'     },
-    { name: 'node_modules/excess/lib/aggregate.js' },
-    { name: 'node_modules/excess/lib/join.js'      },
-    { name: 'node_modules/excess/lib/selector.js'  },
-    { name: 'node_modules/excess/lib/form.js'      }
+    // xs.core
+    { name: 'node_modules/excess/lib/xs.js'                  },
+    { name: 'node_modules/excess/lib/code.js'                },
+    { name: 'node_modules/excess/lib/pipelet.js'             },
+    { name: 'node_modules/excess/lib/filter.js'              },
+    { name: 'node_modules/excess/lib/order.js'               },
+    { name: 'node_modules/excess/lib/aggregate.js'           },
+    { name: 'node_modules/excess/lib/join.js'                },
     
-    //{ name: 'test/xs_tests.js'        }
+    // xs.ui
+    { name: 'node_modules/excess/lib/selector.js'            },
+    { name: 'node_modules/excess/lib/form.js'                },
+    
+    // socket.io server access
+    { name: 'node_modules/excess/lib/socket_io_crossover.js' },
+    { name: 'node_modules/excess/lib/socket_io_server.js'    }
   ], { auto_increment: true }  ) // will auto-increment the id attribute starting at 1
   .watch()
   .order( [ { id: 'id' } ] ) // order loaded files
@@ -99,3 +104,16 @@ xs.set( [
   .union( [ client_min ] )
   .serve( servers )
 ;
+
+XS.Compose( 'my_socket_io_clients', function( source, servers, client_composition, options ) {
+  return source.map_reduce( servers.socket_io_clients(), client_composition, options );
+} );
+
+// socket.io server
+xs.my_socket_io_clients( servers, function( source, client, options ) {
+    return source.plug( client.socket );
+  } )
+  
+  .trace( 'form socket.io clients' )
+;
+  
