@@ -51,6 +51,8 @@
       , rows     : 8
       , classes  : { input: 'input-xlarge span7', container: 'control-group' }
       , mandatory: true
-    }
-  ] );
+    } ] )
+    
+    .socket_io_server()
+  ;
 } ( this );
