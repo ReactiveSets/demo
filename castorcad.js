@@ -88,7 +88,7 @@ xs.set( [
     { name: 'bootstrap/css/bootstrap-responsive.css' },
     { name: 'css/style.css' },
     { name: 'bootstrap/js/bootstrap.js' },
-    { name: 'js/castorcad.js' },
+    { name: 'js/contact.js' },
     { name: 'images/01.jpg' },
     { name: 'images/02.jpg' },
     { name: 'images/03.jpg' },
