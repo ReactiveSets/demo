@@ -29,6 +29,7 @@ require( 'excess/lib/server/file.js' );
 require( 'excess/lib/server/http.js' );
 require( 'excess/lib/server/uglify.js' );
 require( 'excess/lib/order.js' );
+require( 'excess/lib/form.js' );
 
 /* -------------------------------------------------------------------------------------------
    de&&ug()
@@ -106,73 +107,84 @@ xs.set( [
   .serve( servers )
 ;
 
-var contact_form_fields = xs.set(
-  [
-    {
-        id   : 'model'
-      , model: 'contact_form_fields'
-      , name : 'model'
-      , type : 'hidden'
-      , value: 'user_profile'
-    },
+var contact_form_fields = xs
+  .set(
+    [
+      {
+          id   : 'model'
+        , model: 'contact_form_fields'
+        , name : 'model'
+        , type : 'hidden'
+        , value: 'user_profile'
+      },
+      
+      {
+          id   : 'id'
+        , model: 'contact_form_fields'
+        , name : 'uuid'
+        , type : 'hidden'
+        , value: { type: 'UUID' }
+      },
+      
+      {
+          id       : 'name'
+        , model    : 'contact_form_fields'
+        , name     : 'name'
+        , type     : 'text'
+        , label    : 'Nom & Prénom'
+        , style    : { field: 'span4', label: 'control-label', container: 'control-group' }
+        , mandatory: true
+      },
+      
+      {
+          id       : 'email'
+        , model    : 'contact_form_fields'
+        , name     : 'email'
+        , type     : 'email'
+        , label    : 'Email'
+        , style    : { field: 'span4', label: 'control-label', container: 'control-group' }
+        , mandatory: true
+      },
+      
+      {
+          id     : 'compagnie'
+        , model  : 'contact_form_fields'
+        , name   : 'compagnie'
+        , type   : 'text'
+        , label  : 'Société'
+        , style: { field: 'span4', label: 'control-label', container: 'control-group' }
+      },
+      
+      {
+          id       : 'message'
+        , model    : 'contact_form_fields'
+        , name     : 'message'
+        , type     : 'text_area'
+        , label    : 'Message'
+        , rows     : 8
+        , style    : { field: 'input-xlarge span7', label: 'control-label', container: 'control-group demo' }
+        , mandatory: true
+      }
+    ],
     
-    {
-        id   : 'id'
-      , model: 'contact_form_fields'
-      , name : 'uuid'
-      , type : 'hidden'
-      , value: { type: 'UUID' }
-    },
-    
-    {
-        id       : 'name'
-      , model    : 'contact_form_fields'
-      , name     : 'name'
-      , type     : 'text'
-      , label    : 'Nom & Prénom'
-      , style    : { field: 'span4', label: 'control-label', container: 'control-group' }
-      , mandatory: true
-    },
-    
-    {
-        id       : 'email'
-      , model    : 'contact_form_fields'
-      , name     : 'email'
-      , type     : 'email'
-      , label    : 'Email'
-      , style    : { field: 'span4', label: 'control-label', container: 'control-group' }
-      , mandatory: true
-    },
-    
-    {
-        id     : 'compagnie'
-      , model  : 'contact_form_fields'
-      , name   : 'compagnie'
-      , type   : 'text'
-      , label  : 'Société'
-      , style: { field: 'span4', label: 'control-label', container: 'control-group' }
-    },
-    
-    {
-        id       : 'message'
-      , model    : 'contact_form_fields'
-      , name     : 'message'
-      , type     : 'text_area'
-      , label    : 'Message'
-      , rows     : 8
-      , style    : { field: 'input-xlarge span7', label: 'control-label', container: 'control-group demo' }
-      , mandatory: true
-    }
-  ] )
+    { auto_increment: 'order_id' }
+  )
+  .order( [ { id: 'order_id' } ] )
 ;
 
 // Serve contact_form_fields to socket.io clients
 contact_form_fields
   .trace( 'contact_form_fields to clients' )
   
+  // Start socket.io server, and dispatch client connections to provide contact_form_fields and get filled contact forms
   .dispatch( servers.socket_io_clients(), function( source, options ) {
-    return source.plug( this.socket );
+    return source
+      .plug( this.socket )
+      
+      // Validate form, just in case the contact form code has been altered on the client
+      .form_validate( 'contact_form', contact_form_fields )
+    ;
   } )
   
-  .trace( 'form socket.io clients' )
+  .trace( 'contact form filled from socket.io clients' )
 ;

@@ -4,8 +4,11 @@
   var contact_form_fields = xs
     .socket_io_server()
     .model( 'contact_form_fields' )
-    .trace( 'contact_form_fields' )
-    .set() // store contact_form_fields and prevent form from fetching indefinitly
+    
+    // store contact_form_fields and prevent form from fetching multiple times from server
+    .ordered()
+    
+    .trace( 'contact_form_fields ordered' )
   ;
   
   xs.form( document.getElementById( 'contact_form' ), 'contact_form', contact_form_fields,
