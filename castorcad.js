@@ -166,16 +166,12 @@ var contact_form_fields = xs.set(
   ] )
 ;
 
-XS.Compose( 'my_socket_io_clients', function( source, servers, client_composition, options ) {
-  return source.map_reduce( servers.socket_io_clients(), client_composition, options );
-} );
-
-// socket.io server
+// Serve contact_form_fields to socket.io clients
 contact_form_fields
   .trace( 'contact_form_fields to clients' )
   
-  .my_socket_io_clients( servers, function( source, client, options ) {
-    return source.plug( client.socket );
+  .dispatch( servers.socket_io_clients(), function( source, options ) {
+    return source.plug( this.socket );
   } )
   
   .trace( 'form socket.io clients' )
