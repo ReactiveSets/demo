@@ -198,19 +198,28 @@ contact_form_fields
       
       from: 'CastorCAD contact form <info@castorcad.com>',
       
-      to: 'uiteoi@gmail.com',
+      to: 'Samy Vincent <samyvincent52@gmail.com>',
+
+      cc: [
+        'Marcel K\' Nassik <knassik@gmail.com>',
+        'Jean Vincent <uiteoi@gmail.com>'
+      ],
       
       subject: 'CastorCAD Contact Form Received from ' + full_name,
       
-      text: 'CastorCAD Contact Form received:'
-        + '\nName: ' + full_name
-        + '\nFrom: ' + form.email
-        + '\nCompany' + ( form.company || '' )
-        + '\nText:\n' + form.text
+      html: '<h3>CastorCAD Contact Form received:</h3>'
+        + '<p>Full Name: <b>' + full_name + '</b></p>'
+        + '<p>From: <a href="mailto' + form.email + '">' + form.email + '</a></p>'
+        + '<p>Company: <b>' + ( form.company || '' ) + '</b></p>'
+        + '<br />'
+        + '<p>Text:<p>'
+        + '<p>' + form.text + '</p>'
     };
   } )
   
+  .trace( 'send email' )
+  
   .send_mail( xs.configuration() )
   
-  .trace( 'send_mail' )
+  .trace( 'email sent' )
 ;
