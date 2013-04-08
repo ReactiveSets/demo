@@ -28,6 +28,8 @@ var XS = require( 'excess' ).XS
 require( 'excess/lib/server/file.js' );
 require( 'excess/lib/server/http.js' );
 require( 'excess/lib/server/uglify.js' );
+require( 'excess/lib/server/configuration.js' );
+require( 'excess/lib/server/mailer.js' );
 require( 'excess/lib/order.js' );
 require( 'excess/lib/form.js' );
 
@@ -121,17 +123,17 @@ var contact_form_fields = xs
       {
           id   : 'id'
         , model: 'contact_form_fields'
-        , name : 'uuid'
+        , name : 'id'
         , type : 'hidden'
         , value: { type: 'UUID' }
       },
       
       {
-          id       : 'name'
+          id       : 'full-name'
         , model    : 'contact_form_fields'
-        , name     : 'name'
+        , name     : 'full-name'
         , type     : 'text'
-        , label    : 'Nom & Prénom'
+        , label    : 'Prénom & Nom'
         , style    : { field: 'span4', label: 'control-label', container: 'control-group' }
         , mandatory: true
       },
@@ -147,18 +149,18 @@ var contact_form_fields = xs
       },
       
       {
-          id     : 'compagnie'
+          id     : 'company'
         , model  : 'contact_form_fields'
-        , name   : 'compagnie'
+        , name   : 'company'
         , type   : 'text'
         , label  : 'Société'
         , style: { field: 'span4', label: 'control-label', container: 'control-group' }
       },
       
       {
-          id       : 'message'
+          id       : 'text'
         , model    : 'contact_form_fields'
-        , name     : 'message'
+        , name     : 'text'
         , type     : 'text_area'
         , label    : 'Message'
         , rows     : 8
@@ -182,9 +184,33 @@ contact_form_fields
       .plug( this.socket )
       
       // Validate form, just in case the contact form code has been altered on the client
-      .form_validate( 'contact_form', contact_form_fields )
+      //.form_validate( 'contact_form', contact_form_fields )
     ;
   } )
   
   .trace( 'contact form filled from socket.io clients' )
+  
+  .alter( function( form ) {
+    var full_name = form[ 'full-name' ];
+    
+    return {
+      messageId: form.id,
+      
+      from: 'CastorCAD contact form <info@castorcad.com>',
+      
+      to: 'uiteoi@gmail.com',
+      
+      subject: 'CastorCAD Contact Form Received from ' + full_name,
+      
+      text: 'CastorCAD Contact Form received:'
+        + '\nName: ' + full_name
+        + '\nFrom: ' + form.email
+        + '\nCompany' + ( form.company || '' )
+        + '\nText:\n' + form.text
+    };
+  } )
+  
+  .send_mail( xs.configuration() )
+  
+  .trace( 'send_mail' )
 ;
