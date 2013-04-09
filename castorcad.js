@@ -117,7 +117,7 @@ var contact_form_fields = xs
         , model: 'contact_form_fields'
         , name : 'model'
         , type : 'hidden'
-        , value: 'user_profile'
+        , value: 'contact_form'
       },
       
       {
