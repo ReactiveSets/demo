@@ -182,13 +182,19 @@ contact_form_fields
   .dispatch( servers.socket_io_clients(), function( source, options ) {
     return source
       .plug( this.socket )
-      
-      // Validate form, just in case the contact form code has been altered on the client
-      //.form_validate( 'contact_form', contact_form_fields )
     ;
   } )
   
-  .trace( 'contact form filled from socket.io clients' )
+  .trace( 'contact form received from client' )
+  
+  // Validate form, just in case the contact form code has been altered on the client
+  .form_validate( 'contact_form', contact_form_fields )
+  
+  .trace( 'form_validate' )
+  
+  .model( 'contact_form' ) // filter errors out
+  
+  .trace( 'validated form' )
   
   .alter( function( form ) {
     var full_name = form[ 'full-name' ];
