@@ -37,3 +37,11 @@ body {
 .contact .control-group {
   margin-bottom: 0px;
 }
+
+.map #map {
+  height: 400px;
+}
+
+.map img {
+  max-width: none;
+}

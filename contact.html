@@ -64,10 +64,7 @@
       <!-- contact form content: end   -->
       
       <div class="map row">
-        <iframe 
-          width="500" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" class="span11"
-          src="http://maps.google.com/maps?q=castorcad&amp;hl=en&amp;sll=31.633333,-8&amp;sspn=0.165741,0.338173&amp;t=h&amp;ie=UTF8&amp;source=embed&amp;ll=31.633799,-8.004227&amp;spn=0.029231,0.043001&amp;z=14&amp;output=embed">
-        </iframe>
+        <div id="map" class="span12"></div>
       </div -->
       
       <hr class="divider">
@@ -93,5 +90,19 @@
     </div>
     
     <script src="js/contact.js"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+    <script type="text/javascript">
+    var coordinate = new google.maps.LatLng(   31.633789, -8.004213    )
+      , marker     = new google.maps.Marker( { position : coordinate, animation: google.maps.Animation.BOUNCE } )
+      , map        = new google.maps.Map   ( document.getElementById( 'map' ), {
+          center     : coordinate,
+          mapTypeId  : google.maps.MapTypeId.HYBRID,
+          zoom       : 18,
+          panControl : false
+        } )
+    ;
+    
+    marker.setMap( map );
+    </script>
   </body>
 </html>
