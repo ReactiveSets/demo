@@ -30,6 +30,10 @@ body {
   cursor: pointer;
 }
 
+.container {
+  padding: 0 25px;
+}
+
 .contact {
   margin-bottom: 25px;
 }
