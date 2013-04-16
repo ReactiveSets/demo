@@ -93,6 +93,7 @@ xs.set( [
     { name: 'bootstrap/js/bootstrap.js' },
     { name: 'js/castorcad.js' },
     { name: 'js/contact.js' },
+    { name: 'bootstrap/img/glyphicons-halflings.png' },
     { name: 'images/01.jpg' },
     { name: 'images/02.jpg' },
     { name: 'images/03.jpg' },
@@ -115,7 +116,6 @@ var contact_form_fields = xs
       {
           id   : 'model'
         , model: 'contact_form_fields'
-        , name : 'model'
         , type : 'hidden'
         , value: 'contact_form'
       },
@@ -123,7 +123,6 @@ var contact_form_fields = xs
       {
           id   : 'id'
         , model: 'contact_form_fields'
-        , name : 'id'
         , type : 'hidden'
         , value: { type: 'UUID' }
       },
@@ -131,7 +130,6 @@ var contact_form_fields = xs
       {
           id       : 'full-name'
         , model    : 'contact_form_fields'
-        , name     : 'full-name'
         , type     : 'text'
         , label    : 'Prénom & Nom'
         , style    : { field: 'span4', label: 'control-label', container: 'control-group' }
@@ -141,7 +139,6 @@ var contact_form_fields = xs
       {
           id       : 'email'
         , model    : 'contact_form_fields'
-        , name     : 'email'
         , type     : 'email'
         , label    : 'Email'
         , style    : { field: 'span4', label: 'control-label', container: 'control-group' }
@@ -151,7 +148,6 @@ var contact_form_fields = xs
       {
           id     : 'company'
         , model  : 'contact_form_fields'
-        , name   : 'company'
         , type   : 'text'
         , label  : 'Société'
         , style: { field: 'span4', label: 'control-label', container: 'control-group' }
@@ -160,7 +156,6 @@ var contact_form_fields = xs
       {
           id       : 'text'
         , model    : 'contact_form_fields'
-        , name     : 'text'
         , type     : 'text_area'
         , label    : 'Message'
         , rows     : 8
