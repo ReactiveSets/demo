@@ -64,6 +64,7 @@ body {
 
 .banner .carousel-control {
   cursor: pointer;
+  top: 50%;
 }
 
 .container {
