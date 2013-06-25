@@ -43,6 +43,12 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff111111', GradientType=0);
 }
 
+.banner .carousel-container {
+  max-width: 1920px;
+  margin: 0px auto;
+  position: relative;
+}
+
 .banner .carousel-inner {
   max-width: 1920px;
 }
