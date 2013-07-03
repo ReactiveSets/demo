@@ -95,17 +95,18 @@ xs.set( [
     { name: 'js/contact.js' },
     { name: 'bootstrap/img/glyphicons-halflings.png' },
     { name: 'images/01.jpg' },
-    { name: 'images/02.jpg' },
     { name: 'images/03.jpg' },
     { name: 'images/04.jpg' },
     { name: 'images/05.jpg' },
     { name: 'images/06.jpg' },
     { name: 'images/07.jpg' },
-    { name: 'images/08.jpg' },
     { name: 'images/09.jpg' },
     { name: 'images/11.jpg' },
     { name: 'images/12.jpg' },
     { name: 'images/13.jpg' },
+    { name: 'images/14.jpg' },
+    { name: 'images/15.jpg' },
+    { name: 'images/16.jpg' },
     { name: 'images/contact.jpg' }
   ], { auto_increment: true } )
   .watch()
