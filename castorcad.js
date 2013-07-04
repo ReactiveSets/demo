@@ -107,6 +107,7 @@ xs.set( [
     { name: 'images/14.jpg' },
     { name: 'images/15.jpg' },
     { name: 'images/16.jpg' },
+    { name: 'images/17.jpg' },
     { name: 'images/contact.jpg' }
   ], { auto_increment: true } )
   .watch()
