@@ -43,18 +43,22 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff111111', GradientType=0);
 }
 
-.banner .carousel-container {
+.banner .carousel-controls {
+  position: absolute;
   max-width: 1920px;
-  margin: 0px auto;
-  position: relative;
+  margin: 0 auto;
+  top: 50%;
+  left: 0;
+  right: 0;
 }
 
 .banner .carousel-inner {
   max-width: 1920px;
+  margin: 0 auto;
 }
 
-.banner .carousel-inner, .navigation .navbar-inner {
-  margin: 0px auto;
+.banner .carousel-innerx, .navigation .navbar-inner {
+  margin: 0 auto;
 }
 
 .banner .carousel-caption {
@@ -70,7 +74,6 @@ body {
 
 .banner .carousel-control {
   cursor: pointer;
-  top: 50%;
 }
 
 .container {
