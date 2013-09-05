@@ -178,7 +178,9 @@ var contact_form_fields = xs
 
 // Serve contact_form_fields to socket.io clients
 contact_form_fields
-  .trace( 'contact_form_fields to clients' )
+  .union( [ carousel_images ] )
+  
+  .trace( 'contact_form_fields and carousel_images to clients' )
   
   // Start socket.io server, and dispatch client connections to provide contact_form_fields and get filled contact forms
   .dispatch( servers.socket_io_clients(), function( source, options ) {
