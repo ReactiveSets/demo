@@ -122,21 +122,18 @@ var contact_form_fields = xs
     [
       {
           id   : 'model'
-        , model: 'contact_form_fields'
         , type : 'hidden'
         , value: 'contact_form'
       },
       
       {
           id   : 'id'
-        , model: 'contact_form_fields'
         , type : 'hidden'
         , value: { type: 'UUID' }
       },
       
       {
           id       : 'full-name'
-        , model    : 'contact_form_fields'
         , type     : 'text'
         , label    : 'Prénom & Nom'
         , style    : { field: 'span4', label: 'control-label', container: 'control-group' }
@@ -145,7 +142,6 @@ var contact_form_fields = xs
       
       {
           id       : 'email'
-        , model    : 'contact_form_fields'
         , type     : 'email'
         , label    : 'Email'
         , style    : { field: 'span4', label: 'control-label', container: 'control-group' }
@@ -154,7 +150,6 @@ var contact_form_fields = xs
       
       {
           id     : 'company'
-        , model  : 'contact_form_fields'
         , type   : 'text'
         , label  : 'Société'
         , style: { field: 'span4', label: 'control-label', container: 'control-group' }
@@ -162,7 +157,6 @@ var contact_form_fields = xs
       
       {
           id       : 'text'
-        , model    : 'contact_form_fields'
         , type     : 'text_area'
         , label    : 'Message'
         , rows     : 8
@@ -171,7 +165,7 @@ var contact_form_fields = xs
       }
     ],
     
-    { auto_increment: 'order_id' }
+    { auto_increment: 'order_id', set_model: 'contact_form_fields' }
   )
   .order( [ { id: 'order_id' } ] )
 ;
