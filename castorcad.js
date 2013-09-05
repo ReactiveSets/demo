@@ -84,6 +84,26 @@ var client_min = xs.set( [
   .uglify( 'js/xs-min.js', { warnings: false } )
 ;
 
+var carousel_images = xs
+  .set( [
+      { name: 'images/16.jpg', title: 'Villa à Geneve'    },
+      { name: 'images/15.jpg', title: 'Villa à Geneve'    },
+      { name: 'images/14.jpg', title: 'Villa à Geneve'    },
+      { name: 'images/17.jpg', title: 'Villa à Geneve'    },
+      { name: 'images/12.jpg', title: 'Lotus Club'        },
+      { name: 'images/13.jpg', title: 'Lotus Club'        },
+      { name: 'images/01.jpg', title: 'Villa à Marrakech' },
+      { name: 'images/03.jpg', title: 'Villa à Marrakech' },
+      { name: 'images/04.jpg', title: 'Villa à Marrakech' },
+      { name: 'images/05.jpg', title: 'Villa à Marrakech' },
+      { name: 'images/06.jpg', title: 'Villa à Marrakech' },
+      { name: 'images/07.jpg', title: 'Villa à Marrakech' },
+      { name: 'images/09.jpg', title: 'Villa à Marrakech' },
+      { name: 'images/11.jpg', title: 'Résidence Deroua'  }
+    ], { auto_increment: true, set_model: "carousel_images" }
+  )
+;
+
 xs.set( [
     { name: 'index.html'    },
     { name: 'a_propos.html' },
@@ -96,24 +116,10 @@ xs.set( [
     { name: 'js/castorcad.js' },
     { name: 'js/contact.js' },
     { name: 'bootstrap/img/glyphicons-halflings.png' },
-    { name: 'images/01.jpg' },
-    { name: 'images/03.jpg' },
-    { name: 'images/04.jpg' },
-    { name: 'images/05.jpg' },
-    { name: 'images/06.jpg' },
-    { name: 'images/07.jpg' },
-    { name: 'images/09.jpg' },
-    { name: 'images/11.jpg' },
-    { name: 'images/12.jpg' },
-    { name: 'images/13.jpg' },
-    { name: 'images/14.jpg' },
-    { name: 'images/15.jpg' },
-    { name: 'images/16.jpg' },
-    { name: 'images/17.jpg' },
     { name: 'images/contact.jpg' }
   ], { auto_increment: true } )
   .watch()
-  .union( [ client_min ] )
+  .union( [ client_min, carousel_images.watch() ] )
   .serve( servers )
 ;
 
