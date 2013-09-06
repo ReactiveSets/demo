@@ -106,14 +106,14 @@ var carousel_images = xs
 
 xs.set( [
     { name: 'index.html'    },
-    { name: 'a_propos.html' },
+    { name: 'about.html' },
     { name: 'contact.html'  },
     //{ name: 'index-min.html'       },
     { name: 'bootstrap/css/bootstrap.css' },
     { name: 'bootstrap/css/bootstrap-responsive.css' },
     { name: 'css/style.css' },
     { name: 'bootstrap/js/bootstrap.js' },
-    { name: 'js/castorcad.js' },
+    { name: 'js/carousel.js' },
     { name: 'js/contact.js' },
     { name: 'bootstrap/img/glyphicons-halflings.png' },
     { name: 'images/contact.jpg' }
