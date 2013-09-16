@@ -23,53 +23,49 @@
   
   <body>
     <!-- navigation: start -->
-    <div class="navigation navbar navbar-inverse">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          
-          <a class="brand" href="index.html">CastorCAD</a>
-          
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li><a href="index.html">Accueil</a></li>
-              <li><a href="about.html">A propos</a></li>
-              <li class="active"><a href="contact.html">Contact</a></li>
-            </ul>
-          </div>
-        </div>
+    <div class="navigation navbar navbar-inverse" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-castorcad-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">CastorCAD</a>
+      </div>
+
+      <div class="collapse navbar-collapse navbar-castorcad-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="about.html">A propos</a></li>
+          <li class="active"><a href="contact.html">Contact</a></li>
+        </ul>
       </div>
     </div>
     <!-- navigation: end   -->
     
     <!-- banner: start -->
     <div id="banner" class="banner">
-      <div class="carousel-inner">
         <div class="carousel-inner">
           <img src="images/contact.jpg" alt="">
         </div>
-      </div>
     </div>
     <!-- banner: end   -->
     
     <div class="container">
       <!-- contact form content: start -->
       <div class="contact row">
-        <div class="title span10">
+        <div class="title col-lg-10">
           <h3>Contact</h3>
         </div>
         
-        <div id="contact_form" class="span10"></div>
+        <div id="contact_form" class="col-lg-10"></div>
       </div>
       <!-- contact form content: end   -->
       
       <div class="map row">
-        <div id="map" class="span12"></div>
-      </div -->
+        <div id="map" class="col-lg-12"></div>
+      </div>
       
       <hr class="divider">
       

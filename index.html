@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link href="bootstrap/css/bootstrap.css"            rel="stylesheet" type="text/css">
-    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+    <!-- link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" -->
     <link href="css/style.css"                          rel="stylesheet" type="text/css">
     
     <script type="text/javascript" charset="utf-8" src="/socket.io/socket.io.js"></script>
@@ -19,25 +19,23 @@
   
   <body>
     <!-- navigation: start -->
-    <div class="navigation navbar navbar-inverse">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          
-          <a class="brand" href="index.html">CastorCAD</a>
-          
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="index.html">Accueil</a></li>
-              <li><a href="about.html">A propos</a></li>
-              <li><a href="contact.html">Contact</a></li>
-            </ul>
-          </div>
-        </div>
+    <div class="navigation navbar navbar-inverse" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-castorcad-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">CastorCAD</a>
+      </div>
+      
+      <div class="collapse navbar-collapse navbar-castorcad-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="index.html">Accueil</a></li>
+          <li><a href="about.html">A propos</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
       </div>
     </div>
     <!-- navigation: end   -->
@@ -49,7 +47,7 @@
     <div class="container">
       <!-- home content: start -->
       <div class="home row">
-        <div class="span4">
+        <div class="col-lg-4">
           <h3>Services aux Architectes</h3>
           <p>
             Visualisation 3D réalistes de très haute qualité, utilisant les dernières technologies de rendu 
@@ -58,7 +56,7 @@
           </p>
         </div>
         
-        <div class="span4">
+        <div class="col-lg-4">
           <h3>Prévenir les Surprises</h3>
           <p>
             Nous proposons des images réalistes en HD intérieur et extérieur ainsi que des vidéos de tours 
@@ -67,7 +65,7 @@
           </p>
         </div>
         
-        <div class="span4">
+        <div class="col-lg-4">
           <h3>Satisfaction Totale</h3>
           <p>
             Notre approche de satisfaction totale de nos clients est basée sur un professionnalisme 

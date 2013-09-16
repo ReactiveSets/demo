@@ -117,7 +117,10 @@ xs.set( [
     { name: 'bootstrap/js/bootstrap.js' },
     { name: 'js/carousel.js' },
     { name: 'js/contact.js' },
-    { name: 'bootstrap/img/glyphicons-halflings.png' },
+    { name: 'bootstrap/fonts/glyphicons-halflings-regular.eot'  },
+    { name: 'bootstrap/fonts/glyphicons-halflings-regular.svg'  },
+    { name: 'bootstrap/fonts/glyphicons-halflings-regular.ttf'  },
+    { name: 'bootstrap/fonts/glyphicons-halflings-regular.woff' },
     { name: 'images/contact.jpg' }
   ], { auto_increment: true } )
   .watch()
@@ -144,7 +147,7 @@ var contact_form_fields = xs
           id       : 'full-name'
         , type     : 'text'
         , label    : 'Prénom & Nom'
-        , style    : { field: 'span4', label: 'control-label', container: 'control-group' }
+        , style    : { field: 'form-control col-lg-4', label: 'control-label', container: 'form-group' }
         , mandatory: true
       },
       
@@ -152,7 +155,7 @@ var contact_form_fields = xs
           id       : 'email'
         , type     : 'email'
         , label    : 'Email'
-        , style    : { field: 'span4', label: 'control-label', container: 'control-group' }
+        , style    : { field: 'form-control col-lg-4', label: 'control-label', container: 'form-group' }
         , mandatory: true
       },
       
@@ -160,7 +163,7 @@ var contact_form_fields = xs
           id     : 'company'
         , type   : 'text'
         , label  : 'Société'
-        , style: { field: 'span4', label: 'control-label', container: 'control-group' }
+        , style: { field: 'form-control col-lg-4', label: 'control-label', container: 'form-group' }
       },
       
       {
@@ -168,7 +171,7 @@ var contact_form_fields = xs
         , type     : 'text_area'
         , label    : 'Message'
         , rows     : 8
-        , style    : { field: 'input-xlarge span7', label: 'control-label', container: 'control-group demo' }
+        , style    : { field: 'form-control col-lg-7', label: 'control-label', container: 'form-group' }
         , mandatory: true
       }
     ],

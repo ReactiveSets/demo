@@ -8,6 +8,8 @@ body {
 }
 
 .navigation {
+  max-width: 1920px;
+  margin: 0 auto;
   position: absolute;
   top: 0;
   left: 0;
@@ -25,14 +27,6 @@ body {
   background-repeat: repeat-x;
   border-color: #252525;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff111111', GradientType=0);
-}
-
-.navigation .navbar-inner {
-  max-width: 1880px;
-}
-
-.navigation .navbar-inner {
-  margin: 0 auto;
 }
 
 .banner {
@@ -64,6 +58,9 @@ body {
 .banner .carousel-caption {
   background: rgba( 0, 0, 0, 0.5 );
   padding: 5px;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .banner .carousel-caption h3 {
@@ -74,6 +71,9 @@ body {
 
 .banner .carousel-control {
   cursor: pointer;
+  font-size: 40px;
+  font-weight: bold;
+  color: #ccc;
 }
 
 .container {

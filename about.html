@@ -19,25 +19,23 @@
   
   <body>
     <!-- navigation: start -->
-    <div class="navigation navbar navbar-inverse">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          
-          <a class="brand" href="index.html">CastorCAD</a>
-          
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li><a href="index.html">Accueil</a></li>
-              <li class="active"><a href="about.html">A propos</a></li>
-              <li><a href="contact.html">Contact</a></li>
-            </ul>
-          </div>
-        </div>
+    <div class="navigation navbar navbar-inverse" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-castorcad-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">CastorCAD</a>
+      </div>
+
+      <div class="collapse navbar-collapse navbar-castorcad-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Accueil</a></li>
+          <li class="active"><a href="about.html">A propos</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
       </div>
     </div>
     <!-- navigation: end   -->
@@ -49,7 +47,7 @@
     <div class="container">
       <!-- about content: start -->
       <div class="about row">
-        <div class="span4">
+        <div class="col-lg-4">
           <h3>CastorCAD</h3>
           <p>
             CastorCAD est le fruit de la réunion d’une équipe de passionnés d’animation 3D désireux de faire
@@ -58,7 +56,7 @@
           </p>
         </div>
         
-        <div class="span4">
+        <div class="col-lg-4">
           <h3>Collaborateurs</h3>
           <p>
             Nos collaborateurs sont formés à l'utilisation des logiciels de modélisation et de rendu 3D
@@ -67,7 +65,7 @@
           </p>
         </div>
         
-        <div class="span4">
+        <div class="col-lg-4">
           <h3>Serveurs</h3>
           <p>
             Nos serveurs de dernière génération permettent un rendu de la plus haute qualité 
