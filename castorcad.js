@@ -42,15 +42,7 @@ function ug( m ) {
   log( "castorcad, " + m );
 } // ug()
 
-/* -------------------------------------------------------------------------------------------
-   Start HTTP Servers
-*/
-var servers = xs.set( [
-    { ip_address: '0.0.0.0', port: 80 },
-    // { port: 8043, key: '', cert: '' }, // https server usimg key and cert
-  ], { auto_increment: true } )
-  .http_servers()
-;
+module.exports = function( servers ) {
 
 /* -------------------------------------------------------------------------------------------
    Load and Serve Assets
@@ -238,3 +230,5 @@ contact_form_fields
   
   .trace( 'email sent' )
 ;
+
+} // module.exports
