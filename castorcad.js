@@ -71,7 +71,7 @@ var client_min = xs.set( [
     { name: 'node_modules/excess/lib/socket_io_crossover.js' },
     { name: 'node_modules/excess/lib/socket_io_server.js'    }
   ], { auto_increment: true }  ) // will auto-increment the id attribute starting at 1
-  .watch()
+  .watch( { base_directory: __dirname } )
   .order( [ { id: 'id' } ] ) // order loaded files
   .uglify( 'js/xs-min.js', { warnings: false } )
 ;
@@ -115,8 +115,8 @@ xs.set( [
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.woff' },
     { name: 'images/contact.jpg' }
   ], { auto_increment: true } )
-  .watch()
-  .union( [ client_min, carousel_images.watch() ] )
+  .watch( { base_directory: __dirname } )
+  .union( [ client_min, carousel_images.watch( { base_directory: __dirname } ) ] )
   .serve( servers, { hostname: [ 'localhost', 'castorcad.com' ] } )
 ;
 
