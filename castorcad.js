@@ -68,7 +68,7 @@ var client_min = xs.set( [
       { name: 'excess/lib/selector.js'            },
       { name: 'excess/lib/form.js'                },
       { name: 'excess/lib/load_images.js'         },
-      { name: 'excess/lib/carousel.js'            },
+      { name: 'excess/lib/bootstrap_carousel.js'  },
       
       // socket.io server access
       { name: 'excess/lib/socket_io_crossover.js' },
