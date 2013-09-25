@@ -117,7 +117,7 @@ xs.set( [
   ], { auto_increment: true } )
   .watch( { base_directory: __dirname } )
   .union( [ client_min, carousel_images.watch( { base_directory: __dirname } ) ] )
-  .serve( servers, { hostname: [ 'localhost', 'castorcad.com' ] } )
+  .serve( servers, { hostname: [ 'localhost', 'castorcad.com', 'www.castorcad.com' ] } )
 ;
 
 var contact_form_fields = xs
