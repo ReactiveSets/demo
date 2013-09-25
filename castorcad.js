@@ -51,26 +51,33 @@ var client_min = xs.set( [
     { name: 'js/es5.js'    },
     { name: 'js/json2.js'  },
     { name: 'js/uuid.js'   },
-    
-    // xs.core
-    { name: 'node_modules/excess/lib/xs.js'                  },
-    { name: 'node_modules/excess/lib/code.js'                },
-    { name: 'node_modules/excess/lib/pipelet.js'             },
-    { name: 'node_modules/excess/lib/filter.js'              },
-    { name: 'node_modules/excess/lib/order.js'               },
-    { name: 'node_modules/excess/lib/aggregate.js'           },
-    { name: 'node_modules/excess/lib/join.js'                },
-    
-    // xs.ui
-    { name: 'node_modules/excess/lib/selector.js'            },
-    { name: 'node_modules/excess/lib/form.js'                },
-    { name: 'node_modules/excess/lib/load_images.js'         },
-    { name: 'node_modules/excess/lib/carousel.js'            },
-    
-    // socket.io server access
-    { name: 'node_modules/excess/lib/socket_io_crossover.js' },
-    { name: 'node_modules/excess/lib/socket_io_server.js'    }
   ], { auto_increment: true }  ) // will auto-increment the id attribute starting at 1
+  
+  .union( [
+    xs.set( [
+      // xs.core
+      { name: 'excess/lib/xs.js'                  },
+      { name: 'excess/lib/code.js'                },
+      { name: 'excess/lib/pipelet.js'             },
+      { name: 'excess/lib/filter.js'              },
+      { name: 'excess/lib/order.js'               },
+      { name: 'excess/lib/aggregate.js'           },
+      { name: 'excess/lib/join.js'                },
+      
+      // xs.ui
+      { name: 'excess/lib/selector.js'            },
+      { name: 'excess/lib/form.js'                },
+      { name: 'excess/lib/load_images.js'         },
+      { name: 'excess/lib/carousel.js'            },
+      
+      // socket.io server access
+      { name: 'excess/lib/socket_io_crossover.js' },
+      { name: 'excess/lib/socket_io_server.js'    }
+    ], { auto_increment: true, auto_increment_start: 4 } ) // will auto-increment the id attribute starting at 4
+    
+    .require_resolve()
+  ] )
+  
   .watch( { base_directory: __dirname } )
   .order( [ { id: 'id' } ] ) // order loaded files
   .uglify( 'js/xs-min.js', { warnings: false } )
