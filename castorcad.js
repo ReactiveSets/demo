@@ -80,7 +80,7 @@ var client_min = xs.set( [
   
   .watch( { base_directory: __dirname } )
   .order( [ { id: 'id' } ] ) // order loaded files
-  .uglify( 'js/xs-min.js', { warnings: false } )
+  .uglify( 'js/xs-0.1.31.min.js', { warnings: false } )
 ;
 
 var carousel_images = xs
