@@ -3,7 +3,7 @@
   
   var contact_form_fields = xs
     .socket_io_server()
-    .model( 'contact_form_fields' )
+    .flow( 'contact_form_fields' )
     
     // store contact_form_fields and prevent form from fetching multiple times from server
     .ordered()

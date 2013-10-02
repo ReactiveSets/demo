@@ -101,7 +101,7 @@ var carousel_images = xs
       { name: 'images/05.jpg', title: 'Villa à Marrakech' },
       { name: 'images/07.jpg', title: 'Villa à Marrakech' },
       { name: 'images/11.jpg', title: 'Résidence Deroua'  }
-    ], { auto_increment: true, set_model: "carousel_images" }
+    ], { auto_increment: true, set_flow: "carousel_images" }
   )
 ;
 
@@ -131,7 +131,7 @@ var contact_form_fields = xs
   .set(
     [
       {
-          id   : 'model'
+          id   : 'flow'
         , type : 'hidden'
         , value: 'contact_form'
       },
@@ -175,14 +175,14 @@ var contact_form_fields = xs
       }
     ],
     
-    { auto_increment: 'order_id', set_model: 'contact_form_fields' }
+    { auto_increment: 'order_id', set_flow: 'contact_form_fields' }
   )
   .order( [ { id: 'order_id' } ] )
 ;
 
 // Serve contact_form_fields to socket.io clients
 contact_form_fields
-  .union( [ carousel_images ] )
+  .union( [ carousel_images.to_uri() ] )
   
   .trace( 'contact_form_fields and carousel_images to clients' )
   
@@ -200,7 +200,7 @@ contact_form_fields
   
   .trace( 'form_validate' )
   
-  .model( 'contact_form' ) // filter errors out
+  .flow( 'contact_form' ) // filter errors out
   
   .trace( 'validated form' )
   
