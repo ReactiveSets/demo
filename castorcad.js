@@ -89,6 +89,7 @@ var carousel_images = xs
       { name: 'images/19.jpg', title: 'Villa à Marrakech' },
       { name: 'images/20.jpg', title: 'Villa à Marrakech' },
       { name: 'images/21.jpg', title: 'Villa à Marrakech' },
+      { name: 'images/22.jpg', title: 'Salon Privé'       },
       { name: 'images/16.jpg', title: 'Villa à Geneve'    },
       { name: 'images/15.jpg', title: 'Villa à Geneve'    },
       { name: 'images/14.jpg', title: 'Villa à Geneve'    },
@@ -100,7 +101,9 @@ var carousel_images = xs
       { name: 'images/04.jpg', title: 'Villa à Marrakech' },
       { name: 'images/05.jpg', title: 'Villa à Marrakech' },
       { name: 'images/07.jpg', title: 'Villa à Marrakech' },
-      { name: 'images/11.jpg', title: 'Résidence Deroua'  }
+      { name: 'images/11.jpg', title: 'Résidence Deroua'  },
+      { name: 'images/24.jpg', title: 'Résidence Deroua'  },
+      { name: 'images/25.jpg', title: 'Résidence Deroua'  }
     ], { auto_increment: true, set_flow: "carousel_images" }
   )
 ;
