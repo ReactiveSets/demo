@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link href="bootstrap/css/bootstrap.css"            rel="stylesheet" type="text/css">
-    <!-- link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" -->
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
     <link href="css/style.css"                          rel="stylesheet" type="text/css">
     
-    <script type="text/javascript" charset="utf-8" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/socket.io/socket.io.js"></script>    
     <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/xs-0.1.31.min.js"></script>
     
-    <title>CastorCAD ::: Accueil</title>
+    <title>CastorCAD ::: A Propos</title>
     
   </head>
   
@@ -29,12 +29,12 @@
         </button>
         <a class="navbar-brand" href="index.html">CastorCAD</a>
       </div>
-      
+
       <div class="collapse navbar-collapse navbar-castorcad-collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="index.html">Accueil</a></li>
+          <li><a href="index.html">Accueil</a></li>
           <li><a href="about.html">A propos</a></li>
-          <li><a href="gallery.html">Galerie</a></li>
+          <li class="active"><a href="gallery.html">Galerie</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
@@ -46,37 +46,15 @@
     <!-- banner: end   -->
     
     <div class="container">
-      <!-- home content: start -->
-      <div class="home row">
-        <div class="col-lg-4">
-          <h3>Services aux Architectes</h3>
-          <p>
-            Visualisation 3D réalistes de très haute qualité, utilisant les dernières technologies de rendu 
-            issues des développements de l'animation 3D pour le cinéma. Permet aux architectes de
-            proposer à leurs clients un dossier d'architecture à la pointe des technologies.
-          </p>
+      <!-- gallery content: start -->
+      <div class="row">
+        <div class="title col-lg-10">
+          <h3>Galerie</h3>
         </div>
         
-        <div class="col-lg-4">
-          <h3>Prévenir les Surprises</h3>
-          <p>
-            Nous proposons des images réalistes en HD intérieur et extérieur ainsi que des vidéos de tours 
-            virtuels permettant à vos clients de visualiser leur projet avant la réalisation et permettant ainsi 
-            de limiter au maximum les coûts de modifications en cours de chantier.
-          </p>
-        </div>
-        
-        <div class="col-lg-4">
-          <h3>Satisfaction Totale</h3>
-          <p>
-            Notre approche de satisfaction totale de nos clients est basée sur un professionnalisme 
-            exemplaire, tant en terme de qualité du résultat, qu'en terme de respect des délais convenus. 
-            Notre travail de collaboration directe avec les architectes et leurs designers se fait dans le 
-            respect de la confidentialité et une interaction réactive et proactive.
-          </p>
-        </div>
+        <div id="photo_matrix" class="col-lg-12"></div>
       </div>
-      <!-- home content: end   -->
+      <!-- gallery content: end   -->
       
       <hr class="divider">
       
@@ -101,6 +79,6 @@
     </div>
     
     <script src="bootstrap/js/bootstrap.js"></script>
-    <script src="js/carousel.js"></script>
+    <script src="js/gallery.js"></script>
   </body>
 </html>

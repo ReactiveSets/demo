@@ -32,6 +32,7 @@ require( 'excess/lib/server/configuration.js' );
 require( 'excess/lib/server/mailer.js' );
 require( 'excess/lib/order.js' );
 require( 'excess/lib/form.js' );
+require( 'excess/lib/thumbnails.js' );
 
 /* -------------------------------------------------------------------------------------------
    de&&ug()
@@ -56,23 +57,25 @@ var client_min = xs.set( [
   .union( [
     xs.set( [
       // xs.core
-      { name: 'excess/lib/xs.js'                  },
-      { name: 'excess/lib/code.js'                },
-      { name: 'excess/lib/pipelet.js'             },
-      { name: 'excess/lib/filter.js'              },
-      { name: 'excess/lib/order.js'               },
-      { name: 'excess/lib/aggregate.js'           },
-      { name: 'excess/lib/join.js'                },
+      { name: 'excess/lib/xs.js'                    },
+      { name: 'excess/lib/code.js'                  },
+      { name: 'excess/lib/pipelet.js'               },
+      { name: 'excess/lib/filter.js'                },
+      { name: 'excess/lib/order.js'                 },
+      { name: 'excess/lib/aggregate.js'             },
+      { name: 'excess/lib/join.js'                  },
+      { name: 'excess/lib/events.js'                },
       
       // xs.ui
-      { name: 'excess/lib/selector.js'            },
-      { name: 'excess/lib/form.js'                },
-      { name: 'excess/lib/load_images.js'         },
-      { name: 'excess/lib/bootstrap_carousel.js'  },
+      { name: 'excess/lib/selector.js'              },
+      { name: 'excess/lib/form.js'                  },
+      { name: 'excess/lib/load_images.js'           },
+      { name: 'excess/lib/bootstrap_photo_album.js' },
+      { name: 'excess/lib/bootstrap_carousel.js'    },
       
       // socket.io server access
-      { name: 'excess/lib/socket_io_crossover.js' },
-      { name: 'excess/lib/socket_io_server.js'    }
+      { name: 'excess/lib/socket_io_crossover.js'   },
+      { name: 'excess/lib/socket_io_server.js'      }
     ], { auto_increment: true, auto_increment_start: 4 } ) // will auto-increment the id attribute starting at 4
     
     .require_resolve()
@@ -104,13 +107,17 @@ var carousel_images = xs
       { name: 'images/11.jpg', title: 'Résidence Deroua'  },
       { name: 'images/24.jpg', title: 'Résidence Deroua'  },
       { name: 'images/25.jpg', title: 'Résidence Deroua'  }
-    ], { auto_increment: true, set_flow: "carousel_images" }
-  )
+    ], { auto_increment: true, set_flow: "carousel_images" } )
+;
+
+var thumbnails = carousel_images
+  .thumbnails( { path: 'images/thumbnails/', width: 190, height: 120, set_flow: 'carousel_thumbnails', base_directory: __dirname } )
 ;
 
 xs.set( [
     { name: 'index.html'    },
-    { name: 'about.html' },
+    { name: 'about.html'    },
+    { name: 'gallery.html'  },
     { name: 'contact.html'  },
     //{ name: 'index-min.html'       },
     { name: 'bootstrap/css/bootstrap.css' },
@@ -118,15 +125,21 @@ xs.set( [
     { name: 'css/style.css' },
     { name: 'bootstrap/js/bootstrap.js' },
     { name: 'js/carousel.js' },
-    { name: 'js/contact.js' },
+    { name: 'js/gallery.js'  },
+    { name: 'js/contact.js'  },
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.eot'  },
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.svg'  },
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.ttf'  },
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.woff' },
     { name: 'images/contact.jpg' }
   ], { auto_increment: true } )
+  .union( [ carousel_images, thumbnails ] )
   .watch( { base_directory: __dirname } )
-  .union( [ client_min, carousel_images.watch( { base_directory: __dirname } ) ] )
+  .union( [ client_min ] )
+  
+  // .watch( { base_directory: __dirname } )
+  // .union( [ client_min, carousel_images.watch( { base_directory: __dirname } ) ] )
+  
   .serve( servers, { hostname: [ 'localhost', 'castorcad.com', 'www.castorcad.com' ] } )
 ;
 
@@ -185,7 +198,7 @@ var contact_form_fields = xs
 
 // Serve contact_form_fields to socket.io clients
 contact_form_fields
-  .union( [ carousel_images.to_uri() ] )
+  .union( [ carousel_images.to_uri(), thumbnails.to_uri() ] )
   
   .trace( 'contact_form_fields and carousel_images to clients' )
   
