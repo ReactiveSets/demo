@@ -14,8 +14,10 @@ npm install excess
 git clone https://github.com/ConnectedSets/demo.git
 ````
 
-The gallery page in this demo creates thumbnails using ImageMagic, that you also need to install on your system.
-You can [download ImageMagic here](http://www.imagemagick.org/script/binary-releases.php).
+The gallery page in this demo creates thumbnails using ImageMagick, that you also need to install on your system.
+You can [download ImageMagick here](http://www.imagemagick.org/script/binary-releases.php).
+
+If you do not have ImageMagick installed on your system, the demo will still work except for the thumbnails.
 
 Running the server
 ==================
