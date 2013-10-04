@@ -7,6 +7,16 @@ The front-end is developped using the responsive framework Bootstrap.
 
 This demonstration is running at http://www.castorcad.com/
 
+Installing the demo
+===================
+
+````
+npm install excess
+git clone https://github.com/ConnectedSets/demo.git
+cd demo
+node server.js
+````
+
 Licence
 =======
 The source code of the web site is licenced under AGPLv3
