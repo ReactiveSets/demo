@@ -27,6 +27,7 @@ var XS = require( 'excess' ).XS
 
 require( 'excess/lib/server/file.js' );
 require( 'excess/lib/server/http.js' );
+require( 'excess/lib/server/socket_io_clients.js' );
 require( 'excess/lib/server/uglify.js' );
 require( 'excess/lib/server/configuration.js' );
 require( 'excess/lib/server/mailer.js' );
