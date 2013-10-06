@@ -19,7 +19,7 @@
 */
 "use strict";
 
-var contact_form_fields = require( 'excess' ).XS.xs
+var contact_form_fields = ( typeof require == 'function' ? require( 'excess' ).XS : this.XS ).xs
   .set(
     [
       {
@@ -67,11 +67,11 @@ var contact_form_fields = require( 'excess' ).XS.xs
       }
     ],
     
-    { auto_increment: 'order_id', set_flow: 'contact_form_fields' }
+    { key: [ 'order_id' ], auto_increment: 'order_id', set_flow: 'contact_form_fields' }
   )
 ;
 
-if ( module )
+if ( typeof module != 'undefined' )
   module.exports = contact_form_fields;
 else
- this.contact_form_fields = contact_form_fields;
+  this.contact_form_fields = contact_form_fields;

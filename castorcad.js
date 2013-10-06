@@ -52,7 +52,7 @@ module.exports = function( servers ) {
 var client_min = xs.set( [
     { name: 'js/es5.js'    },
     { name: 'js/json2.js'  },
-    { name: 'js/uuid.js'   },
+    { name: 'js/uuid.js'   }
   ], { auto_increment: true }  ) // will auto-increment the id attribute starting at 1
   
   .union( [
@@ -80,6 +80,12 @@ var client_min = xs.set( [
     ], { auto_increment: true, auto_increment_start: 4 } ) // will auto-increment the id attribute starting at 4
     
     .require_resolve()
+  ] )
+  
+  .union( [
+    xs.set( [
+      { name: 'contact_form_fields.js' }
+    ], { auto_increment: true, auto_increment_start: 100 } ) 
   ] )
   
   .watch( { base_directory: __dirname } )
