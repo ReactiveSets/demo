@@ -144,56 +144,7 @@ xs.set( [
   .serve( servers, { hostname: [ 'localhost', 'castorcad.com', 'www.castorcad.com' ] } )
 ;
 
-var contact_form_fields = xs
-  .set(
-    [
-      {
-          id   : 'flow'
-        , type : 'hidden'
-        , value: 'contact_form'
-      },
-      
-      {
-          id   : 'id'
-        , type : 'hidden'
-        , value: { type: 'UUID' }
-      },
-      
-      {
-          id       : 'full-name'
-        , type     : 'text'
-        , label    : 'Prénom & Nom'
-        , style    : { field: 'form-control col-lg-4', label: 'control-label', container: 'form-group' }
-        , mandatory: true
-      },
-      
-      {
-          id       : 'email'
-        , type     : 'email'
-        , label    : 'Email'
-        , style    : { field: 'form-control col-lg-4', label: 'control-label', container: 'form-group' }
-        , mandatory: true
-      },
-      
-      {
-          id     : 'company'
-        , type   : 'text'
-        , label  : 'Société'
-        , style: { field: 'form-control col-lg-4', label: 'control-label', container: 'form-group' }
-      },
-      
-      {
-          id       : 'text'
-        , type     : 'text_area'
-        , label    : 'Message'
-        , rows     : 8
-        , style    : { field: 'form-control col-lg-7', label: 'control-label', container: 'form-group' }
-        , mandatory: true
-      }
-    ],
-    
-    { auto_increment: 'order_id', set_flow: 'contact_form_fields' }
-  )
+var contact_form_fields = require( "./contact_form_fields.js" )
   .order( [ { id: 'order_id' } ] )
 ;
 
