@@ -31,6 +31,7 @@ require( 'excess/lib/server/socket_io_clients.js' );
 require( 'excess/lib/server/uglify.js' );
 require( 'excess/lib/server/configuration.js' );
 require( 'excess/lib/server/mailer.js' );
+require( 'excess/lib/uri.js' );
 require( 'excess/lib/order.js' );
 require( 'excess/lib/form.js' );
 require( 'excess/lib/thumbnails.js' );
@@ -66,6 +67,7 @@ var client_min = xs.set( [
       { name: 'excess/lib/aggregate.js'             },
       { name: 'excess/lib/join.js'                  },
       { name: 'excess/lib/events.js'                },
+      { name: 'excess/lib/uri.js'                   },
       
       // xs.ui
       { name: 'excess/lib/selector.js'              },
@@ -84,7 +86,8 @@ var client_min = xs.set( [
   
   .union( [
     xs.set( [
-      { name: 'contact_form_fields.js' }
+      { name: 'contact_form_fields.js' },
+      { name: 'carousel_images.js'     }
     ], { auto_increment: true, auto_increment_start: 100 } ) 
   ] )
   
@@ -93,29 +96,7 @@ var client_min = xs.set( [
   .uglify( 'js/xs-0.1.31.min.js', { warnings: false } )
 ;
 
-var carousel_images = xs
-  .set( [
-      { name: 'images/18.jpg', title: 'Villa à Marrakech' },
-      { name: 'images/19.jpg', title: 'Villa à Marrakech' },
-      { name: 'images/20.jpg', title: 'Villa à Marrakech' },
-      { name: 'images/21.jpg', title: 'Villa à Marrakech' },
-      { name: 'images/22.jpg', title: 'Salon Privé'       },
-      { name: 'images/16.jpg', title: 'Villa à Geneve'    },
-      { name: 'images/15.jpg', title: 'Villa à Geneve'    },
-      { name: 'images/14.jpg', title: 'Villa à Geneve'    },
-      { name: 'images/17.jpg', title: 'Villa à Geneve'    },
-      { name: 'images/12.jpg', title: 'Lotus Club'        },
-      { name: 'images/13.jpg', title: 'Lotus Club'        },
-      { name: 'images/01.jpg', title: 'Villa à Marrakech' },
-      { name: 'images/03.jpg', title: 'Villa à Marrakech' },
-      { name: 'images/04.jpg', title: 'Villa à Marrakech' },
-      { name: 'images/05.jpg', title: 'Villa à Marrakech' },
-      { name: 'images/07.jpg', title: 'Villa à Marrakech' },
-      { name: 'images/11.jpg', title: 'Résidence Deroua'  },
-      { name: 'images/24.jpg', title: 'Résidence Deroua'  },
-      { name: 'images/25.jpg', title: 'Résidence Deroua'  }
-    ], { auto_increment: true, set_flow: "carousel_images" } )
-;
+var carousel_images = require( './carousel_images.js' );
 
 var thumbnails = carousel_images
   .thumbnails( { path: 'images/thumbnails/', width: 190, height: 120, set_flow: 'carousel_thumbnails', base_directory: __dirname } )
