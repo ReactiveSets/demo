@@ -19,7 +19,7 @@
 */
 "use strict";
 
-var contact_form_fields = ( typeof require == 'function' ? require( 'excess' ).XS : this.XS ).xs
+var contact_form_fields = ( this.XS || require( 'excess' ).XS ).xs
   .set(
     [
       {
@@ -71,7 +71,4 @@ var contact_form_fields = ( typeof require == 'function' ? require( 'excess' ).X
   )
 ;
 
-if ( typeof module != 'undefined' )
-  module.exports = contact_form_fields;
-else
-  this.contact_form_fields = contact_form_fields;
+if ( typeof module != 'undefined' ) module.exports = contact_form_fields;
