@@ -87,6 +87,7 @@ var client_min = xs.set( [
   .union( [
     xs.set( [
       { name: 'contact_form_fields.js' },
+      { name: 'gallery_images.js'      },
       { name: 'carousel_images.js'     }
     ], { auto_increment: true, auto_increment_start: 100 } ) 
   ] )
@@ -96,10 +97,12 @@ var client_min = xs.set( [
   .uglify( 'js/xs-0.1.31.min.js', { warnings: false } )
 ;
 
-var carousel_images = require( './carousel_images.js' );
+var carousel_images = require( './carousel_images.js' )
+  , gallery_images  = require( './gallery_images.js'  )
+;
 
-var thumbnails = carousel_images
-  .thumbnails( { path: 'images/thumbnails/', width: 190, height: 120, set_flow: 'carousel_thumbnails', base_directory: __dirname } )
+var thumbnails = gallery_images
+  .thumbnails( { path: 'images/thumbnails/', width: 125, height: 80, set_flow: 'gallery_thumbnails', base_directory: __dirname } )
 ;
 
 xs.set( [
@@ -110,7 +113,8 @@ xs.set( [
     //{ name: 'index-min.html'       },
     { name: 'bootstrap/css/bootstrap.css' },
     { name: 'bootstrap/css/bootstrap-responsive.css' },
-    { name: 'css/style.css' },
+    { name: 'css/style.css'   },
+    { name: 'css/gallery.css' },
     { name: 'bootstrap/js/bootstrap.js' },
     { name: 'js/carousel.js' },
     { name: 'js/gallery.js'  },
@@ -119,9 +123,10 @@ xs.set( [
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.svg'  },
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.ttf'  },
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.woff' },
+    { name: 'css/images/bg_matrix.png' },
     { name: 'images/contact.jpg' }
   ], { auto_increment: true } )
-  .union( [ carousel_images, thumbnails ] )
+  .union( [ carousel_images, gallery_images, thumbnails ] )
   .watch( { base_directory: __dirname } )
   .union( [ client_min ] )
   

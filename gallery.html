@@ -8,12 +8,13 @@
     <link href="bootstrap/css/bootstrap.css"            rel="stylesheet" type="text/css">
     <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
     <link href="css/style.css"                          rel="stylesheet" type="text/css">
+    <link href="css/gallery.css"                        rel="stylesheet" type="text/css">
     
     <script type="text/javascript" charset="utf-8" src="/socket.io/socket.io.js"></script>    
     <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/xs-0.1.31.min.js"></script>
     
-    <title>CastorCAD ::: A Propos</title>
+    <title>CastorCAD ::: Galerie</title>
     
   </head>
   
@@ -42,24 +43,18 @@
     <!-- navigation: end   -->
     
     <!-- banner: start -->
-    <div id="banner" class="banner"></div>
+    <div id="gallery_container" class="gallery-container">
+      <div id="photo_carousel" class="photo-carousel"></div>
+      <span id="photo_matrix_control" class="matrix-icon"></span>
+      <div id="photo_matrix"   class="container hide"></div>
+    </div>
     <!-- banner: end   -->
     
     <div class="container">
-      <!-- gallery content: start -->
-      <div class="row">
-        <div class="title col-lg-10">
-          <h3>Galerie</h3>
-        </div>
-        
-        <div id="photo_matrix" class="col-lg-12"></div>
-      </div>
-      <!-- gallery content: end   -->
-      
+      <!-- footer: start -->
+      <!-- footer>
       <hr class="divider">
       
-      <!-- footer: start -->
-      <footer>
         <p>
           <a href="index.html">Accueil</a> &middot; 
           <a href="about.html">A propos</a> &middot; 
@@ -74,7 +69,7 @@
           E-mail: info@castorcad.com &middot;
           Téléphone: +212 6 61 19 75 95 &middot;
         </p>
-      </footer>
+      </footer -->
       <!-- footer: end   -->
     </div>
     
