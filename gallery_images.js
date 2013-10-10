@@ -21,28 +21,28 @@
 
 var gallery_images = ( this.XS || require( 'excess' ).XS ).xs
   .set( [
-      { name: 'images/gallery/01.jpg' },
-      { name: 'images/gallery/02.jpg' },
-      { name: 'images/gallery/03.jpg' },
-      { name: 'images/gallery/04.jpg' },
-      { name: 'images/gallery/05.jpg' },
-      { name: 'images/gallery/06.jpg' },
-      { name: 'images/gallery/07.jpg' },
-      { name: 'images/gallery/08.jpg' },
-      { name: 'images/gallery/09.jpg' },
-      { name: 'images/gallery/10.png' },
-      { name: 'images/gallery/11.png' },
-      { name: 'images/gallery/12.jpg' },
-      { name: 'images/gallery/13.jpg' },
-      { name: 'images/gallery/14.jpg' },
-      { name: 'images/gallery/15.jpg' },
-      { name: 'images/gallery/16.jpg' },
-      { name: 'images/gallery/17.jpg' },
-      { name: 'images/gallery/18.jpg' },
-      { name: 'images/gallery/19.jpg' }
-    ], { auto_increment: true }
-  )
+    { name: 'images/gallery/01.jpg' },
+    { name: 'images/gallery/02.jpg' },
+    { name: 'images/gallery/03.jpg' },
+    { name: 'images/gallery/04.jpg' },
+    { name: 'images/gallery/05.jpg' },
+    { name: 'images/gallery/06.jpg' },
+    { name: 'images/gallery/07.jpg' },
+    { name: 'images/gallery/08.jpg' },
+    { name: 'images/gallery/09.jpg' },
+    { name: 'images/gallery/10.png' },
+    { name: 'images/gallery/11.png' },
+    { name: 'images/gallery/12.jpg' },
+    { name: 'images/gallery/13.jpg' },
+    { name: 'images/gallery/14.jpg' },
+    { name: 'images/gallery/15.jpg' },
+    { name: 'images/gallery/16.jpg' },
+    { name: 'images/gallery/17.jpg' },
+    { name: 'images/gallery/18.jpg' },
+    { name: 'images/gallery/19.jpg' }
+  ] )
   .set_flow( 'gallery_images' )
+  .auto_increment()
 ;
 
 if ( typeof module != 'undefined' ) module.exports = gallery_images;

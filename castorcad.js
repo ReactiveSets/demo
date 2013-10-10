@@ -50,13 +50,14 @@ module.exports = function( servers ) {
 /* -------------------------------------------------------------------------------------------
    Load and Serve Assets
 */
-var client_min = xs.set( [
-    { name: 'js/es5.js'    },
-    { name: 'js/json2.js'  },
-    { name: 'js/uuid.js'   }
-  ], { auto_increment: true }  ) // will auto-increment the id attribute starting at 1
-  
+var client_min = xs
   .union( [
+    xs.set( [
+      { name: 'js/es5.js'    },
+      { name: 'js/json2.js'  },
+      { name: 'js/uuid.js'   }
+    ] ),
+    
     xs.set( [
       // xs.core
       { name: 'excess/lib/xs.js'                    },
@@ -79,19 +80,16 @@ var client_min = xs.set( [
       // socket.io server access
       { name: 'excess/lib/socket_io_crossover.js'   },
       { name: 'excess/lib/socket_io_server.js'      }
-    ], { auto_increment: true, auto_increment_start: 4 } ) // will auto-increment the id attribute starting at 4
+    ] )
+    .require_resolve(),
     
-    .require_resolve()
-  ] )
-  
-  .union( [
     xs.set( [
       { name: 'contact_form_fields.js' },
       { name: 'gallery_images.js'      },
       { name: 'carousel_images.js'     }
-    ], { auto_increment: true, auto_increment_start: 100 } ) 
+    ] ) 
   ] )
-  
+  .auto_increment()
   .watch( { base_directory: __dirname } )
   .order( [ { id: 'id' } ] ) // order loaded files
   .uglify( 'js/xs-0.1.31.min.js', { warnings: false } )
@@ -130,7 +128,8 @@ xs.set( [
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.woff' },
     { name: 'css/images/bg_matrix.png' },
     { name: 'images/contact.jpg' }
-  ], { auto_increment: true } )
+  ] )
+  .auto_increment()
   .union( [ carousel_images, gallery_images, thumbnails ] )
   .watch( { base_directory: __dirname } )
   .union( [ client_min ] )

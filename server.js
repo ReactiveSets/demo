@@ -39,9 +39,9 @@ function ug( m ) {
    Start HTTP Servers
 */
 var servers = xs.set( [
-    { ip_address: '0.0.0.0', port: 8080 },
+    { id: 1, ip_address: '0.0.0.0', port: 8080 },
     // { port: 8043, key: '', cert: '' }, // https server usimg key and cert
-  ], { auto_increment: true } )
+  ] )
   .http_servers()
 ;
 
