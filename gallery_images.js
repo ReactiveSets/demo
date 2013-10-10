@@ -40,8 +40,9 @@ var gallery_images = ( this.XS || require( 'excess' ).XS ).xs
       { name: 'images/gallery/17.jpg' },
       { name: 'images/gallery/18.jpg' },
       { name: 'images/gallery/19.jpg' }
-    ], { auto_increment: true, set_flow: "gallery_images" }
+    ], { auto_increment: true }
   )
+  .set_flow( 'gallery_images' )
 ;
 
 if ( typeof module != 'undefined' ) module.exports = gallery_images;
