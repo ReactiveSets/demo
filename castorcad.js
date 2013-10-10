@@ -102,7 +102,7 @@ var carousel_images = require( './carousel_images.js' )
 ;
 
 var thumbnails = gallery_images
-  .thumbnails( { path: 'images/thumbnails/', width: 125, height: 80, base_directory: __dirname } )
+  .thumbnails( { path: 'images/', width: 125, height: 80, base_directory: __dirname } )
   .set_flow( 'gallery_thumbnails' )
 ;
 
