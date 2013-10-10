@@ -104,6 +104,11 @@ var carousel_images = require( './carousel_images.js' )
 var thumbnails = gallery_images
   .thumbnails( { path: 'images/', width: 125, height: 80, base_directory: __dirname } )
   .set_flow( 'gallery_thumbnails' )
+  .on( 'complete', function() {
+    thumbnails.fetch_all( function( values ) {
+      de&&ug( 'Thumbnails generation complete, count: ' + values.length );
+    } );
+  } )
 ;
 
 xs.set( [
