@@ -102,7 +102,8 @@ var carousel_images = require( './carousel_images.js' )
 ;
 
 var thumbnails = gallery_images
-  .thumbnails( { path: 'images/thumbnails/', width: 125, height: 80, set_flow: 'gallery_thumbnails', base_directory: __dirname } )
+  .thumbnails( { path: 'images/thumbnails/', width: 125, height: 80, base_directory: __dirname } )
+  .set_flow( 'gallery_thumbnails' )
 ;
 
 xs.set( [
@@ -110,7 +111,6 @@ xs.set( [
     { name: 'about.html'    },
     { name: 'gallery.html'  },
     { name: 'contact.html'  },
-    //{ name: 'index-min.html'       },
     { name: 'bootstrap/css/bootstrap.css' },
     { name: 'bootstrap/css/bootstrap-responsive.css' },
     { name: 'css/style.css'   },
@@ -144,7 +144,7 @@ var contact_form_fields = require( "./contact_form_fields.js" )
 contact_form_fields
   .union( [ carousel_images.to_uri(), thumbnails.to_uri() ] )
   
-  .trace( 'contact_form_fields and carousel_images to clients' )
+  .trace( 'contact_form_fields, carousel images and thumbnails to clients' )
   
   // Start socket.io server, and dispatch client connections to provide contact_form_fields and get filled contact forms
   .dispatch( servers.socket_io_clients(), function( source, options ) {

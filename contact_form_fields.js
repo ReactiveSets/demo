@@ -67,8 +67,9 @@ var contact_form_fields = ( this.XS || require( 'excess' ).XS ).xs
       }
     ],
     
-    { key: [ 'order_id' ], auto_increment: 'order_id', set_flow: 'contact_form_fields' }
+    { key: [ 'order_id' ], auto_increment: 'order_id' }
   )
+  .set_flow( 'contact_form_fields' )
 ;
 
 if ( typeof module != 'undefined' ) module.exports = contact_form_fields;

@@ -40,8 +40,9 @@ var carousel_images = ( this.XS || require( 'excess' ).XS ).xs
       { name: 'images/11.jpg', title: 'Résidence Deroua'  },
       { name: 'images/24.jpg', title: 'Résidence Deroua'  },
       { name: 'images/25.jpg', title: 'Résidence Deroua'  }
-    ], { auto_increment: true, set_flow: "carousel_images" }
+    ], { auto_increment: true }
   )
+  .set_flow( 'carousel_images' )
 ;
 
 if ( typeof module != 'undefined' ) module.exports = carousel_images;
