@@ -1,38 +1,56 @@
 // gallery.js
 !function( exports ) {
 
-var xs = XS.xs
+var $  = jQuery
+  , xs = XS.xs
+  
   , server = xs.socket_io_server()
-  , gallery_images     = server.flow( 'gallery_images'     ).plug( exports.gallery_images.to_uri().unique_set() ).order( [ { id: 'id' } ] )
-  , gallery_thumbnails = server.flow( 'gallery_thumbnails' ).order( [ { id: 'id' } ] )
+  , gallery_images     = server.flow( 'gallery_images'     ).plug( exports.gallery_images.to_uri().unique_set() )
+  , gallery_thumbnails = server.flow( 'gallery_thumbnails' )
+  , photo_matrix_node  = document.getElementById( 'photo_matrix' )
+  , photo_carousel_node = document.getElementById( 'photo_carousel' )
 ;
 
 xs.union( [ gallery_images, gallery_thumbnails ] )
   .trace( 'gallery images and thumnails' )
-  .bootstrap_photo_album( document.getElementById( 'photo_matrix' ), document.getElementById( 'photo_carousel' ), {
-      album          : 'album'
-    , images_flow    : 'gallery_images'
-    , thumbnails_flow: 'gallery_thumbnails'
+  .bootstrap_photo_album( photo_matrix_node, photo_carousel_node, {
+      album_name      : 'album'
+    , images_flow     : 'gallery_images'
+    , thumbnails_flow : 'gallery_thumbnails'
+    , carousel_options: {
+        interval: 5000,
+        pause   : 'click',
+        controls: {
+          matrix      : true,
+          play        : true,
+          download    : true
+        }
+      }
   } )
 ;
 
-// mouse events
 var timer;
 
-jQuery( '#photo_matrix_control' ).mouseenter( show );  // on mouseenter display the photo matrix box
+$( '.icon-matrix' )
+  .mouseenter( show ) // on mouseenter display the photo matrix box
+  .mouseleave( hide ) // on mouseleave close the photo matrix box
+;
 
-jQuery( '#photo_matrix' )
-  .mouseover ( function() { clearTimeout( timer ); } ) // on mouseover clear timer to prevent box closing
-  .mouseleave( hide )                                  // on mouseleave close the photo matrix box
+$( photo_matrix_node )
+  .mouseover ( function() { clearTimeout( timer ) } )
+  .mouseleave( hide )
+;
 
 // show photo matrix
 function show() {
-  jQuery( '#photo_matrix' ).removeClass( 'hide' );
+  if( timer ) clearTimeout( timer );
+  
+  $( photo_matrix_node ).removeClass( 'hide' );
 }
 
 // hide photo matrix
 function hide() {
-  timer = setTimeout( function() { jQuery( '#photo_matrix' ).addClass( 'hide' ) }, 600 );
+  timer = setTimeout( function() { $( photo_matrix_node ).addClass( 'hide' ) }, 600 );
 }
 
 }( this );
