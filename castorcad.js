@@ -192,7 +192,7 @@ contact_form_fields
         + '<p>Text:<p>'
         + '<p>' + form.text + '</p>'
     };
-  } )
+  }, { no_clone: true } )
   
   .trace( 'send email' )
   
