@@ -125,7 +125,7 @@ xs.set( [
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.svg'  },
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.ttf'  },
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.woff' },
-    { name: 'css/images/bg_matrix.png' },
+    { name: 'css/images/icon-controls.png' },
     { name: 'images/contact.jpg' }
   ] )
   .auto_increment()
