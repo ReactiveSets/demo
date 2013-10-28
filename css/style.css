@@ -10,13 +10,10 @@ body {
 }
 
 .navigation {
-  max-width: 1920px;
+  width: 100%;
   margin: 0 auto;
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
+  z-index: 20;
 }
 
 .navigation.navbar-inverse {
@@ -43,7 +40,7 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff111111', GradientType=0);
 }
 
-.carousel-controls {
+.banner .carousel-controls {
   position: absolute;
   max-width: 1920px;
   margin: 0 auto;
@@ -52,20 +49,18 @@ body {
   right: 0;
 }
 
-.carousel-control {
+.banner .carousel-control {
   position: absolute;
-  top: 40%;
-  left: 7%;
+  left: 3%;
   width: 40px;
   height: 40px;
-  margin-top: -20px;
   font-size: 40px;
   font-weight: 100;
-  line-height: 30px;
+  line-height: 25px;
   color: #ffffff;
   text-align: center;
   background: #222222;
-  border: 3px solid #ffffff;
+  border: 2px solid #ffffff;
   -webkit-border-radius: 23px;
      -moz-border-radius: 23px;
           border-radius: 23px;
@@ -73,13 +68,13 @@ body {
   filter: alpha(opacity=50);
 }
 
-.carousel-control.right {
-  right: 7%;
+.banner .carousel-control.right {
+  right: 3%;
   left: auto;
 }
 
-.carousel-control:hover,
-.carousel-control:focus {
+.banner .carousel-control:hover,
+.banner .carousel-control:focus {
   color: #ffffff;
   text-decoration: none;
   opacity: 0.9;
@@ -105,6 +100,13 @@ body {
   text-align: center;
 }
 
+.banner .carousel-caption p {
+  color: #ccc;
+  margin: 30px 20px 10px 30px;
+  font-size: 16px;
+  text-align: justify;
+}
+
 .container {
   padding: 0 25px;
 }
@@ -123,4 +125,27 @@ body {
 
 .map img {
   max-width: none;
+}
+
+/* responsive style for tablets and smartphones */
+
+@media (max-width: 768px) {
+  .banner {
+    padding-top: 50px;
+  }
+  
+  .banner .carousel-caption {
+    width: 80%;
+    padding: 10px;
+  }
+  
+  .banner .carousel-caption h3 {
+    font-size: 16px;
+  }
+  
+  .banner .carousel-caption p {
+    font-size: 12px;
+    margin: 15px 5px 5px 15px;
+  }
+  
 }
