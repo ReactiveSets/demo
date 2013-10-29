@@ -175,21 +175,22 @@ contact_form_fields
       
       from: 'CastorCAD contact form <info@castorcad.com>',
       
-      to: 'Samy Vincent <samyvincent52@gmail.com>',
-
-      cc: [
+      to: 'Info <info@castorcad.com>',
+      
+      bcc: [
+        'Samy Vincent <svincent@castorcad.com>',
         'Marcel K\' Nassik <knassik@gmail.com>',
         'Jean Vincent <uiteoi@gmail.com>'
       ],
       
+      reply_to: full_name + ' <' + form.email + '>',
+      
       subject: 'CastorCAD Contact Form Received from ' + full_name,
       
-      html: '<h3>CastorCAD Contact Form received:</h3>'
-        + '<p>Full Name: <b>' + full_name + '</b></p>'
-        + '<p>From: <a href="mailto' + form.email + '">' + form.email + '</a></p>'
+      html: '<h3>CastorCAD Contact Form:</h3>'
+        + '<p>From: <a href="mailto:' + full_name.replace( ' ', '%20' ) + '<' + form.email + '>">' + '<b>' + full_name + '</b> ' + form.email + '</a></p>'
         + '<p>Company: <b>' + ( form.company || '' ) + '</b></p>'
-        + '<br />'
-        + '<p>Text:<p>'
+        + '<p>Message:<p>'
         + '<p>' + form.text + '</p>'
     };
   }, { no_clone: true } )
