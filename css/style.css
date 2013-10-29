@@ -12,8 +12,10 @@ body {
 .navigation {
   width: 100%;
   margin: 0 auto;
-  position: absolute;
   z-index: 20;
+  -webkit-border-radius: 0px;
+     -moz-border-radius: 0px;
+          border-radius: 0px;
 }
 
 .navigation.navbar-inverse {
@@ -45,6 +47,7 @@ body {
   max-width: 1920px;
   margin: 0 auto;
   top: 50%;
+  margin-top:-20px;
   left: 0;
   right: 0;
 }
@@ -130,10 +133,6 @@ body {
 /* responsive style for tablets and smartphones */
 
 @media (max-width: 768px) {
-  .banner {
-    padding-top: 50px;
-  }
-  
   .banner .carousel-caption {
     width: 80%;
     padding: 10px;
@@ -148,4 +147,13 @@ body {
     margin: 15px 5px 5px 15px;
   }
   
+  .banner .carousel-control {
+    width: 20px;
+    height: 20px;
+    font-size: 17px;
+    line-height: 17px;
+    -webkit-border-radius: 10px;
+       -moz-border-radius: 10px;
+            border-radius: 10px;
+  }
 }
