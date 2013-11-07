@@ -90,23 +90,24 @@ body {
 }
 
 .banner .carousel-caption {
+  width: 60%;
   background: rgba( 0, 0, 0, 0.5 );
-  padding: 5px;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  padding: 10px;
+  left: 100px;
+  bottom: 50px;
 }
 
 .banner .carousel-caption h3 {
   color: #fff;
-  margin: 0px;
-  text-align: center;
+  margin: 0 0 0 20px;
+  font-size: 28px;
+  text-align: left;
 }
 
 .banner .carousel-caption p {
   color: #ccc;
-  margin: 30px 20px 10px 30px;
-  font-size: 16px;
+  margin: 30px 30px 20px 50px;
+  font-size: 18px;
   text-align: justify;
 }
 
@@ -136,15 +137,18 @@ body {
   .banner .carousel-caption {
     width: 80%;
     padding: 10px;
+    left: 50px;
+    bottom: 20px;
   }
   
   .banner .carousel-caption h3 {
     font-size: 16px;
+    margin-left: 10px;
   }
   
   .banner .carousel-caption p {
     font-size: 12px;
-    margin: 15px 5px 5px 15px;
+    margin: 15px 5px 5px 25px;
   }
   
   .banner .carousel-control {
@@ -155,5 +159,27 @@ body {
     -webkit-border-radius: 10px;
        -moz-border-radius: 10px;
             border-radius: 10px;
+  }
+}
+
+/* Portrait */
+@media screen and (orientation:portrait) {
+  .banner .carousel-caption {
+    position: relative;
+    background: none;
+    width: 80%;
+    left: 0;
+    margin: 0 auto;
+    bottom: 0;
+  }
+  
+  .banner .carousel-caption h3 {
+    margin: 20px 0 0;
+    font-size: 18px;
+  }
+  
+  .banner .carousel-caption p {
+    margin: 15px 0;
+    font-size: 14px
   }
 }
