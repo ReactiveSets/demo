@@ -171,3 +171,14 @@
   opacity: 1;
   filter: alpha(opacity=100);
 }
+
+/* responsive style for tablets and smartphones */
+
+@media (max-width: 768px) {
+  .gallery-container .xs-photo-matrix {
+    max-width: 100%;
+    max-height: 100%;
+    top: 0;
+  }
+
+}
