@@ -134,6 +134,10 @@ body {
 /* responsive style for tablets and smartphones */
 
 @media (max-width: 768px) {
+  .carousel-controls {
+    display: none;
+  }
+  
   .banner .carousel-caption {
     width: 80%;
     padding: 10px;

@@ -108,35 +108,39 @@ var thumbnails = gallery_images
   } )
 ;
 
-xs.set( [
+xs
+  .set( [
+    // HTML pages
     { name: 'index.html'    },
     { name: 'about.html'    },
     { name: 'gallery.html'  },
     { name: 'contact.html'  },
+    
+    // CSS files
     { name: 'bootstrap/css/bootstrap.css' },
-    { name: 'bootstrap/css/bootstrap-responsive.css' },
-    { name: 'css/style.css'   },
-    { name: 'css/gallery.css' },
-    { name: 'bootstrap/js/bootstrap.js' },
-    { name: 'js/carousel.js' },
-    { name: 'js/gallery.js'  },
-    { name: 'js/contact.js'  },
+    { name: 'css/style.css'               },
+    { name: 'css/gallery.css'             },
+    
+    // JS files
+    { name: 'bootstrap/js/bootstrap.js'   },
+    { name: 'js/hammer.js'                },
+    { name: 'js/carousel.js'              },
+    { name: 'js/gallery.js'               },
+    { name: 'js/contact.js'               },
+    
+    // Bootstrap fonts
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.eot'  },
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.svg'  },
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.ttf'  },
     { name: 'bootstrap/fonts/glyphicons-halflings-regular.woff' },
-    { name: 'css/images/icon-controls.png' },
-    { name: 'images/contact.jpg' }
+    { name: 'css/images/icon-controls.png' }
   ] )
   .auto_increment()
   .union( [ carousel_images, gallery_images, thumbnails ] )
   .watch( { base_directory: __dirname } )
   .union( [ client_min ] )
   
-  // .watch( { base_directory: __dirname } )
-  // .union( [ client_min, carousel_images.watch( { base_directory: __dirname } ) ] )
-  
-  .serve( servers, { hostname: [ 'localhost', 'castorcad.com', 'www.castorcad.com' ] } )
+  .serve( servers, { hostname: [ 'localhost', '192.168.0.22', 'castorcad.com', 'www.castorcad.com' ] } )
 ;
 
 var contact_form_fields = require( "./contact_form_fields.js" )

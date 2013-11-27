@@ -21,36 +21,47 @@ xs.union( [ gallery_images, gallery_thumbnails ] )
         interval: 5000,
         pause   : 'click',
         controls: {
-          matrix      : true,
-          play        : true,
-          download    : true
+          matrix : true,
+          play   : true
         }
       }
   } )
 ;
 
-var timer;
+var timer, hide_matrix_timer = 600;
 
-$( '.icon-matrix' )
-  .mouseenter( show ) // on mouseenter display the photo matrix box
-  .mouseleave( hide ) // on mouseleave close the photo matrix box
-;
+if( ( /iPhone|iPad|Android/i ).test( navigator.userAgent ) ) {
+  Hammer( photo_carousel_node ).on( 'tap', show );
+  Hammer( photo_matrix_node   ).on( 'tap', hide );
+  
+  hide_matrix_timer = 300;
+} else {
+  $( '.icon-matrix' )
+    .mouseenter( show ) // on mouseenter display the photo matrix box
+    .mouseleave( hide ) // on mouseleave close the photo matrix box
+  ;
+  
+  $( photo_matrix_node )
+    .mouseover ( function() { clearTimeout( timer ) } )
+    .mouseleave( hide )
+  ;
+}
 
-$( photo_matrix_node )
-  .mouseover ( function() { clearTimeout( timer ) } )
-  .mouseleave( hide )
-;
+return;
 
 // show photo matrix
 function show() {
   if( timer ) clearTimeout( timer );
   
   $( photo_matrix_node ).removeClass( 'hide' );
+  
+  return;
 }
 
 // hide photo matrix
 function hide() {
   timer = setTimeout( function() { $( photo_matrix_node ).addClass( 'hide' ) }, 600 );
+  return;
 }
 
 }( this );
