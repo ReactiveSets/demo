@@ -38,7 +38,7 @@ var contact_form_fields = ( this.XS || require( 'excess' ).XS ).xs
           id       : 'full-name'
         , type     : 'text'
         , label    : 'Prénom & Nom'
-        , style    : { field: 'form-control col-lg-4', label: 'control-label', container: 'form-group' }
+        , style    : { field: 'form-control', label: 'control-label', container: 'form-group' }
         , mandatory: true
       },
       
@@ -46,23 +46,23 @@ var contact_form_fields = ( this.XS || require( 'excess' ).XS ).xs
           id       : 'email'
         , type     : 'email'
         , label    : 'Email'
-        , style    : { field: 'form-control col-lg-4', label: 'control-label', container: 'form-group' }
+        , style    : { field: 'form-control', label: 'control-label', container: 'form-group' }
         , mandatory: true
       },
       
       {
-          id     : 'company'
-        , type   : 'text'
-        , label  : 'Société'
-        , style: { field: 'form-control col-lg-4', label: 'control-label', container: 'form-group' }
+          id       : 'company'
+        , type     : 'text'
+        , label    : 'Société'
+        , style    : { field: 'form-control', label: 'control-label', container: 'form-group' }
       },
       
       {
           id       : 'text'
         , type     : 'text_area'
         , label    : 'Message'
-        , rows     : 8
-        , style    : { field: 'form-control col-lg-7', label: 'control-label', container: 'form-group' }
+        , rows     : 5
+        , style    : { field: 'form-control', label: 'control-label', container: 'form-group' }
         , mandatory: true
       }
     ],

@@ -1,0 +1,17 @@
+#footer .form-horizontal .control-group > label {
+	float: none;
+	width: auto;
+	padding-top: 0;
+	text-align: left;
+}
+#footer .form-horizontal .controls {
+	margin-left: 0;
+}
+#footer .form-horizontal .control-list {
+	padding-top: 0;
+}
+#footer .form-horizontal .form-actions {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+#footer .submit-div {width:225px;}

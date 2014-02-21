@@ -20,12 +20,14 @@
   
   xs.form( document.getElementById( 'contact_form' ), 'contact_form', contact_form_fields,
     {
-      submit_label: 'Envoyer',
+      submit_label: 'ENVOYER',
       
       style : {
-        submit_button: 'btn btn-primary',
-        error        : 'error',
-        success      : 'success'
+        form         : 'form-horizontal',
+        submit_button: 'btn pull-right',
+        error        : 'has-error',
+        success      : 'has-success',
+        help_text    : 'help-block'
       }
     } )
     

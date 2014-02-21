@@ -17,22 +17,6 @@ var xs = XS.xs
         {
           title      :   "Serveurs",
           description:   "Nos serveurs de dernière génération permettent un rendu de la plus haute qualité dans des délais rapides compatibles avec des clients de plus en plus exigeants."
-        },
-        {
-          title      :   "Services aux Architectes",
-          description:   "Visualisation 3D réalistes de très haute qualité, utilisant les dernières technologies de rendu issues des développements "
-                       + "de l'animation 3D pour le cinéma. Permet aux architectes de proposer à leurs clients un dossier d'architecture à la pointe des technologies."
-        },
-        {
-          title      :   "Prévenir les Surprises",
-          description:   "Nous proposons des images réalistes en HD intérieur et extérieur ainsi que des vidéos de tours virtuels permettant à vos clients "
-                       + "de visualiser leur projet avant la réalisation et permettant ainsi de limiter au maximum les coûts de modifications en cours de chantier."
-        },
-        {
-          title      :   "Satisfaction Totale",
-          description:   "Notre approche de satisfaction totale de nos clients est basée sur un professionnalisme exemplaire, tant en terme de qualité du résultat, "
-                       + "qu'en terme de respect des délais convenus. Notre travail de collaboration directe avec les architectes et leurs designers se fait dans le "
-                       + "respect de la confidentialité et une interaction réactive et proactive."
         }
       ] )
       .auto_increment()
@@ -44,7 +28,7 @@ xs
   .plug( exports.carousel_images.to_uri().unique_set() )
   .load_images()
   .join( descriptions, [ [ 'id', 'id' ] ], join )
-  .bootstrap_carousel( document.getElementById( 'banner' ), { interval: 10000 } )
+  .bootstrap_carousel( document.getElementById( 'slider' ), { interval: 8000 } )
 ;
 
 // function join()

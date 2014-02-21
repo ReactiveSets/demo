@@ -4,11 +4,12 @@
 var $  = jQuery
   , xs = XS.xs
   
-  , server = xs.socket_io_server()
-  , gallery_images     = server.flow( 'gallery_images'     ).plug( exports.gallery_images.to_uri().unique_set() )
-  , gallery_thumbnails = server.flow( 'gallery_thumbnails' )
-  , photo_matrix_node  = document.getElementById( 'photo_matrix' )
-  , photo_carousel_node = document.getElementById( 'photo_carousel' )
+  , server              = xs.socket_io_server()
+  , gallery_images      = server.flow( 'gallery_images'     ).plug( exports.gallery_images.to_uri().unique_set() )
+  , gallery_thumbnails  = server.flow( 'gallery_thumbnails' )
+  
+  , photo_matrix_node   = document.getElementById( 'gallery_thumbnails' )
+  , photo_carousel_node = document.getElementById( 'gallery_carousel'   )
 ;
 
 xs.union( [ gallery_images, gallery_thumbnails ] )
@@ -18,16 +19,16 @@ xs.union( [ gallery_images, gallery_thumbnails ] )
     , images_flow     : 'gallery_images'
     , thumbnails_flow : 'gallery_thumbnails'
     , carousel_options: {
-        interval: 5000,
+        interval: 15000,
         pause   : 'click',
         controls: {
-          matrix : true,
-          play   : true
+          xmatrix : true,
+          xplay   : true
         }
       }
   } )
 ;
-
+/*
 var timer, hide_matrix_timer = 600;
 
 if( ( /iPhone|iPad|Android/i ).test( navigator.userAgent ) ) {
@@ -63,5 +64,5 @@ function hide() {
   timer = setTimeout( function() { $( photo_matrix_node ).addClass( 'hide' ) }, 600 );
   return;
 }
-
+*/
 }( this );

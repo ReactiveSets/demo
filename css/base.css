@@ -1,0 +1,614 @@
+@import url('http://fonts.googleapis.com/css?family=Droid+Sans');
+@import url('http://fonts.googleapis.com/css?family=Carme');
+
+/*--------------------------------------------------------------------------------------*/
+/*	Global properties (body, common classes, vertical rhythm, structure etc)
+/*--------------------------------------------------------------------------------------*/
+
+body {
+  color: #787878;
+  font-family: Arial,sans-serif;
+  font-size: 12px;
+}
+
+header,
+nav,
+section,
+article {
+  display: block;
+}
+
+figure {
+  background: none repeat scroll 0 0 transparent;
+  border: 0 none;
+  font-size: 100%;
+  margin: 0;
+  outline: 0 none;
+  padding: 0;
+  vertical-align: top;
+}
+
+.last {
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.clear {
+  clear: both;
+}
+
+.alignleft {
+  float: left !important;
+}
+
+.alignright {
+  float: right !important;
+}
+
+.aligncenter {
+  text-align: center !important;
+}
+
+.col-md-6.no-margin-left {
+  margin-left: 0!important;
+}
+
+/* Headers */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #555555;
+  font-family: 'Arial', sans-serif;
+}
+
+h1 {
+  color: #1E1E1E;
+  font-size: 26px;
+  line-height: 22px;
+  margin-bottom: 15px;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  line-height: 20px;
+}
+
+h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  line-height: 18px;
+  font-weight:400;
+}
+
+h4 {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+h5 {
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+h6 {
+  font-size: 12px;
+  margin-bottom:12px;
+}
+
+p {
+  margin-bottom: 15px;
+  line-height: 20px;
+}
+
+* p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.color,
+.color2 {
+  font-weight: 700;
+  padding: 0 2px;
+}
+
+.color {
+  color: #555;
+}
+
+.color2 {
+  color: #AF0319;
+}
+
+/* Link Styles */
+a {
+  color: #AF0319;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #1d1d1c;
+}
+
+.title a {
+  color: #AF0319;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+h4.title a {
+  font-size:16px;
+  font-weight:400;
+  letter-spacing: 0.05em;
+}
+
+.title a:hover {
+  color: #1d1d1c;
+}
+
+.desactivate #slider,
+.desactivate #container,
+.desactivate .footer,
+.desactivate .footer-menu {
+  xdisplay: none;
+}
+
+.desactivate {
+  overflow: hidden;
+}
+
+/*-----------------------------------------------------------------------------------*/
+/*	Header, Navigation & Menus
+/*-----------------------------------------------------------------------------------*/
+
+.message-top {
+  background-color: #AF0319;
+  border: 1px solid #AF0319;
+  color: #E6E9E7;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+button.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.notification {
+  background-color: transparent;
+  color: #FFFFFF;
+  padding: 8px 35px 8px 14px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.header{
+  position: relative;
+  padding: 30px 0 10px 0;
+}
+
+.header .logo img {
+  float: left;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+
+/* Main Menu */
+
+.res-menu {
+  display: none;
+  width: 100%;
+}
+
+.menu {
+  margin-top:15px;
+  float: right;
+}
+
+.menu > ul {
+  display: block;
+  margin-left:0;
+}
+
+.menu > ul > li {
+  list-style: none;
+  float: left;
+  position: relative;
+  background: none repeat scroll 0 0 transparent;
+  border: 1px solid #fff;
+  padding: 5px 10px;
+  margin-left: 5px;
+  border-radius: 3px;
+}
+
+.menu > ul > li > a {
+  font-size: 12px;
+  font-weight: 400;
+  color: #555;
+  display: block;
+  text-transform: uppercase;
+  font-family: 'Droid Sans', sans-serif;
+}
+
+.menu > ul > li.current > a {
+  color: #FFFFFF;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.menu > ul > li:hover > a {
+  color: #FFFFFF;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.menu > ul >li:hover {
+  background: none repeat scroll 0 0 #AF0319;
+  border: 1px solid #AF0319;
+  padding: 5px 10px;
+}
+
+.menu .current {
+  background: none repeat scroll 0 0 #AF0319;
+  border: 1px solid #AF0319;
+  padding: 5px 10px;
+}
+
+.menu select {
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+}
+
+
+/*-----------------------------------------------------------------------------------*/
+/*	Main Content Styles
+/*-----------------------------------------------------------------------------------*/
+
+.container {
+  position: relative;
+}
+
+#container {
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
+  position: relative;
+  background-color: #fff;
+}
+
+#container .container {
+  padding: 10px;
+}
+
+#container .container > .row {
+  margin-bottom: 10px;
+}
+
+#container .row.last {
+  margin-bottom: 30px;
+}
+
+.row.da-thumbs {
+  margin-bottom: 0 !important;
+}
+
+
+/* Carousel */
+
+.carousel {
+  border: 10px solid #FFFFFF;
+  box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.2);
+  margin-bottom: 40px;
+  margin-top: 40px;
+}
+
+.carousel .item img {
+  width: 100%;
+  display: block;
+}
+
+.carousel .carousel-caption {
+  background: rgba( 255, 255, 255, 0.5 );
+  bottom: 30px;
+  display: block;
+  font-family: 'Arial',sans-serif;
+  font-weight: 400 !important;
+  left: 40px;
+  line-height: 18px;
+  max-width: 450px;
+  padding: 20px;
+  position: absolute;
+  text-shadow: none;
+  text-align: justify;
+}
+
+.carousel .carousel-caption h3 {
+  color: #AF0319;
+  display: block;
+  font-size: 36px;
+  margin-bottom: 25px;
+  margin-top: 5px;
+}
+
+.carousel .carousel-caption p {
+  color: #1E1E1E;
+  font-size: 15px;
+}
+
+.carousel .carousel-controls {
+  height: 30px;
+  position: absolute;
+  right: 30px;
+  bottom: 40px;
+}
+
+.carousel a.carousel-control {
+  position: relative;
+  margin-left: 1px;
+  line-height: 20px;
+}
+
+.carousel a.carousel-control.left,
+.carousel a.carousel-control.right {
+  background-image: none;
+}
+
+.carousel a.carousel-control span {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  opacity: 0.7;
+  text-indent: -9999px;
+}
+
+.carousel .carousel-control .icon-prev,
+.carousel .carousel-control .icon-next {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.carousel a.carousel-control span.icon-prev {
+  background: url(../images/arrow-slider-left.png) no-repeat bottom right;
+}
+
+.carousel a.carousel-control span.icon-next {
+  background: url(../images/arrow-slider-right.png) no-repeat bottom right;
+}
+
+/* Welcome Slogan */
+
+.dropcaps {
+  background: none repeat scroll 0 0 #AF0319;
+  border: 1px solid #AF0319;
+  border-radius: 18px 18px 18px 18px;
+  color: #F5F5F5;
+  display: block;
+  float: left;
+  margin: 0 14px 5px 0;
+  padding: 5px 12px;
+  text-align: center;
+}
+
+.welcome {
+  text-align: center;
+  padding: 0 150px
+}
+
+.welcome h1 {
+  color: #1E1E1E;
+  font-family: droid sans;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 30px !important;
+  margin-bottom: 10px !important;
+  text-transform: uppercase;
+}
+
+.welcome h1 span {
+  color: #AF0319;
+}
+
+.welcome p {
+  line-height: 22px;
+  font-size: 12px;
+  color: #747474;
+  margin-bottom: 50px;
+}
+
+/* Divider */
+
+.title-divider {
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.title-divider h3 {
+  margin-bottom: 0 !important;
+  padding-right: 5px;
+  background-color: #fff;
+  position: relative;
+  display: inline-block;
+  _z-index: 1000;
+  font-size: 17px;
+  text-transform: uppercase;
+}
+
+.divider-arrow {
+  top:7px;
+  width: 100%;
+  position: absolute;
+}
+
+
+/*-----------------------------------------------------------------------------------*/
+/*	Footer Styles
+/*-----------------------------------------------------------------------------------*/
+
+.footer {
+  background: none repeat scroll 0 0 #E9E9E9;
+  border-top: 1px solid #D9D9D9;
+  padding-bottom: 35px !important;
+  padding-top: 30px;
+  position: relative;
+}
+
+.footer h3 {
+  margin-bottom: 25px;
+  font-size:16px;
+  color: #AF0319;
+  font-weight:400;
+  letter-spacing:0.05em;
+}
+
+.footer li {
+  margin-bottom: 10px;
+  list-style: none;
+}
+
+.footer p {
+  margin-bottom: 5px;
+}
+
+/* Contact Form */
+
+.footer #contact_form {
+  margin-bottom: 0px
+}
+
+.footer #contact_form input[type="text"] {
+  color: #777;
+  border: 1px inset rgba(0,0,0, 0.3);
+  background-color: transparent ;
+  margin-bottom: 1px !important;
+  height: 24px;
+  border-radius: 3px;
+}
+
+.footer #contact_form span.help-block {
+  width: 63%;
+  clear: both;
+  float: right;
+  margin: 5px 18px 5px 0;
+}
+
+.footer #contact_form input:focus,
+.footer #contact_form textarea:focus {
+  box-shadow: none;
+  background-color: rgba(150,150,150, 0.1) !important;
+}
+
+.footer #contact_form textarea {
+  color: #777;
+  padding: 5px;
+  height: 60px;
+  overflow: auto;
+  margin-bottom: 2px;
+  border: 1px inset rgba(0,0,0, 0.3);
+  background-color: transparent;
+  border-radius: 3px;
+}
+
+.footer #contact_form .btn {
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid #A4A4A4;
+  border-radius: 3px 3px 3px 3px;
+  box-shadow: none;
+  color: #7D7D7D;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 900;
+  padding: 4px 10px;
+  text-shadow: none;
+}
+
+.footer #contact_form .btn:hover {
+  text-decoration: none;
+  background-color:  rgba(150,150,150, 0.1);
+  *background-color:  rgba(150,150,150, 0.1);
+  /* Buttons in IE7 don't get borders, so darken on hover */
+}
+
+.footer .form-horizontal .form-group {
+  margin: 0 0px;
+}
+
+.footer .form-horizontal .control-label {
+  width: 88px;
+  float: left;
+  padding: 3px 0px;
+}
+
+.footer .form-horizontal .form-control {
+  width: 63%;
+  float: right;
+}
+
+/* Footer Menu */
+
+.footer-menu {
+  width: 100%;
+  background-color: #AF0319;
+}
+
+.footer-menu .container {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.footer-menu li {
+  list-style: none;
+  padding: 15px 0;
+  margin-left: 10px;
+  float: left;
+  font-size: 10px;
+}
+
+.footer-menu a {
+  font-weight: 400;
+  color: #fff;
+  font-size:11px;
+}
+
+.footer-menu a:hover {
+  color: #ccc;
+}
+
+.footer-menu p {
+  font-size: 11px;
+  color: #fff;
+  padding-top: 14px;
+  letter-spacing: 0.04px;
+}
+
+/* Back to Top; Jquery UI ToTop Plugin  */
+#toTop {
+  background: url("../images/ui.totop.png") no-repeat scroll left top transparent;
+  border: medium none;
+  bottom: 6px;
+  display: none;
+  height: 40px;
+  overflow: hidden;
+  position: fixed;
+  right: 10px;
+  text-decoration: none;
+  text-indent: -999px;
+  width: 40px;
+}
+
+#toTopHover {
+  background: url("../images/ui.totop.png") no-repeat scroll left -40px transparent;
+  display: block;
+  float: left;
+  height: 40px;
+  opacity: 0;
+  overflow: hidden;
+  width: 40px;
+}
+
+#toTop:active, #toTop:focus {
+  outline: medium none;
+}

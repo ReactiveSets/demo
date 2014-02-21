@@ -1,0 +1,111 @@
+/*-----------------------------------------------------------------------------------*/
+/*	Responsive Fixes
+/*-----------------------------------------------------------------------------------*/
+
+@media screen and (min-width: 768px) {
+  .carousel-control .icon-prev,
+  .carousel-control .icon-next {
+    margin: 0px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  .welcome {
+    padding: 0;
+  }
+  
+  [class*="col-md-"] {
+    float: left;
+    min-height: 1px;
+    margin-left: 20px;
+    padding: 0px;
+  }
+  
+  .col-md-3 {
+    width: 166px;
+  }
+  
+  .title-divider.col-md-12 {
+    float: none;
+  }
+  
+  .footer #contact_form input[type="text"],
+  .footer #contact_form textarea {
+    width: 63%
+  }
+}
+
+@media (max-width: 767px) {
+  body {
+    padding:0
+  }
+  
+  .container{
+    padding: 0 20px;
+  }
+  
+  .menu {
+    width: 245px;
+  }
+  
+  .menu ul {
+    display: none;
+  }
+  
+  .res-menu {
+    width: 100%;
+    display: block;
+  }
+  
+  .logo {
+    text-align:center;
+  }
+  
+  .container .row {
+    margin: 0px;
+  }
+  
+  .container > .row [class*="col-md-"] {
+    width: 100%;
+    display: block;
+    float: none;
+    margin-bottom: 30px;
+    box-sizing: border-box;
+  }
+  
+  .container > .row > [class*="col-md-"]:last-child {
+    margin-bottom: 0 !important;
+  }
+  
+  .welcome {
+    padding: 0;
+  }
+  
+  .footer-menu .col-md-4 {
+    margin-bottom: 15px;
+    text-align:center;
+  }
+}
+
+@media (max-width: 480px){
+  .header .logo {
+    margin-bottom: 25px;
+  }
+  
+  .header .logo img {
+    float: none;
+  }
+  
+  .menu {
+    float: none;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .footer .form-horizontal .form-group > label {
+    float: left;
+    width: auto;
+    padding-top: 0;
+    text-align: left;
+  }
+}

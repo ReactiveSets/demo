@@ -1,4 +1,4 @@
-/*  carousel_images.js
+/*  projects_images.js
     
     ----
     
@@ -17,16 +17,21 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+
 "use strict";
 
-var carousel_images = ( this.XS || require( 'excess' ).XS ).xs
+var projects_images = ( this.XS || require( 'excess' ).XS ).xs
   .set( [
-    { name: 'images/carousel-01.jpg' },
-    { name: 'images/carousel-02.jpg' },
-    { name: 'images/carousel-03.jpg' }
+    { name: 'images/project-01.jpg' },
+    { name: 'images/project-02.jpg' },
+    { name: 'images/project-03.jpg' },
+    { name: 'images/project-04.jpg' },
+    { name: 'images/project-05.jpg' },
+    { name: 'images/project-06.jpg' }
   ] )
-  .set_flow( 'carousel_images' )
+  .set_flow( 'projects_images' )
   .auto_increment()
 ;
 
-if ( typeof module != 'undefined' ) module.exports = carousel_images;
+if ( typeof module != 'undefined' ) module.exports = projects_images;
