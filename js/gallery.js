@@ -19,15 +19,63 @@ xs.union( [ gallery_images, gallery_thumbnails ] )
     , images_flow     : 'gallery_images'
     , thumbnails_flow : 'gallery_thumbnails'
     , carousel_options: {
-        interval: 15000,
-        pause   : 'click',
+        interval: false,
+        pause   : true,
         controls: {
           xmatrix : true,
           xplay   : true
         }
       }
   } )
+  .on( 'complete', set_thumbnails_width )
 ;
+
+var $controls   = $( '.gallery-thumbnails-controls'  )
+  , $container  = $( '.gallery-thumbnails-container' )
+  , $thumbnails = $( '#gallery_thumbnails'           )
+  , nbr_thmbnails  = 0
+;
+
+$controls.click( function( e ) {
+  var $target  = $( e.target )
+    , viewport_width      = $container.width()
+    , thumbnails_width    = $thumbnails.width()
+    , thumbnails_position = $thumbnails.position().left
+    , sliding_step        = ( thumbnails_width / nbr_thmbnails ) * 3
+  ;
+  
+  if( $target.hasClass( 'right' ) ) {
+    A = thumbnails_width - viewport_width + thumbnails_position;
+    
+    if( A >= 0 && A < sliding_step ) sliding_step = A + 1;
+    
+    if( A > 0 ) $thumbnails.animate( { 'left': '-=' + sliding_step + 'px' }, 'medium' );
+  }
+  
+  
+  if( $target.hasClass( 'left' ) ) {
+    if( Math.abs( thumbnails_position ) < sliding_step ) sliding_step = Math.abs( thumbnails_position );
+    
+    if( thumbnails_position !== 0 ) $thumbnails.animate( { 'left': '+=' + sliding_step + 'px' }, 'medium' );
+  }
+} );
+
+
+function _left ( $node ) { $node.animate( { 'left': '+=120px' }, 'slow' ) }
+function _right( $node ) { $node.animate( { 'left': '-=120px' }, 'slow' ) }
+
+// set the thumbnails viewport width when the thumbnails are loaded
+function set_thumbnails_width() {
+  var width = 0
+    , nodes = $thumbnails.children()
+    , l     = nbr_thmbnails = nodes.length
+  ;
+  
+  for( var i = l; i; ) width += nodes[ --i ].offsetWidth + 2;
+  
+  $thumbnails.width( width );
+}
+
 /*
 var timer, hide_matrix_timer = 600;
 

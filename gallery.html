@@ -16,7 +16,7 @@
     
     <link href="css/base.css"             type="text/css" rel="stylesheet" /> <!-- base css style for all web pages -->
     <link href="css/responsive_fixes.css" type="text/css" rel="stylesheet" /> <!-- responsive fixes -->
-    <link href="css/_gallery.css"         type="text/css" rel="stylesheet" /> <!-- css style for projects section -->
+    <link href="css/gallery.css"          type="text/css" rel="stylesheet" /> <!-- css style for gallery -->
     <link href="css/prettyPhoto.css"      type="text/css" rel="stylesheet" /> <!-- css style for jQuery plugin prettyOhoto *? -->
     
     <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
@@ -73,7 +73,13 @@
         <!-- Gallery: start -->
         <div class="row">
           <div id="gallery_carousel"></div>
-          <div id="gallery_thumbnails"></div>
+          
+          <div id="" class="gallery-thumbnails-controls left" ></div>
+          <div id="" class="gallery-thumbnails-controls right"></div>
+          
+          <div class="gallery-thumbnails-container">
+            <div id="gallery_thumbnails" class="viewport"></div>
+          </div>
         </div>
         <!-- Gallery: end -->
       </div>
