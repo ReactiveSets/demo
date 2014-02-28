@@ -31,6 +31,7 @@ require( 'excess/lib/server/socket_io_clients.js' );
 require( 'excess/lib/server/uglify.js' );
 require( 'excess/lib/server/mailer.js' );
 require( 'excess/lib/uri.js' );
+require( 'excess/lib/join.js' );
 require( 'excess/lib/order.js' );
 require( 'excess/lib/form.js' );
 require( 'excess/lib/thumbnails.js' );
@@ -68,13 +69,16 @@ var client_min = xs
       { name: 'excess/lib/join.js'                  },
       { name: 'excess/lib/events.js'                },
       { name: 'excess/lib/uri.js'                   },
+      { name: 'excess/lib/last.js'                  },
       
       // xs.ui
-      { name: 'excess/lib/selector.js'              },
-      { name: 'excess/lib/form.js'                  },
-      { name: 'excess/lib/load_images.js'           },
-      { name: 'excess/lib/bootstrap_photo_album.js' },
-      { name: 'excess/lib/bootstrap_carousel.js'    },
+      { name: 'excess/lib/selector.js'                },
+      { name: 'excess/lib/client/animation_frames.js' },
+      { name: 'excess/lib/client/url.js'              },
+      { name: 'excess/lib/form.js'                    },
+      { name: 'excess/lib/load_images.js'             },
+      { name: 'excess/lib/bootstrap_photo_album.js'   },
+      { name: 'excess/lib/bootstrap_carousel.js'      },
       
       // socket.io server access
       { name: 'excess/lib/socket_io_crossover.js'   },
@@ -86,6 +90,7 @@ var client_min = xs
       { name: 'contact_form_fields.js' },
       { name: 'gallery_images.js'      },
       { name: 'carousel_images.js'     },
+      { name: 'albums_images.js'       },
       { name: 'projects_images.js'     }
     ] ) 
   ] )
@@ -98,6 +103,7 @@ var client_min = xs
 var carousel_images = require( './carousel_images.js' )
   , gallery_images  = require( './gallery_images.js'  )
   , projects_images = require( './projects_images.js' )
+  , albums_images   = require( './albums_images.js'   )
 ;
 
 var thumbnails = gallery_images
@@ -123,10 +129,11 @@ var projects_thumbnails = projects_images
 xs
   .set( [
     // HTML pages
-    { name: 'index.html'    },
-    { name: 'about.html'    },
-    { name: 'gallery.html'  },
-    { name: 'contact.html'  },
+    { name: 'index.html'   },
+    { name: 'about.html'   },
+    { name: 'gallery.html' },
+    { name: 'contact.html' },
+    { name: 'albums.html'  },
     
     // CSS files
     // { name: 'bootstrap/css/bootstrap.css' },
@@ -135,6 +142,8 @@ xs
     { name: 'css/base.css'             },
     { name: 'css/responsive_fixes.css' },
     { name: 'css/projects.css'         },
+    { name: 'css/gallery.css'          },
+    { name: 'css/albums.css'           },
     { name: 'css/prettyPhoto.css' },
     
     // JS files
@@ -145,6 +154,7 @@ xs
     { name: 'js/gallery.js'               },
     { name: 'js/projects.js'              },
     { name: 'js/contact.js'               },
+    { name: 'js/albums.js'                },
     
     // jQuery plugins
     { name: 'js/jquery.ui.totop.js'       },
@@ -171,10 +181,13 @@ xs
     { name: 'images/sprite.png'             },
     { name: 'images/ui.totop.png'           },
     { name: 'images/arrow-slider-left.png'  },
-    { name: 'images/arrow-slider-right.png' }
+    { name: 'images/arrow-slider-right.png' },
+    { name: 'images/arrow-left.png'         },
+    { name: 'images/arrow-right.png'        }
+
   ] )
   .auto_increment()
-  .union( [ carousel_images, gallery_images, thumbnails, projects_images, projects_thumbnails ] )
+  .union( [ carousel_images, gallery_images, thumbnails, projects_images, projects_thumbnails, albums_images.alter( fix_image_name ) ] )
   .watch( { base_directory: __dirname } )
   .union( [ client_min ] )
   
@@ -187,7 +200,7 @@ var contact_form_fields = require( "./contact_form_fields.js" )
 
 // Serve contact_form_fields to socket.io clients
 contact_form_fields
-  .union( [ carousel_images.to_uri(), thumbnails.to_uri(), projects_images.to_uri(), projects_thumbnails.to_uri() ] )
+  .union( [ carousel_images.to_uri(), thumbnails.to_uri(), projects_images.to_uri(), projects_thumbnails.to_uri(), albums_images ] )
   
   .trace( 'contact_form_fields, carousel images and thumbnails to clients' )
   
@@ -243,5 +256,10 @@ contact_form_fields
   
   .trace( 'email sent' )
 ;
+
+function fix_image_name( image ) {
+  return XS.extend_2( image, { name: 'albums/' + image.album_id + '/' + image.name } );
+}
+
 
 } // module.exports

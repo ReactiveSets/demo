@@ -1,0 +1,107 @@
+/*
+  CastorCAD photo albums style
+*/
+
+.xs-photo-matrix div {
+  width: 25%;
+  float: left;
+  padding:5px;
+}
+
+.xs-photo-matrix div img {
+  cursor: pointer;
+}
+
+.xs-photo-matrix div img:hover {
+  background-color: #3387cc;
+}
+
+.album-carousel-container {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  background: rgba( 0, 0, 0, 0.8 );
+}
+
+.album-carousel-container .xs-modal-close {
+  width: 30px;
+  height: 30px;
+  background: url( "../images/sprite.png" ) 0 1px no-repeat;
+  position: absolute;
+  z-index: 12;
+  right: 9%;
+  top: 3%;
+  cursor: pointer;
+}
+
+.album-carousel-container .carousel {
+  width: 80%;
+  height: 90%;
+  background: none;
+  top: 5%;
+  left: 10%;
+  margin: 0px;
+  border: none;
+  box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.2);
+  padding: 0px;
+}
+
+.album-carousel-container .carousel img {
+  width: auto;
+  max-height: 100%;
+  margin: 0px auto;
+}
+
+.album-carousel-container .carousel .carousel-caption {
+  display: none;
+}
+
+.footer-menu {
+  display: none;
+  xposition: absolute;
+  bottom: 0px;
+}
+
+@media (max-width: 767px) {
+  .header {
+    padding: 10px;
+  }
+  
+  .header .logo img {
+    margin-bottom: 5px;
+  }
+  
+  .album-carousel-container .xs-modal-close {
+    top: 0px;
+    right: 0px;
+  }
+  
+  .album-carousel-container .carousel {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    xpadding: 30px 0 0 0;
+  }
+  
+  .xs-photo-matrix div {
+    width: 33%;
+  }
+}
+
+@media (max-width: 480px){
+  .header .logo {
+    margin-bottom: 5px;
+  }
+  
+  .xs-photo-matrix div {
+    width: 50%;
+  }
+  
+  .album-carousel-container .carousel img {
+    margin-top: 40px;
+  }
+}
