@@ -338,44 +338,48 @@ button.close {
 }
 
 .carousel .carousel-controls {
-  height: 30px;
   position: absolute;
   right: 30px;
-  bottom: 40px;
+  bottom: 30px;
 }
 
-.carousel a.carousel-control {
+.carousel .carousel-control {
+  width: 50px;
   position: relative;
-  margin-left: 1px;
-  line-height: 20px;
+  display: inline-block;
+  margin: 0 2px;
+  opacity: 0.6;
+  font-size: 18px;
+  font-weight: 100;
+  background: rgba( 0, 0, 0, 0.5 );
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.carousel a.carousel-control.left,
-.carousel a.carousel-control.right {
+.carousel .carousel-control:hover {
+  opacity: 0.9;
+}
+
+.carousel .carousel-control.left,
+.carousel .carousel-control.right {
   background-image: none;
 }
 
-.carousel a.carousel-control span {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  opacity: 0.7;
-  text-indent: -9999px;
+.carousel .carousel-control .glyphicon {
+  line-height: 35px;
 }
 
-.carousel .carousel-control .icon-prev,
-.carousel .carousel-control .icon-next {
+.carousel .carousel-control .glyphicon-chevron-left,
+.carousel .carousel-control .glyphicon-chevron-right,
+.carousel .carousel-control .glyphicon-play,
+.carousel .carousel-control .glyphicon-pause,
+.carousel .carousel-control .glyphicon-save {
   position: relative;
-  top: 0;
+  top: 1px;
   left: 0;
-}
-
-.carousel a.carousel-control span.icon-prev {
-  background: url(../images/arrow-slider-left.png) no-repeat bottom right;
-}
-
-.carousel a.carousel-control span.icon-next {
-  background: url(../images/arrow-slider-right.png) no-repeat bottom right;
+  right: 0;
+  z-index: 5;
+  display: block;
 }
 
 /* Welcome Slogan */

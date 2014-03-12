@@ -2,40 +2,32 @@
 
 !function( exports ) {
 
-// 76e8c857-0c49-4aba-9af3-7e0d3dfc3e12
-// 7d78d170-f1b4-4083-baf4-b916091dd27b
-// c27b1943-8406-4f33-8597-8d3d6b7b7236
+// 76e8c857-0c49-4aba-9af3-7e0d3dfc3e12 // deroua
+// 7d78d170-f1b4-4083-baf4-b916091dd27b // daien
+// c27b1943-8406-4f33-8597-8d3d6b7b7236 // dian
 
 var $  = jQuery
   , xs = XS.xs
   
-  , server        = xs.socket_io_server()
-  , albums_images = server
-      .flow( 'albums_images' )
-      .plug( exports.albums_images.unique_set() )
-  
-  // , gallery_thumbnails  = server.flow( 'gallery_thumbnails' )
+  , server      = xs.socket_io_server()
+  , by_album_id = xs
+      .url_events()
+      .url_parse ()
+      .alter( get_album_id, { key: [ 'album_id' ], no_clone: true } )
+      .last()
+      .trace( 'filter by album_id' )
+    
   , album_thumbnails_node = document.getElementById( 'album_thumbnails' )
   , album_carousel_node   = document.getElementById( 'album_carousel'   )
 ;
 
-var by_album_id = xs
-  .url_events()
-  .url_parse ()
-  .alter( get_album_id, { key: [ 'album_id' ], no_clone: true } )
-  .last()
-  .trace( 'filter by album_id' )
-;
-
-albums_images
-  .filter( by_album_id )
-  .alter( fix_image_name ).to_uri()
-  .trace( 'current album images uris' )
+server
   .bootstrap_photo_album( album_thumbnails_node, album_carousel_node, {
-      album_name      : 'album_' //hash
-    , images_flow     : 'albums_images'
-    , thumbnails_flow : 'albums_images' // album_thumbnails
-    , carousel_options: { pause: true, interval: false, hide_controls: false }
+      album_name     : 'album' //hash
+    , images_flow    : 'albums_images'
+    , thumbnails_flow: 'albums_thumbnails' // album_thumbnails
+    , query          : by_album_id
+    , auto_start     : false
   } )
 ;
 
@@ -61,21 +53,15 @@ function _close( e ) {
     break;
     
     case 'keyup':
-      if( ! $( '.album-carousel-container' ).hasClass( 'hide' ) ) _close_modal();
+      if( ! $( '.album-carousel-container' ).hasClass( 'hide' ) && e.keyCode === 27 ) _close_modal();
     break;
   }
   
   return;
   
   function _close_modal() {
-    console.log( e.type );
-    
     $( '.album-carousel-container' ).addClass( 'hide' );
   }
-}
-
-function fix_image_name( image ) {
-  return XS.extend_2( image, { name: 'albums/' + image.album_id + '/' + image.name } );
 }
 
 function get_album_id( value ) {

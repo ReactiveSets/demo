@@ -12,6 +12,11 @@
   cursor: pointer;
 }
 
+.xs-photo-matrix div.active img,
+.xs-photo-matrix div.active img:hover {
+  background-color: #AF0319;
+}
+
 .xs-photo-matrix div img:hover {
   background-color: #3387cc;
 }
@@ -55,15 +60,13 @@
   margin: 0px auto;
 }
 
-.album-carousel-container .carousel .carousel-caption {
-  display: none;
-}
-
 .footer-menu {
   display: none;
   xposition: absolute;
   bottom: 0px;
 }
+
+/* bootstrap carousel */
 
 @media (max-width: 767px) {
   .header {

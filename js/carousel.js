@@ -20,14 +20,20 @@ var xs = XS.xs
         }
       ] )
       .auto_increment()
+  
+  , carousel_images = xs
+      .socket_io_server()
+      .flow( 'carousel_images' )
 ;
 
-xs
-  .socket_io_server()
-  .flow( 'carousel_images' )
-  .plug( exports.carousel_images.to_uri().unique_set() )
+carousel_images = xs
+  .union( [ exports.carousel_images.to_uri(), carousel_images ] )
+  
+  .unique_set()
+  
   .load_images()
-  .join( descriptions, [ [ 'id', 'id' ] ], join )
+  
+  // .join( descriptions, [ [ 'id', 'id' ] ], join )
   .bootstrap_carousel( document.getElementById( 'slider' ), { interval: 8000 } )
 ;
 

@@ -104,14 +104,25 @@ var carousel_images = require( './carousel_images.js' )
   , gallery_images  = require( './gallery_images.js'  )
   , projects_images = require( './projects_images.js' )
   , albums_images   = require( './albums_images.js'   )
+      .alter( fix_image_name )
 ;
 
 var thumbnails = gallery_images
-  //.thumbnails( { path: 'images/', width: 125, height: 80, base_directory: __dirname } )
+  .thumbnails( { path: 'images/', width: 125, height: 80, base_directory: __dirname } )
   .set_flow( 'gallery_thumbnails' )
-  .on( 'complete', function() {
-    thumbnails.fetch_all( function( values ) {
-      de&&ug( 'Thumbnails generation complete, count: ' + values.length );
+  ._on( 'complete', function() {
+    thumbnails._fetch_all( function( values ) {
+      de&&ug( 'Gellery Thumbnails generation complete, count: ' + values.length );
+    } );
+  } )
+;
+
+var albums_thumbnails = albums_images
+  .thumbnails( { path: 'images/', width: 300, height: 180, base_directory: __dirname } )
+  .set_flow( 'albums_thumbnails' )
+  ._on( 'complete', function() {
+    albums_thumbnails._fetch_all( function( values ) {
+      de&&ug( 'Albums Thumbnails generation complete, count: ' + values.length );
     } );
   } )
 ;
@@ -119,8 +130,8 @@ var thumbnails = gallery_images
 var projects_thumbnails = projects_images
   .thumbnails( { path: 'images/', width: 700, height: 520, base_directory: __dirname } )
   .set_flow( 'projects_thumbnails' )
-  .on( 'complete', function() {
-    projects_thumbnails.fetch_all( function( values ) {
+  ._on( 'complete', function() {
+    projects_thumbnails._fetch_all( function( values ) {
       de&&ug( 'Projects Thumbnails generation complete, count: ' + values.length );
     } );
   } )
@@ -136,62 +147,38 @@ xs
     { name: 'albums.html'  },
     
     // CSS files
-    // { name: 'bootstrap/css/bootstrap.css' },
-    // { name: 'css/style.css'               },
-    // { name: 'css/gallery.css'             },
     { name: 'css/base.css'             },
     { name: 'css/responsive_fixes.css' },
     { name: 'css/projects.css'         },
     { name: 'css/gallery.css'          },
     { name: 'css/albums.css'           },
-    { name: 'css/prettyPhoto.css' },
     
     // JS files
-    // { name: 'bootstrap/js/bootstrap.js'   },
-    { name: 'js/hammer.js'                },
-    { name: 'js/navigation.js' },
-    { name: 'js/carousel.js'              },
-    { name: 'js/gallery.js'               },
-    { name: 'js/projects.js'              },
-    { name: 'js/contact.js'               },
-    { name: 'js/albums.js'                },
+    { name: 'js/hammer.js'             },
+    { name: 'js/navigation.js'         },
+    { name: 'js/carousel.js'           },
+    { name: 'js/gallery.js'            },
+    { name: 'js/projects.js'           },
+    { name: 'js/contact.js'            },
+    { name: 'js/albums.js'             },
     
     // jQuery plugins
-    { name: 'js/jquery.ui.totop.js'       },
-    { name: 'js/jquery.easing.1.3.js' },
-    { name: 'js/jquery.quicksand.js' },
-    { name: 'js/hoverIntent.js' },
-    { name: 'js/jquery.hoverdir.js' },
-    { name: 'js/jquery.prettyPhoto.js' },
-    { name: 'js/jquery.elastislide.js' },
-    { name: 'js/smoothscroll.js' },
-    { name: 'js/accordion.settings.js' },
-    // { name: 'js/main.js'       },
+    { name: 'js/jquery.ui.totop.js'    },
+    { name: 'js/jquery.easing.1.3.js'  },
     
-    /*
-    // Bootstrap fonts
-    { name: 'bootstrap/fonts/glyphicons-halflings-regular.eot'  },
-    { name: 'bootstrap/fonts/glyphicons-halflings-regular.svg'  },
-    { name: 'bootstrap/fonts/glyphicons-halflings-regular.ttf'  },
-    { name: 'bootstrap/fonts/glyphicons-halflings-regular.woff' },
-    */
     // additional PNG images for css styles
     { name: 'images/favicon.png'            },
     { name: 'images/logo.png'               },
     { name: 'images/sprite.png'             },
-    { name: 'images/ui.totop.png'           },
-    { name: 'images/arrow-slider-left.png'  },
-    { name: 'images/arrow-slider-right.png' },
-    { name: 'images/arrow-left.png'         },
-    { name: 'images/arrow-right.png'        }
+    { name: 'images/ui.totop.png'           }
 
   ] )
   .auto_increment()
-  .union( [ carousel_images, gallery_images, thumbnails, projects_images, projects_thumbnails, albums_images.alter( fix_image_name ) ] )
+  .union( [ carousel_images, gallery_images, thumbnails, projects_images, projects_thumbnails, albums_images, albums_thumbnails ] )
   .watch( { base_directory: __dirname } )
   .union( [ client_min ] )
   
-  .serve( servers, { hostname: [ 'localhost', '192.168.0.22', 'castorcad.com', 'www.castorcad.com' ] } )
+  .serve( servers, { hostname: [ 'localhost', '192.168.0.22', '192.168.1.14', 'castorcad.com', 'www.castorcad.com' ] } )
 ;
 
 var contact_form_fields = require( "./contact_form_fields.js" )
@@ -200,7 +187,7 @@ var contact_form_fields = require( "./contact_form_fields.js" )
 
 // Serve contact_form_fields to socket.io clients
 contact_form_fields
-  .union( [ carousel_images.to_uri(), thumbnails.to_uri(), projects_images.to_uri(), projects_thumbnails.to_uri(), albums_images ] )
+  .union( [ carousel_images.to_uri(), gallery_images.to_uri(), thumbnails.to_uri(), projects_images.to_uri(), projects_thumbnails.to_uri(), albums_images.to_uri(), albums_thumbnails.to_uri() ] )
   
   .trace( 'contact_form_fields, carousel images and thumbnails to clients' )
   
@@ -258,6 +245,5 @@ contact_form_fields
 function fix_image_name( image ) {
   return XS.extend_2( image, { name: 'albums/' + image.album_id + '/' + image.name } );
 }
-
 
 } // module.exports

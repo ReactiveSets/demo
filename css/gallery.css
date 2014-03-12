@@ -4,6 +4,92 @@
 */
 
 #gallery_carousel.carousel {
+  margin: 0px 0px 10px 0px;
+}
+
+#gallery_carousel.carousel img {
+  width: auto;
+  max-height: 580px;
+  margin: 0px auto;
+}
+
+.gallery-thumbnails-controls {
+  width: 28px;
+  height: 69px;
+  float: right;
+  font-size: 16px;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0,0,0,.6);
+  color: #fff;
+  background: rgba( 0, 0, 0, 0.4 );
+  border-radius: 4px;
+  margin-left: 2px;
+  cursor: pointer;
+}
+
+.gallery-thumbnails-controls:hover {
+  background: rgba( 0, 0, 0, 0.8 );
+}
+
+.gallery-thumbnails-controls.desactive {
+  color: red;
+}
+
+.gallery-thumbnails-controls span {
+  height: 69px;
+  line-height: 70px;
+  display: block;
+}
+
+.gallery-thumbnails-container {
+  width: auto;
+  height: 70px;
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-thumbnails-container .viewport {
+  position: absolute;
+  white-space: nowrap;
+}
+
+#gallery_thumbnails div {
+  width: 100px;
+  height: 70px;
+  display: inline-block;
+  margin: 0px 1px;
+}
+
+#gallery_thumbnails div img {
+  max-width: 100px;
+  height: 100%;
+  display: block;
+  margin: 0px auto;
+  cursor: pointer;
+  
+  -webkit-filter: grayscale( 90% );
+     -moz-filter: grayscale( 90% );
+      -ms-filter: grayscale( 90% );
+       -o-filter: grayscale( 90% );
+          filter: grayscale( 90% );
+}
+
+#gallery_thumbnails div.active img {
+  -webkit-filter: grayscale( 0% ) sepia( 35% );
+     -moz-filter: grayscale( 0% ) sepia( 35% );
+      -ms-filter: grayscale( 0% ) sepia( 35% );
+       -o-filter: grayscale( 0% ) sepia( 35% );
+          filter: grayscale( 0% ) sepia( 35% );
+  
+}
+
+#_gallery_thumbnails div img.img-thumbnail {
+  padding: 1px;
+  border-radius: 3px;
+}
+
+/*
+#gallery_carousel.carousel {
   margin: 0px 0px 5px 0px;
   border: none;
   box-shadow: none;
@@ -91,3 +177,4 @@
   xborder-color: #AF0319;
   opacity: 1;
 }
+*/
