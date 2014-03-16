@@ -1,0 +1,20 @@
+/*
+  CastorCAD Contact style
+*/
+
+.contact input.col-lg-4, .contact textarea.col-lg-7 {
+  float: none;
+}
+
+.contact .has-success .control-label {
+  color: #333;
+}
+
+.contact .form-group {
+  position: relative;
+}
+.contact span.help-block {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
