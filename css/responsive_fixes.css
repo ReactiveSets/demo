@@ -2,13 +2,6 @@
 /*	Responsive Fixes
 /*-----------------------------------------------------------------------------------*/
 
-@media screen and (min-width: 768px) {
-  .carousel-control .icon-prev,
-  .carousel-control .icon-next {
-    margin: 0px;
-  }
-}
-
 @media (min-width: 768px) and (max-width: 979px) {
   .welcome {
     padding: 0;
@@ -79,6 +72,11 @@
   
   .welcome {
     padding: 0;
+  }
+  
+  .xs-modal .xs-modal-close {
+    top: 5px;
+    right: 5px;
   }
   
   .footer-menu .col-md-4 {

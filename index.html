@@ -68,79 +68,66 @@
     <!-- content: start -->
     <section id="container">
       <div class="container">
-        <!-- welcome: start -->
-        <section class="welcome">
-          <h1>Ut nulla <span>eget massa</span> blandit eleifend sed lacus!</h1>
-          <p>
-            Sed at viverra nulla. Fusce vel adipiscing odio. 
-            <span class="color2">Phasellus commodo</span>, 
-            mauris eget pharetra scelerisque, est justo lacinia tortor, non molestie quam elit in metus. 
-            Nunc malesuada, massa in volutpat bibendum, sem dolor ornare lacus, id sagittis erat magna <span class="color2">in purus</span>.
-          </p>
-        </section>
-        <!-- welcome: end -->
+        <div class="row">
+          <div class="col-md-4 clearfix">
+            <h1>CastorCad</h1>
+            
+            <p>
+              CastorCAD est le fruit de la réunion d’une équipe de passionnés d’animation 3D désireux de faire profiter les architectes et leurs 
+              clients des dernières technologies de rendu haute définition afin d’augmenter la qualité et le professionnalisme de la réalisation de projets.
+            </p>
+          </div>
+          
+          <div class="col-md-4 clearfix">
+            <h1>Collaborateurs</h1>
+            
+            <p>
+              Nos collaborateurs sont formés à l'utilisation des logiciels de modélisation et de rendu 3D dernière génération. Issus de grandes écoles 
+              internationales ou autodidactes passionnés, nous recrutons en fonction de compétences vérifiées par un portefeuille de réalisations.
+            </p>
+          </div>
+          
+          <div class="col-md-4 clearfix">
+            <h1>Satisfaction Totale</h1>
+            
+            <p>
+              Notre approche de satisfaction totale de nos clients est basée sur un professionnalisme exemplaire, tant en terme de qualité du résultat, qu'en 
+              terme de respect des délais convenus. Notre travail de collaboration directe avec les architectes et leurs designers se fait dans le respect de 
+              la confidentialité et une interaction réactive et proactive.
+            </p>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-4 clearfix">
+            <h1>Services aux Architectes</h1>
+            
+            <p>
+              Visualisation 3D réalistes de très haute qualité, utilisant les dernières technologies de rendu issues des développements de l'animation 3D pour 
+              le cinéma. Permet aux architectes de proposer à leurs clients un dossier d'architecture à la pointe des technologies.
+            </p>
+          </div>
+          
+          <div class="col-md-4 clearfix">
+            <h1>Produits</h1>
+            
+            <p>
+              Nous proposons des images réalistes en HD intérieur et extérieur ainsi que des vidéos de tours virtuels permettant à vos clients de visualiser 
+              leur projet avant la réalisation et permettant ainsi de limiter au maximum les coûts de modifications en cours de chantier.
+            </p>
+          </div>
+          
+          <div class="col-md-4 clearfix">
+            <h1>Serveurs</h1>
+            
+            <p>
+              Nos serveurs de dernière génération permettent un rendu de la plus haute qualité dans des délais rapides compatibles avec des clients de plus 
+              en plus exigeants.
+            </p>
+          </div>
+        </div>
         
         <hr/>
-        
-        <div class="row">
-          <div class="col-md-3 clearfix">
-            <p>
-              <span class="dropcaps">1</span>
-              Donec id elit non mi porta gravida at eget metus. Fusce dapibus tellus ac.
-            </p>
-          </div>
-          
-          <div class="col-md-3 clearfix">
-            <p>
-              <span class="dropcaps">2</span>
-              Donec id elit non mi porta gravida at eget metus. Fusce dapibus tellus ac.
-            </p>
-          </div>
-          
-          <div class="col-md-3 clearfix">
-            <p>
-              <span class="dropcaps">3</span>
-              Donec sed odio dui. Cras justo odio, dapibus ac facilisis in egestas eget.
-            </p>
-          </div>
-          
-          <div class="col-md-3 clearfix">
-            <p>
-              <span class="dropcaps">4</span>
-              Donec sed odio dui. Cras justo odio, dapibus ac facilisis in egestas eget.
-            </p>
-          </div>
-        </div>
-        
-        <div class="row">
-          <div class="col-md-3 clearfix">
-            <p>
-              <span class="dropcaps">5</span>
-              Donec id elit non mi porta gravida at eget metus. Fusce dapibus tellus ac.
-            </p>
-          </div>
-          
-          <div class="col-md-3 clearfix">
-            <p>
-              <span class="dropcaps">6</span>
-              Donec id elit non mi porta gravida at eget metus. Fusce dapibus tellus ac.
-            </p>
-          </div>
-          
-          <div class="col-md-3 clearfix">
-            <p>
-              <span class="dropcaps">7</span>
-              Donec sed odio dui. Cras justo odio, dapibus ac facilisis in egestas eget.
-            </p>
-          </div>
-          
-          <div class="col-md-3 clearfix">
-            <p>
-              <span class="dropcaps">8</span>
-              Donec sed odio dui. Cras justo odio, dapibus ac facilisis in egestas eget.
-            </p>
-          </div>
-        </div>
         
         <!-- Projects: start -->
         <div class="row">
@@ -149,7 +136,7 @@
             <h3>Récent Projets</h3>
           </div>
           
-          <div id="projects"></div>
+          <div id="projects_thumbnails"></div>
         </div>
         <!-- Projects: end -->
         <hr>
@@ -203,9 +190,16 @@
     </section>
     <!--footer menu: end -->
     
+    <div class="xs-modal hide">
+      <div class="xs-modal-close"></div>
+      
+      <div id="projects_carousel"></div>
+    </div>
+    
     <script src="js/navigation.js" type="text/javascript"></script>
+    <script src="js/modal.js"      type="text/javascript"></script>
     <script src="js/carousel.js"   type="text/javascript"></script>
-    <!-- script src="js/projects.js"   type="text/javascript"></script -->
+    <script src="js/projects.js"   type="text/javascript"></script>
     <script src="js/contact.js"    type="text/javascript"></script>
   </body>
 </html>

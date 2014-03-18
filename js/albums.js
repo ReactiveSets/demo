@@ -23,46 +23,14 @@ var $  = jQuery
 
 server
   .bootstrap_photo_album( album_thumbnails_node, album_carousel_node, {
-      album_name     : 'album' //hash
+      album_name     : 'album'
     , images_flow    : 'albums_images'
-    , thumbnails_flow: 'albums_thumbnails' // album_thumbnails
+    , thumbnails_flow: 'albums_thumbnails'
     , query          : by_album_id
-    , auto_start     : false
   } )
 ;
 
-$(    album_thumbnails_node    ).click( _open  );
-$( '.album-carousel-container' ).click( _close );
-
-$( exports ).keyup( _close );
-
 return;
-
-// show
-function _open( e ) {
-  if( e.target.nodeName === 'IMG' ) $( '.album-carousel-container' ).removeClass( 'hide' );
-}
-
-// hide
-function _close( e ) {
-  $target = $( e.target );
-  
-  switch( e.type ) {
-    case 'click':
-      if( $target.hasClass( 'xs-modal-close' ) || $target.hasClass( 'album-carousel-container' ) ) _close_modal();
-    break;
-    
-    case 'keyup':
-      if( ! $( '.album-carousel-container' ).hasClass( 'hide' ) && e.keyCode === 27 ) _close_modal();
-    break;
-  }
-  
-  return;
-  
-  function _close_modal() {
-    $( '.album-carousel-container' ).addClass( 'hide' );
-  }
-}
 
 function get_album_id( value ) {
   var hash = value.hash;

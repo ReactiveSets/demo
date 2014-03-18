@@ -7,6 +7,8 @@
     .socket_io_server()
     
     .flow( 'contact_form_fields' )
+    
+    .trace( 'contact_form_fields after filter' )
   ;
   
 
@@ -15,7 +17,8 @@
   // this allows fast loading and dynamic fields
   
   contact_form_fields = xs
-    .union( [ exports.contact_form_fields, contact_form_fields ] )
+    // ToDo: fix unique_set()
+    .union( [ exports.contact_form_fields/*, contact_form_fields*/ ] )
     
     .unique_set()
     

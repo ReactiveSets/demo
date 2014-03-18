@@ -156,6 +156,7 @@ xs
     // JS files
     { name: 'js/hammer.js'             },
     { name: 'js/navigation.js'         },
+    { name: 'js/modal.js'              },
     { name: 'js/carousel.js'           },
     { name: 'js/gallery.js'            },
     { name: 'js/projects.js'           },
@@ -167,10 +168,10 @@ xs
     { name: 'js/jquery.easing.1.3.js'  },
     
     // additional PNG images for css styles
-    { name: 'images/favicon.png'            },
-    { name: 'images/logo.png'               },
-    { name: 'images/sprite.png'             },
-    { name: 'images/ui.totop.png'           }
+    { name: 'images/favicon.png'       },
+    { name: 'images/logo.png'          },
+    { name: 'images/sprite.png'        },
+    { name: 'images/ui.totop.png'      }
 
   ] )
   .auto_increment()
