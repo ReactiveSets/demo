@@ -52,9 +52,20 @@ server
 return;
 
 function join( image, description ) {
-  var title = ( description.title || '' ) + ' | ' + ( description.date || '' ) + ' | ' + ( description.city || '' );
+  var value = {};
   
-  return extend( image, { title: title, description: description.description } );
+  if( image.flow === 'projects_thumbnails' ) {
+    var title = description.title || '';
+    
+    if( description.date ) title += ' | ' + description.date;
+    if( description.city ) title += ' | ' + description.city;
+    
+    value = extend( image, { title: title, description: description.description } );
+  } else if( image.flow === 'projects_images' ) {
+    value = extend( image, description );
+  }
+  
+  return value;
 }
 
 }( this );
