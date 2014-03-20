@@ -12,10 +12,10 @@ var $  = jQuery
 
 server
   .bootstrap_photo_album( gallery_thumbnails_node, gallery_carousel_node, {
-      album_name     : ''
+      album_name     : 'gallery_images'
     , images_flow    : 'gallery_images'
     , thumbnails_flow: 'gallery_thumbnails'
-    , auto_start     : false
+    , auto_start     : true
     , download       : false
   } )
 ;

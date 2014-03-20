@@ -30,8 +30,8 @@ var gallery_images = ( this.XS || require( 'excess' ).XS ).xs
     { name: 'images/gallery-07.jpg' },
     { name: 'images/gallery-08.jpg' },
     { name: 'images/gallery-09.jpg' },
-    { name: 'images/gallery-10.png' },
-    { name: 'images/gallery-11.png' },
+    { name: 'images/gallery-10.jpg' },
+    { name: 'images/gallery-11.jpg' },
     { name: 'images/gallery-12.jpg' },
     { name: 'images/gallery-13.jpg' },
     { name: 'images/gallery-14.jpg' },
@@ -39,7 +39,15 @@ var gallery_images = ( this.XS || require( 'excess' ).XS ).xs
     { name: 'images/gallery-16.jpg' },
     { name: 'images/gallery-17.jpg' },
     { name: 'images/gallery-18.jpg' },
-    { name: 'images/gallery-19.jpg' }
+    { name: 'images/gallery-19.jpg' },
+    { name: 'images/gallery-20.jpg' },
+    { name: 'images/gallery-21.jpg' },
+    { name: 'images/gallery-22.jpg' },
+    { name: 'images/gallery-23.jpg' },
+    { name: 'images/gallery-24.jpg' },
+    { name: 'images/gallery-25.jpg' },
+    { name: 'images/gallery-26.jpg' },
+    { name: 'images/gallery-27.jpg' }
   ] )
   .set_flow( 'gallery_images' )
   .auto_increment()

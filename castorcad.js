@@ -107,14 +107,16 @@ var carousel_images = require( './carousel_images.js' )
       .alter( fix_image_name )
 ;
 
-var thumbnails = gallery_images
+var gallery_thumbnails = gallery_images
   .thumbnails( { path: 'images/', width: 125, height: 80, base_directory: __dirname } )
   .set_flow( 'gallery_thumbnails' )
+  /*
   ._on( 'complete', function() {
     thumbnails._fetch_all( function( values ) {
       de&&ug( 'Gellery Thumbnails generation complete, count: ' + values.length );
     } );
   } )
+  */
 ;
 
 var albums_thumbnails = albums_images
@@ -130,20 +132,22 @@ var albums_thumbnails = albums_images
 var projects_thumbnails = projects_images
   .thumbnails( { path: 'images/', width: 700, height: 520, base_directory: __dirname } )
   .set_flow( 'projects_thumbnails' )
+  /*
   ._on( 'complete', function() {
     projects_thumbnails._fetch_all( function( values ) {
       de&&ug( 'Projects Thumbnails generation complete, count: ' + values.length );
     } );
   } )
+  */
 ;
 
 xs
   .set( [
     // HTML pages
     { name: 'index.html'   },
-    { name: 'about.html'   },
+    // { name: 'about.html'   },
     { name: 'gallery.html' },
-    { name: 'contact.html' },
+    // { name: 'contact.html' },
     { name: 'albums.html'  },
     
     // CSS files
@@ -172,10 +176,10 @@ xs
     { name: 'images/logo.png'          },
     { name: 'images/sprite.png'        },
     { name: 'images/ui.totop.png'      }
-
+    
   ] )
   .auto_increment()
-  .union( [ carousel_images, gallery_images, thumbnails, projects_images, projects_thumbnails, albums_images, albums_thumbnails ] )
+  .union( [ carousel_images, gallery_images, gallery_thumbnails, projects_images, projects_thumbnails, albums_images, albums_thumbnails ] )
   .watch( { base_directory: __dirname } )
   .union( [ client_min ] )
   
@@ -188,9 +192,9 @@ var contact_form_fields = require( "./contact_form_fields.js" )
 
 // Serve contact_form_fields to socket.io clients
 contact_form_fields
-  .union( [ carousel_images.to_uri(), gallery_images.to_uri(), thumbnails.to_uri(), projects_images.to_uri(), projects_thumbnails.to_uri(), albums_images.to_uri(), albums_thumbnails.to_uri() ] )
+  .union( [ carousel_images.to_uri(), gallery_images.to_uri(), gallery_thumbnails.to_uri(), projects_images.to_uri(), projects_thumbnails.to_uri(), albums_images.to_uri(), albums_thumbnails.to_uri() ] )
   
-  .trace( 'contact_form_fields, carousel images and thumbnails to clients' )
+  .trace( 'contact_form_fields, images and thumbnails to clients' )
   
   // Start socket.io server, and dispatch client connections to provide contact_form_fields and get filled contact forms
   .dispatch( servers.socket_io_clients(), function( source, options ) {

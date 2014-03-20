@@ -10,24 +10,10 @@ var $  = jQuery
   
   , descriptions = xs
       .set( [
-        { title: 'Villa A', city: 'Marrakech', date: '06/01/2014',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in lacus rhoncus elit egestas luctus. Nullam at lectus augue. Ut tristique'
-        },
-        { title: 'Villa B', city: 'Marrakech', date: '13/01/2014',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in lacus rhoncus elit egestas luctus. Nullam at lectus augue. Ut tristique'
-        },
-        { title: 'Villa C', city: 'Marrakech', date: '20/01/2014',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in lacus rhoncus elit egestas luctus. Nullam at lectus augue. Ut tristique'
-        },
-        { title: 'Villa D', city: 'Marrakech', date: '27/01/2014',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in lacus rhoncus elit egestas luctus. Nullam at lectus augue. Ut tristique'
-        },
-        { title: 'Villa E', city: 'Marrakech', date: '02/02/2014',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in lacus rhoncus elit egestas luctus. Nullam at lectus augue. Ut tristique'
-        },
-        { title: 'Villa F', city: 'Marrakech', date: '09/01/2014',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in lacus rhoncus elit egestas luctus. Nullam at lectus augue. Ut tristique'
-        }
+        {                              city: 'Casablanca', date: '02/2014' },
+        { title: 'Hotel Ambassadeurs', city: 'Marrakech' , date: '03/2014' },
+        { title: 'Villa A'           , city: 'Marrakech' , date: '01/2014' },
+        { title: 'Villa B'           , city: 'Marrakech' , date: '01/2014' }
       ] )
       
       .auto_increment()

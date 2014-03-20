@@ -26,9 +26,9 @@ var projects_images = ( this.XS || require( 'excess' ).XS ).xs
     { name: 'images/project-01.jpg' },
     { name: 'images/project-02.jpg' },
     { name: 'images/project-03.jpg' },
-    { name: 'images/project-04.jpg' },
-    { name: 'images/project-05.jpg' },
-    { name: 'images/project-06.jpg' }
+    { name: 'images/project-04.jpg' }
+    // { name: 'images/project-05.jpg' },
+    // { name: 'images/project-06.jpg' }
   ] )
   .set_flow( 'projects_images' )
   .auto_increment()
