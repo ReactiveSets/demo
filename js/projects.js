@@ -17,7 +17,6 @@ var $  = jQuery
       ] )
       
       .auto_increment()
-      
       .trace( 'descriptions' )
       
   , projects_thumbnails = server
@@ -51,8 +50,6 @@ xs.union( [ projects_thumbnails, projects_images ] )
 return;
 
 function join_projects_thumbnails( image, description ) {
-  console.log( 'here join_projects_thumbnails', image, description );
-  
   if ( description ) {
     var title = description.title || '';
     
@@ -66,8 +63,6 @@ function join_projects_thumbnails( image, description ) {
 } // join_projects_thumbnails()
 
 function join_projects_images( image, description ) {
-  console.log( 'here join_projects_images', image, description );
-  
   return extend( {}, image, description );
 } // join_projects_images()
 
