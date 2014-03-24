@@ -103,8 +103,8 @@ var client_min = xs
 var carousel_images = require( './carousel_images.js' )
   , gallery_images  = require( './gallery_images.js'  )
   , projects_images = require( './projects_images.js' )
-  , albums_images   = require( './albums_images.js'   )
-      .alter( fix_image_name )
+//  , albums_images   = require( './albums_images.js'   )
+//      .alter( fix_image_name )
 ;
 
 var gallery_thumbnails = gallery_images
@@ -119,6 +119,7 @@ var gallery_thumbnails = gallery_images
   */
 ;
 
+/*
 var albums_thumbnails = albums_images
   .thumbnails( { path: 'images/', width: 300, height: 180, base_directory: __dirname } )
   .set_flow( 'albums_thumbnails' )
@@ -128,7 +129,7 @@ var albums_thumbnails = albums_images
     } );
   } )
 ;
-
+*/
 var projects_thumbnails = projects_images
   .thumbnails( { path: 'images/', width: 700, height: 520, base_directory: __dirname } )
   .set_flow( 'projects_thumbnails' )
@@ -179,11 +180,12 @@ xs
     
   ] )
   .auto_increment()
-  .union( [ carousel_images, gallery_images, gallery_thumbnails, projects_images, projects_thumbnails, albums_images, albums_thumbnails ] )
+  .union( [ carousel_images, gallery_images, gallery_thumbnails, projects_images, projects_thumbnails/*, albums_images, albums_thumbnails*/ ] )
   .watch( { base_directory: __dirname } )
   .union( [ client_min ] )
   
-  .serve( servers, { hostname: [ 'localhost', '192.168.0.22', '192.168.1.14', 'castorcad.com', 'www.castorcad.com' ] } )
+  .serve( servers, { hostname: [ 'castorcad.com', 'www.castorcad.com' ] } )
+//  .serve( servers, { hostname: [ 'localhost', '192.168.0.22', '192.168.1.14', 'castorcad.com', 'www.castorcad.com' ] } )
 ;
 
 var contact_form_fields = require( "./contact_form_fields.js" )
@@ -192,7 +194,7 @@ var contact_form_fields = require( "./contact_form_fields.js" )
 
 // Serve contact_form_fields to socket.io clients
 contact_form_fields
-  .union( [ carousel_images.to_uri(), gallery_images.to_uri(), gallery_thumbnails.to_uri(), projects_images.to_uri(), projects_thumbnails.to_uri(), albums_images.to_uri(), albums_thumbnails.to_uri() ] )
+  .union( [ carousel_images.to_uri(), gallery_images.to_uri(), gallery_thumbnails.to_uri(), projects_images.to_uri(), projects_thumbnails.to_uri()/*, albums_images.to_uri(), albums_thumbnails.to_uri()*/ ] )
   
   .trace( 'contact_form_fields, images and thumbnails to clients' )
   
