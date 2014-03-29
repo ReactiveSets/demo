@@ -4,26 +4,38 @@
 
 var $  = jQuery
   , xs     = XS.xs
-  , extend = XS.extend_2
+  , extend = XS.extend
   
   , server = xs.socket_io_server()
   
   , descriptions = xs
       .set( [
-        {                              city: 'Casablanca', date: '02/2014' },
         { title: 'Hotel Ambassadeurs', city: 'Marrakech' , date: '03/2014' },
+        {                              city: 'Casablanca', date: '02/2014' },
         { title: 'Villa A'           , city: 'Marrakech' , date: '01/2014' },
         { title: 'Villa B'           , city: 'Marrakech' , date: '01/2014' }
       ] )
       
       .auto_increment()
+      .trace( 'descriptions' )
+      
+  , projects_thumbnails = server
+      .flow( 'projects_thumbnails' )
+      .set()
+      .join( descriptions, [ [ 'id', 'id' ] ], join_projects_thumbnails, { left: true } )
+      .trace( 'projects_thumbnails' )
   
+  , projects_images = server
+      .flow( 'projects_images' )
+      .set()
+      .join( descriptions, [ [ 'id', 'id' ] ], join_projects_images,     { left: true } )
+      .trace( 'projects_images' )
+      
   , projects_thumbnails_node = document.getElementById( 'projects_thumbnails' )
   , projects_carousel_node   = document.getElementById( 'projects_carousel'   )
 ;
 
-server
-  .join( descriptions, [ [ 'id', 'id' ] ], join, { left: true } )
+xs.union( [ projects_thumbnails, projects_images ] )
   
   .bootstrap_photo_album( projects_thumbnails_node, projects_carousel_node, {
       album_name     : 'projects'
@@ -37,21 +49,21 @@ server
 
 return;
 
-function join( image, description ) {
-  var value = {};
-  
-  if( image.flow === 'projects_thumbnails' ) {
+function join_projects_thumbnails( image, description ) {
+  if ( description ) {
     var title = description.title || '';
     
     if( description.date ) title += ' | ' + description.date;
     if( description.city ) title += ' | ' + description.city;
     
-    value = extend( image, { title: title, description: description.description } );
-  } else if( image.flow === 'projects_images' ) {
-    value = extend( image, description );
+    return extend( {}, image, { title: title, description: description.description } );
+  } else {
+    return image;
   }
-  
-  return value;
-}
+} // join_projects_thumbnails()
+
+function join_projects_images( image, description ) {
+  return extend( {}, image, description );
+} // join_projects_images()
 
 }( this );
