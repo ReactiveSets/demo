@@ -30,11 +30,12 @@ require( 'excess/lib/server/http.js' );
 require( 'excess/lib/server/socket_io_clients.js' );
 require( 'excess/lib/server/uglify.js' );
 require( 'excess/lib/server/mailer.js' );
+require( 'excess/lib/server/thumbnails.js' );
+
 require( 'excess/lib/uri.js' );
 require( 'excess/lib/join.js' );
 require( 'excess/lib/order.js' );
 require( 'excess/lib/form.js' );
-require( 'excess/lib/thumbnails.js' );
 
 /* -------------------------------------------------------------------------------------------
    de&&ug()
@@ -53,9 +54,9 @@ module.exports = function( servers ) {
 var client_min = xs
   .union( [
     xs.set( [
-      { name: 'js/es5.js'    },
-      { name: 'js/json2.js'  },
-      { name: 'js/uuid.js'   }
+      { path: 'js/es5.js'    },
+      { path: 'js/json2.js'  },
+      { path: 'js/uuid.js'   }
     ] ),
     
     xs.set( [
@@ -87,11 +88,11 @@ var client_min = xs
     .require_resolve(),
     
     xs.set( [
-      { name: 'contact_form_fields.js' },
-      { name: 'gallery_images.js'      },
-      { name: 'carousel_images.js'     },
-      { name: 'albums_images.js'       },
-      { name: 'projects_images.js'     }
+      { path: 'contact_form_fields.js' },
+      { path: 'gallery_images.js'      },
+      { path: 'carousel_images.js'     },
+      { path: 'albums_images.js'       },
+      { path: 'projects_images.js'     }
     ] ) 
   ] )
   .auto_increment()
@@ -103,20 +104,12 @@ var client_min = xs
 var carousel_images = require( './carousel_images.js' )
   , gallery_images  = require( './gallery_images.js'  )
   , projects_images = require( './projects_images.js' )
-  , albums_images   = require( './albums_images.js'   )
-      .alter( fix_image_name )
+  , albums_images   = require( './albums_images.js'   ).alter( fix_image_name )
 ;
 
 var gallery_thumbnails = gallery_images
   .thumbnails( { path: 'images/', width: 125, height: 80, base_directory: __dirname } )
   .set_flow( 'gallery_thumbnails' )
-  /*
-  ._on( 'complete', function() {
-    thumbnails._fetch_all( function( values ) {
-      de&&ug( 'Gellery Thumbnails generation complete, count: ' + values.length );
-    } );
-  } )
-  */
 ;
 
 var albums_thumbnails = albums_images
@@ -144,38 +137,38 @@ var projects_thumbnails = projects_images
 xs
   .set( [
     // HTML pages
-    { name: 'index.html'   },
-    // { name: 'about.html'   },
-    { name: 'gallery.html' },
-    // { name: 'contact.html' },
-    { name: 'albums.html'  },
+    { path: 'index.html'   },
+    // { path: 'about.html'   },
+    { path: 'gallery.html' },
+    // { path: 'contact.html' },
+    { path: 'albums.html'  },
     
     // CSS files
-    { name: 'css/base.css'             },
-    { name: 'css/responsive_fixes.css' },
-    { name: 'css/projects.css'         },
-    { name: 'css/gallery.css'          },
-    { name: 'css/albums.css'           },
+    { path: 'css/base.css'             },
+    { path: 'css/responsive_fixes.css' },
+    { path: 'css/projects.css'         },
+    { path: 'css/gallery.css'          },
+    { path: 'css/albums.css'           },
     
     // JS files
-    { name: 'js/hammer.js'             },
-    { name: 'js/navigation.js'         },
-    { name: 'js/modal.js'              },
-    { name: 'js/carousel.js'           },
-    { name: 'js/gallery.js'            },
-    { name: 'js/projects.js'           },
-    { name: 'js/contact.js'            },
-    { name: 'js/albums.js'             },
+    { path: 'js/hammer.js'             },
+    { path: 'js/navigation.js'         },
+    { path: 'js/modal.js'              },
+    { path: 'js/carousel.js'           },
+    { path: 'js/gallery.js'            },
+    { path: 'js/projects.js'           },
+    { path: 'js/contact.js'            },
+    { path: 'js/albums.js'             },
     
     // jQuery plugins
-    { name: 'js/jquery.ui.totop.js'    },
-    { name: 'js/jquery.easing.1.3.js'  },
+    { path: 'js/jquery.ui.totop.js'    },
+    { path: 'js/jquery.easing.1.3.js'  },
     
     // additional PNG images for css styles
-    { name: 'images/favicon.png'       },
-    { name: 'images/logo.png'          },
-    { name: 'images/sprite.png'        },
-    { name: 'images/ui.totop.png'      }
+    { path: 'images/favicon.png'       },
+    { path: 'images/logo.png'          },
+    { path: 'images/sprite.png'        },
+    { path: 'images/ui.totop.png'      }
     
   ] )
   .auto_increment()
@@ -248,7 +241,7 @@ contact_form_fields
 ;
 
 function fix_image_name( image ) {
-  return XS.extend_2( image, { name: 'albums/' + image.album_id + '/' + image.name } );
+  return XS.extend_2( image, { path: 'albums/' + image.album_id + '/' + image.path } );
 }
 
 } // module.exports
