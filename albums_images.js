@@ -24,26 +24,26 @@ var XS = this.XS || require( 'excess' ).XS
     
   , albums_images = xs
       .set( [
-        { name: 'daien-01.jpg' , album_id: '7d78d170-f1b4-4083-baf4-b916091dd27b' },
-        { name: 'daien-02.jpg' , album_id: '7d78d170-f1b4-4083-baf4-b916091dd27b' },
-        { name: 'daien-03.jpg' , album_id: '7d78d170-f1b4-4083-baf4-b916091dd27b' },
-        { name: 'daien-04.jpg' , album_id: '7d78d170-f1b4-4083-baf4-b916091dd27b' },
-        { name: 'daien-05.jpg' , album_id: '7d78d170-f1b4-4083-baf4-b916091dd27b' },
+        { path: 'daien-01.jpg' , album_id: '7d78d170-f1b4-4083-baf4-b916091dd27b' },
+        { path: 'daien-02.jpg' , album_id: '7d78d170-f1b4-4083-baf4-b916091dd27b' },
+        { path: 'daien-03.jpg' , album_id: '7d78d170-f1b4-4083-baf4-b916091dd27b' },
+        { path: 'daien-04.jpg' , album_id: '7d78d170-f1b4-4083-baf4-b916091dd27b' },
+        { path: 'daien-05.jpg' , album_id: '7d78d170-f1b4-4083-baf4-b916091dd27b' },
         
-        { name: 'deroua-01.jpg', album_id: '76e8c857-0c49-4aba-9af3-7e0d3dfc3e12' },
-        { name: 'deroua-02.jpg', album_id: '76e8c857-0c49-4aba-9af3-7e0d3dfc3e12' },
-        { name: 'deroua-03.jpg', album_id: '76e8c857-0c49-4aba-9af3-7e0d3dfc3e12' },
-        { name: 'deroua-04.jpg', album_id: '76e8c857-0c49-4aba-9af3-7e0d3dfc3e12' },
+        { path: 'deroua-01.jpg', album_id: '76e8c857-0c49-4aba-9af3-7e0d3dfc3e12' },
+        { path: 'deroua-02.jpg', album_id: '76e8c857-0c49-4aba-9af3-7e0d3dfc3e12' },
+        { path: 'deroua-03.jpg', album_id: '76e8c857-0c49-4aba-9af3-7e0d3dfc3e12' },
+        { path: 'deroua-04.jpg', album_id: '76e8c857-0c49-4aba-9af3-7e0d3dfc3e12' },
         
-        { name: 'hotel-ambassadeurs-01.jpg', album_id: '52efcd0b-25ec-4f7d-baf1-735ae87d4d65' },
-        { name: 'hotel-ambassadeurs-02.jpg', album_id: '52efcd0b-25ec-4f7d-baf1-735ae87d4d65' },
-        { name: 'hotel-ambassadeurs-03.jpg', album_id: '52efcd0b-25ec-4f7d-baf1-735ae87d4d65' },
-        { name: 'hotel-ambassadeurs-04.jpg', album_id: '52efcd0b-25ec-4f7d-baf1-735ae87d4d65' },
-        { name: 'hotel-ambassadeurs-05.jpg', album_id: '52efcd0b-25ec-4f7d-baf1-735ae87d4d65' },
-        { name: 'hotel-ambassadeurs-06.jpg', album_id: '52efcd0b-25ec-4f7d-baf1-735ae87d4d65' },
-        { name: 'hotel-ambassadeurs-07.jpg', album_id: '52efcd0b-25ec-4f7d-baf1-735ae87d4d65' },
+        { path: 'hotel-ambassadeurs-01.jpg', album_id: '52efcd0b-25ec-4f7d-baf1-735ae87d4d65' },
+        { path: 'hotel-ambassadeurs-02.jpg', album_id: '52efcd0b-25ec-4f7d-baf1-735ae87d4d65' },
+        { path: 'hotel-ambassadeurs-03.jpg', album_id: '52efcd0b-25ec-4f7d-baf1-735ae87d4d65' },
+        { path: 'hotel-ambassadeurs-04.jpg', album_id: '52efcd0b-25ec-4f7d-baf1-735ae87d4d65' },
+        { path: 'hotel-ambassadeurs-05.jpg', album_id: '52efcd0b-25ec-4f7d-baf1-735ae87d4d65' },
+        { path: 'hotel-ambassadeurs-06.jpg', album_id: '52efcd0b-25ec-4f7d-baf1-735ae87d4d65' },
+        { path: 'hotel-ambassadeurs-07.jpg', album_id: '52efcd0b-25ec-4f7d-baf1-735ae87d4d65' },
         
-        { name: 'dian-01.jpg'  , album_id: 'c27b1943-8406-4f33-8597-8d3d6b7b7236' }
+        { path: 'dian-01.jpg'  , album_id: 'c27b1943-8406-4f33-8597-8d3d6b7b7236' }
       ], { key: [ 'id', 'album_id' ] } )
       
       .auto_increment()

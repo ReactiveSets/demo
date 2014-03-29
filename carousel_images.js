@@ -21,9 +21,9 @@
 
 var carousel_images = ( this.XS || require( 'excess' ).XS ).xs
   .set( [
-    { name: 'images/carousel-01.jpg' },
-    { name: 'images/carousel-02.jpg' },
-    { name: 'images/carousel-03.jpg' }
+    { path: 'images/carousel-01.jpg' },
+    { path: 'images/carousel-02.jpg' },
+    { path: 'images/carousel-03.jpg' }
   ] )
   .set_flow( 'carousel_images' )
   .auto_increment()

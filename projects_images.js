@@ -23,12 +23,12 @@
 
 var projects_images = ( this.XS || require( 'excess' ).XS ).xs
   .set( [
-    { name: 'images/project-01.jpg' },
-    { name: 'images/project-02.jpg' },
-    { name: 'images/project-03.jpg' },
-    { name: 'images/project-04.jpg' }
-    // { name: 'images/project-05.jpg' },
-    // { name: 'images/project-06.jpg' }
+    { path: 'images/project-01.jpg' },
+    { path: 'images/project-02.jpg' },
+    { path: 'images/project-03.jpg' },
+    { path: 'images/project-04.jpg' }
+    // { path: 'images/project-05.jpg' },
+    // { path: 'images/project-06.jpg' }
   ] )
   .set_flow( 'projects_images' )
   .auto_increment()
