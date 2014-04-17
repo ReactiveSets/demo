@@ -1,0 +1,23 @@
+{
+  "name": "castorcad",
+  "version": "0.2.0",
+  "description": "CastorCAD Web Site",
+  "main": "castorcad.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ConnectedSets/demo.git"
+  },
+  "author": "",
+  "license": "AGPLv3",
+  "bugs": {
+    "url": "https://github.com/ConnectedSets/demo/issues"
+  },
+  "homepage": "https://github.com/ConnectedSets/demo",
+  "dependencies": {
+    "excess": "^0.1.52"
+  }
+}
