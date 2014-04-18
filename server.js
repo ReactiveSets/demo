@@ -19,9 +19,9 @@
 */
 "use strict";
 
-var XS = require( 'excess' ).XS
-  , xs         = XS.xs
-  , log        = XS.log
+var XS  = require( 'excess' ).XS
+  , xs  = XS.xs
+  , log = XS.log
 ;
 
 require( 'excess/lib/server/http.js' );
@@ -30,7 +30,7 @@ require( 'excess/lib/server/http.js' );
    de&&ug()
 */
 var de = true;
-  
+
 function ug( m ) {
   log( "castorcad, " + m );
 } // ug()
@@ -40,9 +40,8 @@ function ug( m ) {
 */
 var servers = xs.set( [
     { id: 1, ip_address: '0.0.0.0', port: 8080 },
-    // { port: 8043, key: '', cert: '' }, // https server usimg key and cert
   ] )
   .http_servers()
 ;
 
-require( './castorcad.js' )( servers );
+require( './castorcad.js' )( servers.virtual_http_servers( [ 'castorcad.com', 'www.castorcad.com', 'castorcad' ] ) );

@@ -51,26 +51,27 @@ module.exports = function( servers ) {
 /* -------------------------------------------------------------------------------------------
    Load and Serve Assets
 */
+
 var client_min = xs
   .union( [
     xs.set( [
-      { path: 'js/es5.js'    },
-      { path: 'js/json2.js'  },
-      { path: 'js/uuid.js'   }
+      { path: 'js/es5.js'   },
+      { path: 'js/json2.js' },
+      { path: 'js/uuid.js'  }
     ] ),
     
     xs.set( [
       // xs.core
-      { name: 'excess/lib/xs.js'                    },
-      { name: 'excess/lib/code.js'                  },
-      { name: 'excess/lib/pipelet.js'               },
-      { name: 'excess/lib/filter.js'                },
-      { name: 'excess/lib/order.js'                 },
-      { name: 'excess/lib/aggregate.js'             },
-      { name: 'excess/lib/join.js'                  },
-      { name: 'excess/lib/events.js'                },
-      { name: 'excess/lib/uri.js'                   },
-      { name: 'excess/lib/last.js'                  },
+      { name: 'excess/lib/xs.js'        },
+      { name: 'excess/lib/code.js'      },
+      { name: 'excess/lib/pipelet.js'   },
+      { name: 'excess/lib/filter.js'    },
+      { name: 'excess/lib/order.js'     },
+      { name: 'excess/lib/aggregate.js' },
+      { name: 'excess/lib/join.js'      },
+      { name: 'excess/lib/events.js'    },
+      { name: 'excess/lib/uri.js'       },
+      { name: 'excess/lib/last.js'      },
       
       // xs.ui
       { name: 'excess/lib/selector.js'                },
@@ -82,8 +83,8 @@ var client_min = xs
       { name: 'excess/lib/bootstrap_carousel.js'      },
       
       // socket.io server access
-      { name: 'excess/lib/socket_io_crossover.js'   },
-      { name: 'excess/lib/socket_io_server.js'      }
+      { name: 'excess/lib/socket_io_crossover.js' },
+      { name: 'excess/lib/socket_io_server.js'    }
     ] )
     .require_resolve(),
     
@@ -93,18 +94,23 @@ var client_min = xs
       { path: 'carousel_images.js'     },
       { path: 'albums_images.js'       },
       { path: 'projects_images.js'     }
-    ] ) 
+    ] )
   ] )
+  
   .auto_increment()
+  
   .watch( { base_directory: __dirname } )
+  
   .order( [ { id: 'id' } ] ) // order loaded files
-  .uglify( 'js/xs-0.1.31.min.js', { warnings: false } )
+  
+  .uglify( 'js/xs-0.2.4.min.js', { warnings: false } )
 ;
 
+// carousel images, gallery images and projects images thumbnails
 var carousel_images = require( './carousel_images.js' )
   , gallery_images  = require( './gallery_images.js'  )
   , projects_images = require( './projects_images.js' )
-//  , albums_images   = require( './albums_images.js'   ).alter( fix_image_name )
+  // , albums_images   = require( './albums_images.js'   ).alter( fix_image_name )
 ;
 
 var gallery_thumbnails = gallery_images
@@ -112,36 +118,23 @@ var gallery_thumbnails = gallery_images
   .set_flow( 'gallery_thumbnails' )
 ;
 
+var projects_thumbnails = projects_images
+  .thumbnails( { path: 'images/', width: 700, height: 520, base_directory: __dirname } )
+  .set_flow( 'projects_thumbnails' )
+;
+
 /*
 var albums_thumbnails = albums_images
   .thumbnails( { path: 'images/', width: 300, height: 180, base_directory: __dirname } )
   .set_flow( 'albums_thumbnails' )
-  ._on( 'complete', function() {
-    albums_thumbnails._fetch_all( function( values ) {
-      de&&ug( 'Albums Thumbnails generation complete, count: ' + values.length );
-    } );
-  } )
 ;
 */
-var projects_thumbnails = projects_images
-  .thumbnails( { path: 'images/', width: 700, height: 520, base_directory: __dirname } )
-  .set_flow( 'projects_thumbnails' )
-  /*
-  ._on( 'complete', function() {
-    projects_thumbnails._fetch_all( function( values ) {
-      de&&ug( 'Projects Thumbnails generation complete, count: ' + values.length );
-    } );
-  } )
-  */
-;
 
-xs
+var files = xs
   .set( [
     // HTML pages
     { path: 'index.html'   },
-    // { path: 'about.html'   },
     { path: 'gallery.html' },
-    // { path: 'contact.html' },
     { path: 'albums.html'  },
     
     // CSS files
@@ -176,10 +169,12 @@ xs
   .union( [ carousel_images, gallery_images, gallery_thumbnails, projects_images, projects_thumbnails/*, albums_images, albums_thumbnails*/ ] )
   .watch( { base_directory: __dirname } )
   .union( [ client_min ] )
-  
-  .serve( servers, { hostname: [ 'castorcad.com', 'www.castorcad.com' ] } )
-//  .serve( servers, { hostname: [ 'localhost', '192.168.0.22', '192.168.1.14', 'castorcad.com', 'www.castorcad.com' ] } )
 ;
+
+
+servers.http_listen( files );
+
+files.serve( servers );
 
 var contact_form_fields = require( "./contact_form_fields.js" )
   .order( [ { id: 'order_id' } ] )
