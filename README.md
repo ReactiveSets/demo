@@ -10,8 +10,9 @@ This demonstration is running at http://www.castorcad.com/
 Installation
 ============
 ````
-npm install excess
 git clone https://github.com/ConnectedSets/demo.git
+
+npm install
 ````
 
 The gallery page in this demo creates thumbnails using ImageMagick, that you also need to install on your system.
