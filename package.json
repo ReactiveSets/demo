@@ -1,6 +1,6 @@
 {
   "name": "castorcad",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "CastorCAD Web Site",
   "main": "castorcad.js",
   "scripts": {
@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/ConnectedSets/demo",
   "dependencies": {
-    "excess": "0.1.52"
+    "excess": "0.2.4"
   }
 }
