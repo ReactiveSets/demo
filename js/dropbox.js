@@ -67,6 +67,7 @@
     this._configuration_waiters = [];
     this._output._fetch         = this._fetch;
     this._cache                 = {};
+    this._dropbox_client        = null;
     
     var that = this;
     
@@ -77,11 +78,11 @@
       
       .trace( 'after config filter' )
       
+      .greedy()
+      
       ._fetch_all( initialize_dropbox )
       
       ._on( 'add', initialize_dropbox )
-      
-      // .set()
     ;
     
     return this;
@@ -157,10 +158,12 @@
       
       var dropbox_url_events = this._dropbox_url_events;
       
-      for( var i = -1; ++ i < l; ) {
-        var file      = files[ i ]
-          , file_path = file.path
-        ;
+      for( var i = -1; ++ i < l; ) get_public_url( files[ i ] );
+      
+      return this;
+      
+      function get_public_url( file ) {
+        var file_path = file.path;
         
         switch( typeof cache[ file_path ] ) {
           case 'undefined' :
@@ -172,13 +175,11 @@
               if( status === 200 ) {
                 de&&ug( 'client.shares(), status: ' + status + ', public url: ' + log.s( public_url, null, ' ' ) );
                 
-                var url   = public_url.url.replace( 'www.dropbox.com', 'dl.dropboxusercontent.com' )
-                  , value = extend_2( { uri: url }, file )
-                ;
-                
-                cache[ file_path ] = value;
+                var value = extend_2( { uri: public_url.url.replace( 'www.dropbox.com', 'dl.dropboxusercontent.com' ) }, file );
                 
                 delete value.path;
+                
+                cache[ file_path ] = value;
                 
                 dropbox_url_events.emit( file_path, value );
               } else {
@@ -196,9 +197,7 @@
             emit_url( cache[ file_path ] );
           break;
         } // switch typeof cache[ file_path ]
-      } // for()
-      
-      return this;
+      } // get_public_url()
       
       function emit_url( value ) {
         de&&ug( 'emit_url(), url : ' + log.s( value ) );
