@@ -19,23 +19,26 @@
 */
 "use strict";
 
-var XS = require( 'excess' ).XS
-  , xs         = XS.xs
-  , log        = XS.log
-  , extend     = XS.extend
+var XS     = require( 'excess' ).XS
+  , path   = require(  'path'  )
+  , xs     = XS.xs
+  , log    = XS.log
+  , extend = XS.extend
 ;
 
-require( 'excess/lib/server/file.js' );
-require( 'excess/lib/server/http.js' );
+require( 'excess/lib/server/file.js'              );
+require( 'excess/lib/server/http.js'              );
 require( 'excess/lib/server/socket_io_clients.js' );
-require( 'excess/lib/server/uglify.js' );
-require( 'excess/lib/server/mailer.js' );
-require( 'excess/lib/server/thumbnails.js' );
+require( 'excess/lib/server/uglify.js'            );
+require( 'excess/lib/server/mailer.js'            );
+require( 'excess/lib/server/thumbnails.js'        );
 
-require( 'excess/lib/uri.js' );
-require( 'excess/lib/join.js' );
+require( 'excess/lib/uri.js'   );
+require( 'excess/lib/join.js'  );
 require( 'excess/lib/order.js' );
-require( 'excess/lib/form.js' );
+require( 'excess/lib/form.js'  );
+
+require( './js/dropbox.js' );
 
 /* -------------------------------------------------------------------------------------------
    de&&ug()
@@ -52,6 +55,22 @@ module.exports = function( servers ) {
    Load and Serve Assets
 */
 
+// watch Dropbox directories
+var dropbox_directories = xs
+      .set( [ { path: '~/Dropbox/Apps/CastorCAD/albums' } ] )
+      
+      .union()
+  
+  , entries = dropbox_directories.watch_directories()
+;
+
+entries
+  
+  .filter( [ { type: 'directory' } ] )
+  
+  ._output._add_destination( dropbox_directories._input )
+;
+
 var client_min = xs
   .union( [
     xs.set( [
@@ -64,6 +83,7 @@ var client_min = xs
       // xs.core
       { name: 'excess/lib/xs.js'        },
       { name: 'excess/lib/code.js'      },
+      { name: 'excess/lib/query.js'     },
       { name: 'excess/lib/pipelet.js'   },
       { name: 'excess/lib/filter.js'    },
       { name: 'excess/lib/order.js'     },
@@ -110,7 +130,19 @@ var client_min = xs
 var carousel_images = require( './carousel_images.js' )
   , gallery_images  = require( './gallery_images.js'  )
   , projects_images = require( './projects_images.js' )
-  // , albums_images   = require( './albums_images.js'   ).alter( fix_image_name )
+  , albums_images   = entries
+      
+      .filter( [ { extension: 'jpg' }, { extension: 'png' } ] )
+      
+      .alter( get_album_id_from_path, { no_clone: true } )
+      
+      .auto_increment()
+      
+      .dropbox_public_urls()
+      
+      .set_flow( 'albums_images' )
+      
+      .trace( 'albums_images out' )
 ;
 
 var gallery_thumbnails = gallery_images
@@ -123,12 +155,10 @@ var projects_thumbnails = projects_images
   .set_flow( 'projects_thumbnails' )
 ;
 
-/*
 var albums_thumbnails = albums_images
-  .thumbnails( { path: 'images/', width: 300, height: 180, base_directory: __dirname } )
+  // .thumbnails( { path: 'images/', width: 300, height: 180, base_directory: __dirname } )
   .set_flow( 'albums_thumbnails' )
 ;
-*/
 
 var files = xs
   .set( [
@@ -166,11 +196,10 @@ var files = xs
     
   ] )
   .auto_increment()
-  .union( [ carousel_images, gallery_images, gallery_thumbnails, projects_images, projects_thumbnails/*, albums_images, albums_thumbnails*/ ] )
+  .union( [ carousel_images, gallery_images, gallery_thumbnails, projects_images, projects_thumbnails ] )
   .watch( { base_directory: __dirname } )
   .union( [ client_min ] )
 ;
-
 
 servers.http_listen( files );
 
@@ -182,13 +211,17 @@ var contact_form_fields = require( "./contact_form_fields.js" )
 
 // Serve contact_form_fields to socket.io clients
 contact_form_fields
-  .union( [ carousel_images.to_uri(), gallery_images.to_uri(), gallery_thumbnails.to_uri(), projects_images.to_uri(), projects_thumbnails.to_uri()/*, albums_images.to_uri(), albums_thumbnails.to_uri()*/ ] )
+  .union( [ carousel_images.to_uri(), gallery_images.to_uri(), gallery_thumbnails.to_uri(), projects_images.to_uri(), projects_thumbnails.to_uri(), albums_images, albums_thumbnails ] )
   
   .trace( 'contact_form_fields, images and thumbnails to clients' )
   
   // Start socket.io server, and dispatch client connections to provide contact_form_fields and get filled contact forms
   .dispatch( servers.socket_io_clients(), function( source, options ) {
-    return this.socket._add_source( source );
+    var socket = this.socket;
+    
+    socket._input._add_source( source );
+    
+    return socket;
   } )
   
   .trace( 'contact form received from client' )
@@ -236,6 +269,16 @@ contact_form_fields
   
   .trace( 'email sent' )
 ;
+
+function get_album_id_from_path( file ) {
+  var file_path = file.path.match( '~/Dropbox/Apps/CastorCAD/(.*)' )[ 1 ];
+  
+  return {
+      path    : file_path
+    , album_id: file_path.split( '/' )[ 1 ]
+    , title   : path.basename( file_path )
+  };
+} // get_album_id_from_path()
 
 function fix_image_name( image ) {
   return XS.extend_2( image, { path: 'albums/' + image.album_id + '/' + image.path } );
