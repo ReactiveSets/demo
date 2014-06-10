@@ -20,16 +20,17 @@
 "use strict";
 
 !function( exports ) {
-  var xs      = require( 'excess/lib/pipelet.js' )
-    , path    = require( 'path' )
-    , fs      = require(  'fs'  )
-    , XS      = xs.XS
-    , log     = XS.log
-    , Set     = XS.Set
-    , Options = XS.Options
+  var xs           = require( 'excess/lib/pipelet.js' )
+    , path         = require( 'path' )
+    , fs           = require(  'fs'  )
+    , EventEmitter = require( 'events' ).EventEmitter
     
-    , uuid_v4  = XS.uuid_v4
-    , has_more = Options.has_more
+    , XS           = xs.XS
+    , log          = XS.log
+    , File_Set     = XS.File_Set
+    
+    , uuid_v4      = XS.uuid_v4
+    , extend_2     = XS.extend_2
   ;
   
   /* -------------------------------------------------------------------------------------------
@@ -45,10 +46,11 @@
      Directory_Manifest( options )
   */
   function Directory_Manifest( options ) {
-    Set.call( this, [], options );
+    File_Set.call( this, options );
     
-    this._directories_manifest = null;
-    this._manifest_waiters     = [];
+    console.log( 'here key: ', options );
+    
+    this._directories_manifest = {};
     
     return this;
   } // Directory_Manifest()
@@ -56,45 +58,7 @@
   /* -------------------------------------------------------------------------------------------
      .directory_manifest( options )
   */
-  Set.Build( 'directory_manifest', Directory_Manifest, function( Super ) { return {
-    // create file .manifest 
-    _create_file: function( filepath ) {
-      var content = { id: uuid_v4(), flow: 'manifest' };
-      
-      fs.writeFile( filepath + '/.manifest', JSON.stringify( content ), function( err ) {
-        if( err ) return this._error( '_create_file', log.s( err ) );
-        
-        de&&ug( '_create_file(), file created, content: ' + log.s( content ) );
-      } );
-      
-      var waiters = this._manifest_waiters, len = waiters.length;
-      
-      if( len ) {
-        for( var i = -1; ++i < len; ) waiters[ i ].call( this );
-        
-        this._manifest_waiters = [];
-      }
-      
-      return this;
-    }, // _create_file()
-    
-    // read the content of .manifest file
-    _read_file: function( filepath ) {
-      fs.readFile( filepath, function( err, content ) {
-        if( err ) return this._error( '_read_file', log.s( err ) );
-      } );
-      
-      return this;
-    }, // _read_file()
-    
-    _wait_for_manifest: function( handler ) {
-      this._manifest_waiters.push( handler );
-      
-      de&&ug( '_wait_for_manifest(), manifest_waiters: ' + this._manifest_waiters.length );
-      
-      return this;
-    }, // _wait_for_manifest()
-    
+  File_Set.Build( 'directory_manifest', Directory_Manifest, function( Super ) { return {
     _add: function( entries, options ) {
       var l = entries.length;
       
@@ -102,48 +66,79 @@
       
       var that = this;
       
-      var manifests = this._directories_manifest;
+      var emitter   = new EventEmitter()
+        , manifests = this._directories_manifest
+        , that      = this
+      ;
       
-      console.log( entries );
-      
-      for( var i = -1; ++i < l; ) {
-        var entry      = entries[ i ]
-          , entry_path = entry.path
-          , dirname    = entry.type === 'directory' ? entry_path : path.dirname( entry_path )
-          , entry_name = path.basename( entry_path )
-          , found      = false
-        ;
-        
-        if( manifests[ dirname ] ) {
-          var value = extend( {}, manifests[ dirname ], entry );
-          
-          this.__emit_add( [ value ] );
-        } else {
-          if( entry_name !== '.manifest' ) {
-            this._wait_for_manifest( function() { that._add( [ entry ], options ); } );
-          } else {
-            fs.readFile( entry_path, function( err, content ) {
-              if( err ) return that._error( '_read_file', log.s( err ) );
-              
-              try {
-                content = JSON.parse( content );
-                
-                console.log( 'manifest content: ', content );
-                
-                manifests[ dirname ] = content;
-              } catch ( e ) {
-                de&&ug( 'error: ' + e );
-              }
-            } );
-            
-            found = true;
-          }
-        }
-      } // for()
-      
-      // if( ! found ) this._create_file(  );
+      for( var i = -1; ++i < l; ) _add( entries[ i ] );
       
       return this;
+      
+      function _add( entry ) {
+        var entry_path = that._get_path( entry.path )
+          , dirname    = entry.type === 'directory' ? entry_path : path.dirname( entry_path )
+        ;
+        
+        switch( typeof manifests[ dirname ] ) {
+          case 'undefined' :
+            if( fs.existsSync( dirname + '/.manifest.json' ) ) {
+              manifests[ dirname ] = function( emit_value ) {
+                emitter.on( dirname + '/__read__', emit_value );
+              };
+              
+              read_file( dirname );
+            } else {
+              manifests[ dirname ] = function( emit_value ) {
+                emitter.on( dirname + '/__write__', emit_value );
+              };
+              
+              create_file( dirname );
+            }
+          
+          case 'function' :
+            manifests[ dirname ]( emit_value );
+          break;
+          
+          case 'object' :
+            emit_value( manifests[ dirname ] );
+          break;
+        } // switch()
+        
+        // return;
+        
+        function emit_value( value ) {
+          that.__emit_add( [ extend_2( { manifest: value }, entry ) ] );
+        } // emit_value()
+      } // _add()
+      
+      function create_file( dirname ) {
+        var content = { id: uuid_v4() };
+        
+        fs.writeFile( dirname + '/.manifest.json', JSON.stringify( content ), function( err ) {
+          if( err ) return that._error( 'create_file', log.s( err ) );
+          
+          manifests[ dirname ] = content;
+          
+          emitter.emit( dirname + '/__write__', content );
+        } );
+      } // create_file
+      
+      function read_file( dirname ) {
+        fs.readFile( dirname + '/.manifest.json', function( err, content ) {
+          if( err ) return that._error( 'read_file', log.s( err ) );
+          
+          try {
+            content = JSON.parse( content );
+            
+            manifests[ dirname ] = content;
+            
+            emitter.emit( dirname + '/__read__', content );
+          } catch ( e ) {
+            de&&ug( 'error: ' + e );
+          }
+        } );
+      } // read_file()
     }, // _add()
     
     _remove: function( entries, options ) {
@@ -151,7 +146,38 @@
       
       if( ! l ) return this;
       
+      var manifests = this._directories_manifest
+        , that      = this
+      ;
+      
+      for( var i = -1; ++i < l; ) _remove( entries[ i ] );
+      
       return this;
+      
+      function _remove( entry ) {
+        var entry_path = that._get_path( entry.path )
+          , dirname    = entry.type === 'directory' ? entry_path : path.dirname( entry_path )
+        ;
+        
+        switch( typeof manifests[ dirname ] ) {
+          case 'undefined' :
+            de&&ug( '.manifest.json not found, dirname: ' + dirname );
+          break;
+          
+          case 'function' :
+            manifests[ dirname ]( remove_value );
+          break;
+          
+          case 'object' :
+            remove_value( manifests[ dirname ] );
+          break;
+        } // switch()
+        
+        function remove_value( value ) {
+          that.__emit_remove( [ extend_2( { manifest: value }, entry ) ] );
+        } // remove_value()
+      } // _remove()
+      
     } // _remove()
   }; } ); // Directory_Manifest instance methods
   
