@@ -163,7 +163,7 @@
       return this;
       
       function get_public_url( file ) {
-        var file_path = file.path;
+        var file_path = file.dropbox_filepath;
         
         switch( typeof cache[ file_path ] ) {
           case 'undefined' :
@@ -177,7 +177,7 @@
                 
                 var value = extend_2( { uri: public_url.url.replace( 'www.dropbox.com', 'dl.dropboxusercontent.com' ) }, file );
                 
-                delete value.path;
+                delete value.dropbox_filepath
                 
                 cache[ file_path ] = value;
                 
@@ -200,7 +200,7 @@
       } // get_public_url()
       
       function emit_url( value ) {
-        de&&ug( 'emit_url(), url : ' + log.s( value ) );
+        de&&ug( 'emit_url(), url : ' + log.s( value, null, ' ' ) );
         
         that.__emit_add( [ value ] );
       } // emit_url()
@@ -219,7 +219,7 @@
       
       for( var i = -1; ++ i < l; ) {
         var file      = files[ i ]
-          , file_path = file.path
+          , file_path = file.dropbox_filepath
         ;
         
         switch( typeof cache[ file_path ] ) {
@@ -240,7 +240,7 @@
       return this;
       
       function remove_url( value ) {
-        de&&ug( 'remove_url(), value : ' + log.s( value ) );
+        de&&ug( 'remove_url(), value : ' + log.s( value, null, ' ' ) );
         
         that.__emit_remove( [ value ] );
         
