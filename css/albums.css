@@ -2,36 +2,46 @@
   CastorCAD photo albums style
 */
 
-#album_thumbnails div {
-  width: 25%;
+.albums-info {
+  font-size: 13px;
+  font-weight: bold;
+  text-align: right;
+  padding: 10px 0;
+  color: #AF0319;
+}
+
+.albums-info div {
+  margin-right: 20px;
+}
+
+#album_thumbnails > div {
+  width: 33%;
   float: left;
-  padding:5px;
+  padding: 5px; xborder: 1px solid red;
+}
+
+#album_thumbnails div.item-title {
+  color: black;
+  text-align: center;
+  font-size: 16px;
+  margin-top: 10px;
+  position: relative;
 }
 
 #album_thumbnails div img {
-  cursor: pointer;
-}
-
-#album_thumbnails div.active img,
-#album_thumbnails div.active img:hover {
-  background-color: #AF0319;
+  max-height: 217px;
+  margin: 0 auto;
+  display: block;
 }
 
 #album_thumbnails div img:hover {
   background-color: #3387cc;
 }
 
-.xs-modal .xs-modal-close {
-  right: 9%;
-  top: 4%;
-}
-
 #album_carousel.carousel {
-  width: 80%;
-  height: 90%;
+  width: 100%; border: 1px solid red;
+  height: 100%;
   background: none;
-  top: 5%;
-  left: 10%;
   margin: 0px;
   border: none;
   box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.2);
@@ -40,8 +50,8 @@
 
 #album_carousel.carousel img {
   width: auto;
-  max-height: 100%;
-  margin: 0px auto;
+  max-height: 720px;
+  xmargin: 0px auto;
 }
 
 .footer-menu {
@@ -49,8 +59,116 @@
   bottom: 0px;
 }
 
-/* bootstrap carousel */
+@media screen and ( min-width: 992px ) and ( max-width: 1199px ) {
+  #album_thumbnails > div {
+    width: 50%;
+  }
+  
+  #album_thumbnails div img {
+    max-height: 273px;
+  }
 
+}
+
+@media screen and ( min-width: 777px ) and ( max-width: 991px ) {
+  [class*="col-md-"] {
+    margin: 0px;
+  }
+  
+  .header .col-md-6 {
+    width: 50%;
+    float: left;
+  }
+  
+  #album_thumbnails > div {
+    width: 50%;
+  }
+  
+  #album_thumbnails div img {
+    max-height: 211px;
+  }
+
+}
+
+@media screen and ( min-width: 640px ) and ( max-width: 776px ) {
+  [class*="col-md-"] {
+    margin: 0px;
+  }
+  
+  .header .col-md-6 {
+    width: 50% !important;
+    float: left !important;
+  }
+  
+  #container .container {
+    padding: 0p;
+  }
+  
+  #album_thumbnails > div {
+    width: 100%;
+  }
+  
+  #album_thumbnails div img {
+    max-height: 340px;
+  }
+}
+
+@media screen and ( max-width: 639px ) {
+  [class*="col-md-"] {
+    margin: 0px;
+  }
+  
+  .header .col-md-6 {
+    width: 100% !important;
+    float: none !important;
+  }
+  
+  .header .logo {
+    margin-bottom: 10px !important;
+  }
+  
+  .header .logo img {
+    margin-bottom: 0;
+    float: none !important;
+  }
+  
+  .header .albums-info {
+    clear: both;
+    margin-bottom: 30px;
+  }
+  
+  .header .albums-info div {
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  #container .container {
+    padding: 0p;
+  }
+  
+  #album_thumbnails > div {
+    width: 100%;
+  }
+  
+  #album_thumbnails div img {
+    max-height: 340px;
+  }
+
+}
+
+
+/* bootstrap carousel */
+@xmedia ( max-width: 640px ) {
+  .header .logo {
+    margin-bottom: 5px;
+  }
+  
+  #album_thumbnails > div {
+    xwidth: 100%;
+  }
+}
+
+/*
 @media (max-width: 767px) {
   .header {
     padding: 10px;
@@ -90,3 +208,4 @@
     margin-top: 40px;
   }
 }
+*/
