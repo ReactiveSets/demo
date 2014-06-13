@@ -2,22 +2,30 @@
   CastorCAD photo albums style
 */
 
+.header .logo {
+}
+
 .albums-info {
-  font-size: 13px;
+  font-size: 20px;
   font-weight: bold;
   text-align: right;
-  padding: 10px 0;
+  padding: 6px 0;
   color: #AF0319;
 }
 
 .albums-info div {
   margin-right: 20px;
+  margin-left: 15px;
+}
+
+.albums-info div:last-child {
+  color: #777;
 }
 
 #album_thumbnails > div {
   width: 33%;
   float: left;
-  padding: 5px; xborder: 1px solid red;
+  padding: 5px;
 }
 
 #album_thumbnails div.item-title {
@@ -39,24 +47,117 @@
 }
 
 #album_carousel.carousel {
-  width: 100%; border: 1px solid red;
-  height: 100%;
+  width: 100%;
   background: none;
+  position: absolute;
+  top: 4%;
   margin: 0px;
   border: none;
   box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.2);
   padding: 0px;
+  text-align: center;
+}
+
+#album_carousel.carousel .carousel-controls {
+  xposition: relative;
+  right: 49%;
+  bottom: 10px;
+  z-index: 11;
+}
+
+#album_carousel.carousel .carousel-control {
+  width: 30px;
+  height: auto;
+  margin: 0;
+  background: none;
+  opacity: 1;
+  text-shadow: none;
+}
+
+#album_carousel.carousel .carousel-control .glyphicon {
+  line-height: 20px;
+  cursor: pointer;
+}
+
+#album_carousel.carousel .carousel-control .glyphicon-chevron-left,
+#album_carousel.carousel .carousel-control .glyphicon-chevron-right {
+  width: auto;
+  height: auto;
+  margin: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  color: #222;
+}
+
+#album_carousel.carousel .carousel-inner {
+  width: auto;
+  text-align: center;
+  display: inline-block;
+  padding 2px;
+  background-color: #fff;
+  border: 8px solid #fff;
+  border-radius: 2px 2px 5px 5px;
+}
+
+#album_carousel.carousel .carousel-inner .item.active {
+  display: inline-block;
+  margin: 0 auto;
+  -webkit-transition: .6s ease-in-out left, 1s ease width;
+  transition: .6s ease-in-out left 4s, 0.6s ease width 3s;
 }
 
 #album_carousel.carousel img {
   width: auto;
-  max-height: 720px;
-  xmargin: 0px auto;
+  xmax-height: 500px !important;
+}
+
+#album_carousel.carousel .carousel-caption {
+  max-width: 100%;
+  position: relative;
+  left: 0;
+  bottom: 0;
+  padding: 10px 0 2px 2px;
+  font-weight: normal;
+}
+
+#album_carousel.carousel .carousel-caption h3 {
+  font-size: 13px;
+  margin: 0px;
+  line-height: 12px;
+  color: #000;
+  background: none;
 }
 
 .footer-menu {
   display: none;
   bottom: 0px;
+}
+
+@media screen and ( max-height: 688px ) {
+  #album_carousel.carousel {
+    top: 3%;
+  }
+  
+  #album_carousel.carousel img {
+    height: 600px !important;
+  }
+}
+
+
+@media screen and ( min-width: 1280px ) {
+  #album_carousel.carousel img {
+    height: 700px;
+  }
+}
+
+@media screen and ( min-width: 1200px ) and ( max-width: 1279px ) {
+  #album_carousel.carousel {
+    top: 6%;
+  }
+  
+  #album_carousel.carousel img {
+    height: 660px;
+  }
 }
 
 @media screen and ( min-width: 992px ) and ( max-width: 1199px ) {
@@ -67,7 +168,14 @@
   #album_thumbnails div img {
     max-height: 273px;
   }
+  
+  #album_carousel.carousel {
+    top: 14%;
+  }
 
+  #album_carousel.carousel img {
+    height: 545px;
+  }
 }
 
 @media screen and ( min-width: 777px ) and ( max-width: 991px ) {
@@ -87,7 +195,18 @@
   #album_thumbnails div img {
     max-height: 211px;
   }
+  
+  #album_carousel.carousel .carousel-controls {
+    right: 47%;
+  }
+  
+  #album_carousel.carousel {
+    top: 20%;
+  }
 
+  #album_carousel.carousel img {
+    height: 420px;
+  }
 }
 
 @media screen and ( min-width: 640px ) and ( max-width: 776px ) {
@@ -110,6 +229,18 @@
   
   #album_thumbnails div img {
     max-height: 340px;
+  }
+  
+  #album_carousel.carousel {
+    top: 25%;
+  }
+  
+  #album_carousel.carousel .carousel-controls {
+    right: 45%;
+  }
+  
+  #album_carousel.carousel img {
+    height: 345px;
   }
 }
 
@@ -153,7 +284,8 @@
   #album_thumbnails div img {
     max-height: 340px;
   }
-
+  
+  
 }
 
 
