@@ -31,6 +31,7 @@
     , extend_2 = XS.extend_2
     , Code     = XS.Code
     , Pipelet  = XS.Pipelet
+    , Set      = XS.Set
   ;
   
   /* -------------------------------------------------------------------------------------------
@@ -61,7 +62,7 @@
   function Dropbox_Public_URLs( options ) {
     options.key = [ 'uri' ];
     
-    Pipelet.call( this, options );
+    Set.call( this, [], options );
     
     this._dropbox_url_events    = new EventEmitter();
     this._configuration_waiters = [];
@@ -119,7 +120,7 @@
   /* -------------------------------------------------------------------------------------------
      .dropbox_public_urls( options )
   */
-  Pipelet.Build( 'dropbox_public_urls', Dropbox_Public_URLs, function( Super ) { return {
+  Set.Build( 'dropbox_public_urls', Dropbox_Public_URLs, function( Super ) { return {
     _fetch: function( receiver ) {
       var cache  = this.pipelet._cache
         , values = []
@@ -144,6 +145,95 @@
       return this;
     }, // _wait_for_configuration()
     
+    _add_value: function( transaction, value ) {
+      var client = this._dropbox_client
+        , cache  = this._cache
+        , that   = this
+      ;
+      
+      if( ! client ) return this._wait_for_configuration( function() { that._add_value( transaction, value ) } );
+      
+      var dropbox_url_events = this._dropbox_url_events
+        , file_path          = value.dropbox_filepath
+      ;
+      
+      switch( typeof cache[ file_path ] ) {
+        case 'undefined' :
+          cache[ file_path ] = function( emit_url ) {
+            dropbox_url_events.on( file_path, emit_url );
+          };
+          
+          client.shares( file_path, { short_url: false }, function( status, public_url ) {
+            if( status === 200 ) {
+              de&&ug( 'client.shares(), status: ' + status + ', public url: ' + log.s( public_url ) );
+              
+              var v = extend_2( { uri: public_url.url.replace( 'www.dropbox.com', 'dl.dropboxusercontent.com' ) }, value );
+              
+              delete v.dropbox_filepath
+              
+              cache[ file_path ] = v;
+              
+              dropbox_url_events.emit( file_path, v );
+            } else {
+              de&&ug( 'client.shares(), public url not found, file_path: ' + file_path );
+              
+              delete cache[ file_path ];
+            }
+          } );
+        
+        case 'function' :
+          cache[ file_path ]( emit_url );
+        break;
+        
+        case 'object' :
+          emit_url( cache[ file_path ] );
+        break;
+      } // switch typeof cache[ file_path ]
+      
+      return this;
+      
+      function emit_url( value ) {
+        de&&ug( 'emit_url(), url : ' + log.s( value ) );
+        
+        Super._add_value.call( that, transaction, value );
+      } // emit_url()
+    }, // _add_value()
+    
+    _remove_value: function( transaction, value ) {
+      var dropbox_url_events = this._dropbox_url_events
+        , cache              = this._cache
+        , file_path          = value.dropbox_filepath
+        , that               = this
+      ;
+      
+      switch( typeof cache[ file_path ] ) {
+        case 'undefined' :
+          de&&ug( '_remove_value(), public url not found -> nothing to remove, file_path: ' + file_path );
+        break;
+        
+        case 'function' :
+          dropbox_url_events.on( file_path, remove_url );
+          // cache[ file_path ]( remove_url );
+        break;
+        
+        case 'object' :
+          remove_url( cache[ file_path ] );
+          
+          delete cache[ file_path ];
+        break;
+      } // switch typeof cache[ file_path ]
+      
+      return this;
+      
+      function remove_url( value ) {
+        de&&ug( 'remove_url(), value : ' + log.s( value ) );
+        
+        Super._remove_value.call( that, transaction, value );
+      } // remove_url()
+    } // _remove_value()
+    
+    
+    /*
     _add: function( files, options ) {
       var l = files.length;
       
@@ -217,6 +307,8 @@
       
       var dropbox_url_events = this._dropbox_url_events;
       
+      for( var i = -1; ++ i < l; ) _remove( files[ i ] );
+      
       for( var i = -1; ++ i < l; ) {
         var file      = files[ i ]
           , file_path = file.dropbox_filepath
@@ -228,7 +320,8 @@
           break;
           
           case 'function' :
-            dropbox_url_events.on( file_path, remove_url );
+            // dropbox_url_events.on( file_path, remove_url );
+            cache[ file_path ]( remove_url );
           break;
           
           case 'object' :
@@ -239,16 +332,36 @@
       
       return this;
       
+      function _remove( file ) {
+        var file_path = file.dropbox_filepath;
+        
+        switch( typeof cache[ file_path ] ) {
+          case 'undefined' :
+            de&&ug( '_remove(), public url not found -> nothing to remove, file_path: ' + file_path );
+          break;
+          
+          case 'function' :
+            // dropbox_url_events.on( file_path, remove_url );
+            cache[ file_path ]( remove_url );
+          break;
+          
+          case 'object' :
+            remove_url( cache[ file_path ] );
+            
+            delete cache[ file_path ];
+          break;
+        } // switch typeof cache[ file_path ]
+        
+      } // _remove()
+      
       function remove_url( value ) {
         de&&ug( 'remove_url(), value : ' + log.s( value, null, ' ' ) );
         
         that.__emit_remove( [ value ] );
-        
-        delete cache[ file_path ];
       } // remove_url()
     } // _remove()
-    
-  } } ); // Dropbox_Public_URLs instance methods
+    */
+  }; } ); // Dropbox_Public_URLs instance methods
   
   /* --------------------------------------------------------------------------
      module exports
