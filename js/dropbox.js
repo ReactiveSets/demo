@@ -56,12 +56,11 @@
      
      At last, it emits to the downstream pipelets the shareable links of the watched files.
      
-     Parameters: an optional objects
+     Parameters:
+       - an optional objects
   */
   
   function Dropbox_Public_URLs( options ) {
-    options.key = [ 'uri' ];
-    
     Set.call( this, [], options );
     
     this._dropbox_url_events    = new EventEmitter();
@@ -77,8 +76,6 @@
       
       .filter( [ { pipelet: 'dropbox_public_urls' } ] )
       
-      .trace( 'after config filter' )
-      
       .greedy()
       
       ._fetch_all( initialize_dropbox )
@@ -89,8 +86,6 @@
     return this;
     
     function initialize_dropbox( values ) {
-      de&&ug( 'initialize_dropbox(), values: ' + log.s( values, null, ' ' ) );
-      
       var value = values[ 0 ];
       
       if( value ) {
@@ -177,6 +172,8 @@
             } else {
               de&&ug( 'client.shares(), public url not found, file_path: ' + file_path );
               
+              transaction.emit_nothing();
+              
               delete cache[ file_path ];
             }
           } );
@@ -209,11 +206,12 @@
       switch( typeof cache[ file_path ] ) {
         case 'undefined' :
           de&&ug( '_remove_value(), public url not found -> nothing to remove, file_path: ' + file_path );
+          
+          transaction.emit_nothing();
         break;
         
         case 'function' :
           dropbox_url_events.on( file_path, remove_url );
-          // cache[ file_path ]( remove_url );
         break;
         
         case 'object' :
@@ -231,142 +229,11 @@
         Super._remove_value.call( that, transaction, value );
       } // remove_url()
     } // _remove_value()
-    
-    
-    /*
-    _add: function( files, options ) {
-      var l = files.length;
-      
-      if( ! l ) return this;
-      
-      var client = this._dropbox_client
-        , cache  = this._cache
-        , that   = this
-      ;
-      
-      if( ! client ) return this._wait_for_configuration( function() { that._add( files, options ) } )
-      
-      var dropbox_url_events = this._dropbox_url_events;
-      
-      for( var i = -1; ++ i < l; ) get_public_url( files[ i ] );
-      
-      return this;
-      
-      function get_public_url( file ) {
-        var file_path = file.dropbox_filepath;
-        
-        switch( typeof cache[ file_path ] ) {
-          case 'undefined' :
-            cache[ file_path ] = function( emit_url ) {
-              dropbox_url_events.on( file_path, emit_url );
-            };
-            
-            client.shares( file_path, { short_url: false }, function( status, public_url ) {
-              if( status === 200 ) {
-                de&&ug( 'client.shares(), status: ' + status + ', public url: ' + log.s( public_url, null, ' ' ) );
-                
-                var value = extend_2( { uri: public_url.url.replace( 'www.dropbox.com', 'dl.dropboxusercontent.com' ) }, file );
-                
-                delete value.dropbox_filepath
-                
-                cache[ file_path ] = value;
-                
-                dropbox_url_events.emit( file_path, value );
-              } else {
-                de&&ug( 'client.shares(), public url not found, file_path: ' + file_path );
-                
-                delete cache[ file_path ];
-              }
-            } );
-          
-          case 'function' :
-            cache[ file_path ]( emit_url );
-          break;
-          
-          case 'object' :
-            emit_url( cache[ file_path ] );
-          break;
-        } // switch typeof cache[ file_path ]
-      } // get_public_url()
-      
-      function emit_url( value ) {
-        de&&ug( 'emit_url(), url : ' + log.s( value, null, ' ' ) );
-        
-        that.__emit_add( [ value ] );
-      } // emit_url()
-    }, // _add()
-    
-    _remove: function( files, options ) {
-      var l = files.length;
-      
-      if( ! l ) return this;
-      
-      var cache = this._cache
-        , that  = this
-      ;
-      
-      var dropbox_url_events = this._dropbox_url_events;
-      
-      for( var i = -1; ++ i < l; ) _remove( files[ i ] );
-      
-      for( var i = -1; ++ i < l; ) {
-        var file      = files[ i ]
-          , file_path = file.dropbox_filepath
-        ;
-        
-        switch( typeof cache[ file_path ] ) {
-          case 'undefined' :
-            de&&ug( '_remove(), public url not found -> nothing to remove, file_path: ' + file_path );
-          break;
-          
-          case 'function' :
-            // dropbox_url_events.on( file_path, remove_url );
-            cache[ file_path ]( remove_url );
-          break;
-          
-          case 'object' :
-            remove_url( cache[ file_path ] );
-          break;
-        } // switch typeof cache[ file_path ]
-      } // for()
-      
-      return this;
-      
-      function _remove( file ) {
-        var file_path = file.dropbox_filepath;
-        
-        switch( typeof cache[ file_path ] ) {
-          case 'undefined' :
-            de&&ug( '_remove(), public url not found -> nothing to remove, file_path: ' + file_path );
-          break;
-          
-          case 'function' :
-            // dropbox_url_events.on( file_path, remove_url );
-            cache[ file_path ]( remove_url );
-          break;
-          
-          case 'object' :
-            remove_url( cache[ file_path ] );
-            
-            delete cache[ file_path ];
-          break;
-        } // switch typeof cache[ file_path ]
-        
-      } // _remove()
-      
-      function remove_url( value ) {
-        de&&ug( 'remove_url(), value : ' + log.s( value, null, ' ' ) );
-        
-        that.__emit_remove( [ value ] );
-      } // remove_url()
-    } // _remove()
-    */
   }; } ); // Dropbox_Public_URLs instance methods
   
   /* --------------------------------------------------------------------------
      module exports
   */
-  eval( XS.export_code( 'XS', [ 'Dropbox_Public_URLs' ] ) );
   
   de&&ug( "module loaded" );
 } ( this ); // dropbox_public_urls.js
