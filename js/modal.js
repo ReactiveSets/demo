@@ -24,7 +24,7 @@ function _close( e ) {
   
   switch( e.type ) {
     case 'click':
-      if( $target.hasClass( 'xs-modal-close' ) || $target.hasClass( 'xs-modal' ) ) _close_modal();
+      if( $target.hasClass( 'xs-modal-close' ) || $target.hasClass( 'xs-modal' ) || $target.parent().hasClass( 'xs-modal' ) ) _close_modal();
     break;
     
     case 'keyup':
