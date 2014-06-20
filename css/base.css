@@ -370,10 +370,12 @@ button.close {
 .carousel .carousel-control .glyphicon-play,
 .carousel .carousel-control .glyphicon-pause,
 .carousel .carousel-control .glyphicon-save {
+  width: 50px;
+  height: 35px;
   position: relative;
-  top: 1px;
   left: 0;
   right: 0;
+  margin: 0px;
   z-index: 5;
   display: block;
 }
