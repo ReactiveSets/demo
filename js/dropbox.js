@@ -58,6 +58,14 @@
      
      Parameters:
        - an optional objects
+     
+     Installation links:
+       - Dropbox for Ubuntu:
+           https://www.dropbox.com/install?os=lnx
+       
+       - Dropbox Command Line Interface ( CLI ):
+           http://www.dropboxwiki.com/tips-and-tricks/using-the-official-dropbox-command-line-interface-cli
+     
   */
   
   function Dropbox_Public_URLs( options ) {
@@ -235,5 +243,4 @@
      module exports
   */
   
-  de&&ug( "module loaded" );
-} ( this ); // dropbox_public_urls.js
+  de&&ug( "module loaded" ); } ( this ); // dropbox_public_urls.js
