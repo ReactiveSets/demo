@@ -34,7 +34,7 @@ carousel_images = xs
   .load_images()
   
   // .join( descriptions, [ [ 'id', 'id' ] ], join )
-  .bootstrap_carousel( document.getElementById( 'slider' ), { interval: 8000 } )
+  .bootstrap_carousel( document.getElementById( 'slider' ), { interval: 8000, auto_start: true } )
 ;
 
 // function join()
