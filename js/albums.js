@@ -2,40 +2,71 @@
 
 !function( exports ) {
 
-// 76e8c857-0c49-4aba-9af3-7e0d3dfc3e12 // deroua
-// 7d78d170-f1b4-4083-baf4-b916091dd27b // daien
-// c27b1943-8406-4f33-8597-8d3d6b7b7236 // dian
+// 9d02dd34-dc8d-4712-b6c6-089bc5af1fb2  Alain
+// 3b5f50cb-fcae-4a79-b712-606219231cff  BSEM
 
 var $  = jQuery
   , xs = XS.xs
   
-  , server      = xs.socket_io_server()
-  , by_album_id = xs
+  , server = xs.socket_io_server()
+  
+  , by_architect_id = xs
+      
       .url_events()
+      
       .url_parse ()
-      .alter( get_album_id, { key: [ 'album_id' ], no_clone: true } )
+      
+      .alter( get_architect_id, { key: [ 'architect_id' ], no_clone: true } )
+      
       .last()
-      .trace( 'filter by album_id' )
+      
+      .trace( 'filter by architect_id' )
     
   , album_thumbnails_node = document.getElementById( 'album_thumbnails' )
   , album_carousel_node   = document.getElementById( 'album_carousel'   )
 ;
 
+// albums details
 server
-  .bootstrap_photo_album( album_thumbnails_node, album_carousel_node, {
-      album_name     : 'album'
-    , images_flow    : 'albums_images'
-    , thumbnails_flow: 'albums_thumbnails'
-    , query          : by_album_id
+  
+  .filter( by_architect_id.alter( { flow: 'albums_thumbnails' } ) )
+  
+  .last()
+  
+  .trace( 'after last()' )
+  
+  .alter( function( album ) {
+    $( '#albums_details' ).html(
+        '<div>' + album.architect_name + '</div>'
+      + '<div>' + album.project_name   + '</div>'
+    );
   } )
 ;
 
+server.bootstrap_photo_album( album_thumbnails_node, album_carousel_node, {
+    album_name     : 'album'
+  , images_flow    : 'albums_images'
+  , thumbnails_flow: 'albums_thumbnails'
+  , query          : by_architect_id
+  , play           : false
+  , css_classes    : { images: '' }
+} );
+
+
 return;
 
-function get_album_id( value ) {
+function get_architect_id( value ) {
   var hash = value.hash;
   
-  return hash === undefined ? {} : { album_id: hash.substr( 2 ) };
-}
+  return hash === undefined ? null : { architect_id: hash.substr( 2 ) };
+} // get_architect_id()
+
+function albums_metadata( image ) {
+  
+  if( image.flow === 'albums_images' ) image.title = image.image_name;
+  
+  delete image.path;
+  delete image.date;
+} // albums_metadata()
 
 }( this );

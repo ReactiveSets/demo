@@ -38,7 +38,8 @@ require( 'excess/lib/join.js'  );
 require( 'excess/lib/order.js' );
 require( 'excess/lib/form.js'  );
 
-require( './js/dropbox.js' );
+require( './js/dropbox.js'            );
+require( './js/directory_manifest.js' );
 
 /* -------------------------------------------------------------------------------------------
    de&&ug()
@@ -68,7 +69,7 @@ entries
   
   .filter( [ { type: 'directory' } ] )
   
-  ._output._add_destination( dropbox_directories._input )
+  ._add_destination( dropbox_directories )
 ;
 
 var client_min = xs
@@ -81,17 +82,18 @@ var client_min = xs
     
     xs.set( [
       // xs.core
-      { name: 'excess/lib/xs.js'        },
-      { name: 'excess/lib/code.js'      },
-      { name: 'excess/lib/query.js'     },
-      { name: 'excess/lib/pipelet.js'   },
-      { name: 'excess/lib/filter.js'    },
-      { name: 'excess/lib/order.js'     },
-      { name: 'excess/lib/aggregate.js' },
-      { name: 'excess/lib/join.js'      },
-      { name: 'excess/lib/events.js'    },
-      { name: 'excess/lib/uri.js'       },
-      { name: 'excess/lib/last.js'      },
+      { name: 'excess/lib/xs.js'           },
+      { name: 'excess/lib/code.js'         },
+      { name: 'excess/lib/query.js'        },
+      { name: 'excess/lib/transactions.js' },
+      { name: 'excess/lib/pipelet.js'      },
+      { name: 'excess/lib/filter.js'       },
+      { name: 'excess/lib/order.js'        },
+      { name: 'excess/lib/aggregate.js'    },
+      { name: 'excess/lib/join.js'         },
+      { name: 'excess/lib/events.js'       },
+      { name: 'excess/lib/uri.js'          },
+      { name: 'excess/lib/last.js'         },
       
       // xs.ui
       { name: 'excess/lib/selector.js'                },
@@ -130,35 +132,82 @@ var client_min = xs
 var carousel_images = require( './carousel_images.js' )
   , gallery_images  = require( './gallery_images.js'  )
   , projects_images = require( './projects_images.js' )
-  , albums_images   = entries
+  , dropbox_images  = entries
       
-      .filter( [ { extension: 'jpg' }, { extension: 'png' } ] )
+      .delay( 100 )
       
-      .alter( get_album_id_from_path, { no_clone: true } )
+      .directory_manifest()
       
-      .auto_increment()
-      
-      .dropbox_public_urls()
-      
-      .set_flow( 'albums_images' )
-      
-      .trace( 'albums_images out' )
+      .trace( 'manifests' )
 ;
 
+// architects
+var architects = dropbox_images
+  
+  .filter( [ { type: 'directory', depth: 1 } ] )
+  
+  .alter( alter_architects )
+  
+  .trace( 'architects' )
+;
+
+// projects
+var projects = dropbox_images
+  
+  .filter( [ { type: 'directory', depth: 2 } ] )
+  
+  .alter( alter_projects )
+  
+  .join( architects, [ [ 'architects_dirname', 'architects_dirname' ] ], projects_architects )
+  
+  .trace( 'projects' )
+;
+
+var albums_images = dropbox_images
+  
+  .filter( [ { type: 'file', depth: 4, extension: 'jpg' }, { type: 'file', depth: 4, extension: 'png' } ] )
+  
+  .alter( alter_images )
+  
+  .join( projects, [ [ 'projects_dirname', 'projects_dirname' ] ], images_metadata )
+  
+  .auto_increment()
+  
+  .dropbox_public_urls()
+
+  .set_flow( 'albums_images' )
+  
+  .trace( 'albums images' )
+;
+
+albums_images.thumbnails( { path: 'thumbnails/', width: 638, height: 360, base_directory: __dirname } );
+
+var albums_thumbnails = dropbox_images
+  
+  .filter( [ { type: 'file', depth: 5, extension: 'jpg' }, { type: 'file', depth: 5, extension: 'png' } ] )
+  
+  .alter( alter_thumbnails )
+  
+  .join( albums_images, [ [ 'images_dirname', 'images_dirname' ], [ 'image_source', 'image_basename' ] ], thumbnails_metadata )
+  
+  .dropbox_public_urls()
+  
+  .set_flow( 'albums_thumbnails' )
+
+  .trace( 'albums thumbnails' )
+;
+
+
 var gallery_thumbnails = gallery_images
-  .thumbnails( { path: 'images/', width: 125, height: 80, base_directory: __dirname } )
+  .thumbnails( { width: 125, height: 80, base_directory: __dirname } )
   .set_flow( 'gallery_thumbnails' )
 ;
 
 var projects_thumbnails = projects_images
-  .thumbnails( { path: 'images/', width: 700, height: 520, base_directory: __dirname } )
+  .thumbnails( { width: 700, height: 520, base_directory: __dirname } )
   .set_flow( 'projects_thumbnails' )
 ;
 
-var albums_thumbnails = albums_images
-  // .thumbnails( { path: 'images/', width: 300, height: 180, base_directory: __dirname } )
-  .set_flow( 'albums_thumbnails' )
-;
 
 var files = xs
   .set( [
@@ -173,6 +222,7 @@ var files = xs
     { path: 'css/projects.css'         },
     { path: 'css/gallery.css'          },
     { path: 'css/albums.css'           },
+    { path: 'css/modal.css'            },
     
     // JS files
     { path: 'js/hammer.js'             },
@@ -211,17 +261,21 @@ var contact_form_fields = require( "./contact_form_fields.js" )
 
 // Serve contact_form_fields to socket.io clients
 contact_form_fields
-  .union( [ carousel_images.to_uri(), gallery_images.to_uri(), gallery_thumbnails.to_uri(), projects_images.to_uri(), projects_thumbnails.to_uri(), albums_images, albums_thumbnails ] )
+  .union( [
+      carousel_images    .to_uri()
+    , gallery_images     .to_uri()
+    , gallery_thumbnails .to_uri()
+    , projects_images    .to_uri()
+    , projects_thumbnails.alter( path_to_uri )
+    , albums_images
+    , albums_thumbnails
+  ] )
   
   .trace( 'contact_form_fields, images and thumbnails to clients' )
   
   // Start socket.io server, and dispatch client connections to provide contact_form_fields and get filled contact forms
   .dispatch( servers.socket_io_clients(), function( source, options ) {
-    var socket = this.socket;
-    
-    socket._input._add_source( source );
-    
-    return socket;
+    return this.socket._add_source( source );
   } )
   
   .trace( 'contact form received from client' )
@@ -270,18 +324,86 @@ contact_form_fields
   .trace( 'email sent' )
 ;
 
-function get_album_id_from_path( file ) {
-  var file_path = file.path.match( '~/Dropbox/Apps/CastorCAD/(.*)' )[ 1 ];
-  
-  return {
-      path    : file_path
-    , album_id: file_path.split( '/' )[ 1 ]
-    , title   : path.basename( file_path )
-  };
-} // get_album_id_from_path()
+function alter_architects( file ) {
+  file.architect_id       = file.manifest.id;
+  file.architects_dirname = file.path;
 
-function fix_image_name( image ) {
-  return XS.extend_2( image, { path: 'albums/' + image.album_id + '/' + image.path } );
+  delete file.manifest;
+} // alter_architects()
+
+function alter_projects( file ) {
+  file.project_id         = file.manifest.id;
+  file.architects_dirname = path.dirname( file.path );
+  file.projects_dirname   = file.path;
+
+  delete file.manifest;
+} // alter_projects()
+
+function alter_images( file ) {
+  var a = file.path.split( '/' );
+
+  file.projects_dirname = a.slice( 0, a.length - 2 ).join( '/' );
+  file.images_dirname   = a.slice( 0, a.length - 1 ).join( '/' );
+  file.image_id         = file.manifest.id;
+
+  delete file.manifest;
+} // alter_images()
+
+function alter_thumbnails( file ) {
+  var a = file.path.split( '/' );
+
+  file.images_dirname = a.slice( 0, a.length - 2 ).join( '/' );
+  file.image_source   = a[ a.length - 1 ].split( '-' )[ 0 ] + '.' + file.extension;
+
+  file.thumbnail_id  = file.manifest.id;
+
+  delete file.manifest;
+} // _thumbnails()
+
+function projects_architects( project, architect ) {
+  return {
+      architect_id    : architect.architect_id
+    , project_id      : project.project_id
+    , projects_dirname: project.projects_dirname
+  };
+} // architects_projects()
+
+function images_metadata( image, project ) {
+  var filepath         = image.path
+    , dropbox_filepath = filepath.match( '~/Dropbox/Apps/CastorCAD/(.*)' )[ 1 ]
+    , array            = dropbox_filepath.split( '/' )
+  ;
+
+  return {
+      architect_id    : project.architect_id
+    , architect_name  : array[ 1 ]
+    , project_name    : array[ 2 ]
+    , image_name      : array[ 3 ]
+    , path            : filepath
+    , dropbox_filepath: dropbox_filepath
+    , date            : image.mtime
+    , images_dirname  : image.images_dirname
+    , image_basename  : path.basename( filepath )
+  };
+} // images_metadata()
+
+function thumbnails_metadata( thumbnail, image ) {
+  return {
+      id              : image.id
+    , architect_id    : image.architect_id
+    , architect_name  : image.architect_name
+    , project_name    : image.project_name
+    , image_name      : image.image_name
+    , path            : thumbnail.path
+    , dropbox_filepath: thumbnail.path.match( '~/Dropbox/Apps/CastorCAD/(.*)' )[ 1 ]
+    , date            : image.date
+  };
+} // images_thumbnails()
+
+function path_to_uri( entry ) {
+  entry.uri = entry.path;
+  
+  delete entry.path;
 }
 
 } // module.exports
