@@ -74,6 +74,7 @@
         , dirname       = value.type === 'directory' ? entry_path : path.dirname( entry_path )
         , manifest_path = dirname + '/.manifest.json'
         , redirect_path = dirname + '/redirect.html'
+        , depth         = value.depth
         
         , manifests     = this._directories_manifest
       ;
@@ -82,170 +83,77 @@
       fs.exists( manifest_path, function( manifest_exists ) {
         // if it exist
         if( manifest_exists ) {
-          fs.readFile( manifest_path, function( err, content ) {
-            if( err ) return error( '_add_value(), fs.readFile(): Cannot read file, path: ' + manifest_path );
-            
-            try {
-              de&&ug( '_add_value(), read file, content: ' + content + ', path: ' + manifest_path );
-              
-              content = JSON.parse( content );
-              
-              emit_value( extend_2( { manifest: content }, value ) );
-              
-              // add an HTML file containing the album url
-              if( value.depth === 1 ) {
-                fs.exists( redirect_path, function( redirect_exists ) {
-                  // create the HTML redirect file if not exist
-                  if( ! redirect_exists ) {
-                    fs.writeFile( redirect_path, that._redirect_html_content( content.id ), function( err ) {
-                      if( err ) return error( '_add_value(), fs.writeFile(): Cannot create file, path: ' + redirect_path );
-                      
-                      de&&ug( '_add_value(), file created, path: ' + redirect_path );
-                    } ); // fs.writeFile( redirect_path )
-                  } // if()
-                } ); // fs.exists( redirect_path )
-              } // if()
-            } catch( e ) {
-              error( '_add_value(), fs.readFile(): Cannot parse JSON object'
-                + ', error: '   + log.s( e )
-                + ', content: ' + log.s( content )
-                + ', path: '    + manifest_path
-              );
-            } // try .. catch()
-          } ); // fs.readFile()
           
+          read_file( manifest_path, function( content ) {
+            emit_value( extend_2( { manifest: content }, value ) );
+            
+            if( depth === 1 ) html_redirect( redirect_path, that._redirect_html_content( content.id ) );
+          } );
         } else {
           var v = { id: uuid_v4() };
           
-          fs.writeFile( manifest_path, JSON.stringify( v ), function( err ) {
-            if( err ) return error( '_add_value(), fs.writeFile(): Cannot create file, path: ' + manifest_path );
-            
-            de&&ug( '_add_value(), file created, path: ' + manifest_path );
-            
+          write_file( manifest_path, JSON.stringify( v ), function() {
             emit_value( extend_2( { manifest: v }, value ) );
-          } ); // fs.writeFile( manifest_path )
+            
+            that._directories_manifest[ manifest_path ] = v;
+          } );
           
-          // add an HTML file containing the album url
-          if( value.depth === 1 ) {
-            fs.exists( redirect_path, function( redirect_exists ) {
-              // create the HTML redirect file if not exist
-              if( redirect_exists ) {
-                fs.unlink( redirect_path, function( err ) {
-                  if( err ) return error( '_add_value(), fs.unlink(): Cannot delete file, path: ' + redirect_path );
-                  
-                  fs.writeFile( redirect_path, that._redirect_html_content( v.id ), function( err ) {
-                    if( err ) return error( '_add_value(), fs.writeFile(): Cannot create file, path: ' + redirect_path );
-                    
-                    de&&ug( '_add_value(), file created, path: ' + redirect_path );
-                  } ); // fs.writeFile( redirect_path )
-                } ); // fs.unlink( redirect_path );
-              } else {
-                fs.writeFile( redirect_path, that._redirect_html_content( v.id ), function( err ) {
-                  if( err ) return error( '_add_value(), fs.writeFile(): Cannot create file, path: ' + redirect_path );
-                  
-                  console.log( 'here', that._redirect_html_content( v.id ) );
-                  
-                  de&&ug( '_add_value(), file created, path: ' + redirect_path );
-                } ); // fs.writeFile( redirect_path )
-              } // if( redirect_exists ) ... else
-            } ); // fs.exists( redirect_path )
-          } // if()
+          if( depth === 1 ) html_redirect( redirect_path, that._redirect_html_content( v.id ) );
         } // if() ... else
       } ); // fs.exists( manifest_path )
       
-      
-      
       return this;
       
-      function create_file( filepath, content, emit ) {
-        fs.writeFile( filepath, content, function( err ) {
-          if( err ) return error( '_add_value(), fs.writeFile(): Cannot create file, path: ' + filepath );
+      function write_file( file_path, file_content, f ) {
+        de&&ug( '_add_value(), write_file(), path : ' + file_path );
+        
+        fs.writeFile( file_path, file_content, function( err ) {
+          if( err ) return error( '_add_value(), write_file(): Cannot create file, path: ' + file_path );
           
-          de&&ug( '_add_value(), file created, path: ' + filepath );
+          de&&ug( '_add_value(), file created, path: ' + file_path );
           
-          emit && emit_value( extend_2( { manifest: content }, value ) );
-          
-          manifests[ filepath ] = content;
-        } );
-      } // create_file()
+          f && f();
+        } ); // fs.writeFile()
+      } // write_file()
       
-      function read_file( filepath ) {
-        fs.readFile( filepath, function( err, content ) {
-          if( err ) return error( '_add_value(), fs.readFile(): Cannot read file, path: ' + manifest_path );
+      // html_redirect():
+      // create file 'redirect.html' if it not exists
+      function html_redirect( file_path, content ) {
+        fs.exists( file_path, function( exists ) {
+          if( exists ) {
+            fs.unlink( file_path, function( err ) {
+              if( err ) return error( '_add_value(), fs.unlink(): Cannot delete file, path: ' + file_path );
+              
+              de&&ug( '_add_value(), fs.unlink(): file deleted, path : ' + file_path );
+              
+              write_file( file_path, content );
+            } ); // fs.unlink();
+          } else {
+            write_file( file_path, content );
+          } // if() ... else
+        } ); // fs.exists()
+      } // html_redirect()
+      
+      function read_file( file_path, f ) {
+        fs.readFile( file_path, 'utf8', function( err, content ) {
+          if( err ) return error( '_add_value(), fs.readFile(): Cannot read file, path: ' + file_path );
           
           try {
-            de&&ug( '_add_value(), read file, content: ' + content + ', path: ' + manifest_path );
+            de&&ug( '_add_value(), read file, content: ' + content + ', path: ' + file_path );
             
             content = JSON.parse( content );
             
-            emit_value( extend_2( { manifest: content }, value ) );
-            
-            manifests[ manifest_path ] = content;
+            f && f( content );
           } catch( e ) {
             error( '_add_value(), fs.readFile(): Cannot parse JSON object'
-              + ', error: '   + log.s( e ) 
-              + ', content: ' + log.s( content ) 
-              + ', path: '    + manifest_path
+              + ', error: '   + log.s( e )
+              + ', content: ' + log.s( content )
+              + ', path: '    + file_path
             );
           } // try ... catch()
-        } );
+        } ) // fs.readFile()
       } // read_file()
       
-      /*
-      function create_file( manifest_path, value ) {
-        var content = { id: uuid_v4() };
-        
-        // create file .manifest.json
-        fs.writeFile( manifest_path, JSON.stringify( content ), function( err ) {
-          if( err ) return error( '_add(), fs.writeFile(): Cannot create file .manifest.json, path: ' + manifest_path );
-          
-          de&&ug( '_add(), .manifest.json created, content: ' + log.s( content ) + ', path: ' + manifest_path );
-          
-          emit_value( extend_2( { manifest: content }, value ) );
-          
-          manifests[ manifest_path ] = content;
-        } );
-        
-        if( value.depth === 1 ) {
-          // create HTML file
-          var html = '<html><head><meta http-equiv="Refresh" content="5; url=http://castorcad:8080/albums.html#/3b5f50cb-fcae-4a79-b712-606219231cff" />'
-            + '</head></html>'
-          ;
-          
-          fs.writeFile( dirname + '/album.html', html, function( err ) {
-            if( err ) {
-              de&&ug( '_add_value(), fs.writeFile(): Cannot create file album.html, path: ' + dirname + '/album.html' );
-            } else {
-              de&&ug( '_add_value(), fs.writeFile(): album.html created' );
-            }
-          } );
-        }
-        
-        
-      } // create_file
-      
-      function read_file( manifest_path, value ) {
-        fs.readFile( manifest_path, function( err, content ) {
-          if( err ) return error( '_add(), fs.readFile(): Cannot read file .manifest.json, path: ' + manifest_path );
-          
-          try {
-            de&&ug( '_add(), read .manifest.json, content: ' + content + ', path: ' + manifest_path );
-            
-            content = JSON.parse( content );
-            
-            emit_value( extend_2( { manifest: content }, value ) );
-            
-            manifests[ manifest_path ] = content;
-          } catch( e ) {
-            error( '_add(), fs.readFile(): Cannot parse JSON object'
-              + ', error: '   + log.s( e ) 
-              + ', content: ' + log.s( content ) 
-              + ', path: '    + manifest_path
-            );
-          }
-        } );
-      } // read_file()
-      */
       function error( message ) {
         de&&ug( message );
         
