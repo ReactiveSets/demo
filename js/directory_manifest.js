@@ -42,27 +42,33 @@
   } // ug()
   
   /* -------------------------------------------------------------------------------------------
-     Directory_Manifest( options )
+     Directory_Manifest( redirect_url, options )
      
-     Add a file .manifest.json for each input directory, and emit a value with it content
+     Create files :
+       - .manifest.json for each input directory, and emit a value with it content
+       - redirect.html for the first directory, redirecting to the client photo album
+     
+     Parameters :
+       - redirect_url : (String) the redirect URL
   */
-  function Directory_Manifest( options ) {
+  function Directory_Manifest( redirect_url, options ) {
     File_Set.call( this, options );
     
+    this._redirect_url         = redirect_url;
     this._directories_manifest = {};
     
     return this;
   } // Directory_Manifest()
   
   /* -------------------------------------------------------------------------------------------
-     .directory_manifest( options )
+     .directory_manifest( redirect_url, options )
   */
   File_Set.Build( 'directory_manifest', Directory_Manifest, function( Super ) { return {
     _redirect_html_content: function( album_id ) {
       return ''
         + '<html>'
         +   '<head>'
-        +     '<meta http-equiv="Refresh" content="1; url=http://castorcad:8080/albums.html#/' + album_id + '" />'
+        +     '<meta http-equiv="Refresh" content="1; url=' + this._redirect_url + '#/' + album_id + '" />'
         +   '</head>'
         + '</html>'
       ;
@@ -73,86 +79,96 @@
         , entry_path    = this._get_path( value.path )
         , dirname       = value.type === 'directory' ? entry_path : path.dirname( entry_path )
         , manifest_path = dirname + '/.manifest.json'
-        , redirect_path = dirname + '/redirect.html'
         , depth         = value.depth
         
         , manifests     = this._directories_manifest
       ;
       
       // test if .manifest.json exist
-      fs.exists( manifest_path, function( manifest_exists ) {
-        // if it exist
-        if( manifest_exists ) {
-          
+      fs.exists( manifest_path, function( exists ) {
+        // if it exist, read .manifest.json and emit it content
+        if( exists ) {
+          // read .manifest.json file
           read_file( manifest_path, function( content ) {
+            // emit .manifest.json content
             emit_value( extend_2( { manifest: content }, value ) );
             
-            if( depth === 1 ) html_redirect( redirect_path, that._redirect_html_content( content.id ) );
+            if( depth === 1 ) html_redirect( dirname, that._redirect_html_content( content.id ) );
+            
+            if( ! manifests[ entry_path ] ) manifests[ entry_path ] = content;
           } );
         } else {
           var v = { id: uuid_v4() };
           
+          // create file .manifest.json
           write_file( manifest_path, JSON.stringify( v ), function() {
             emit_value( extend_2( { manifest: v }, value ) );
             
-            that._directories_manifest[ manifest_path ] = v;
+            manifests[ entry_path ] = v;
           } );
           
-          if( depth === 1 ) html_redirect( redirect_path, that._redirect_html_content( v.id ) );
+          if( depth === 1 ) html_redirect( dirname, that._redirect_html_content( v.id ), true );
         } // if() ... else
       } ); // fs.exists( manifest_path )
       
       return this;
       
+      // create a file with the given content in the given path,
+      // and call a callback function when it's created
       function write_file( file_path, file_content, f ) {
-        de&&ug( '_add_value(), write_file(), path : ' + file_path );
+        // de&&ug( '_add_value(), write_file(), path : ' + file_path );
         
         fs.writeFile( file_path, file_content, function( err ) {
-          if( err ) return error( '_add_value(), write_file(): Cannot create file, path: ' + file_path );
+          if( err ) return error( '_add_value(), write_file(): Cannot create file, error: ' + log.s( err ) + ', path: ' + file_path );
           
-          de&&ug( '_add_value(), file created, path: ' + file_path );
+          de&&ug( '_add_value(), write_file(): file created, path: ' + file_path );
           
           f && f();
         } ); // fs.writeFile()
       } // write_file()
       
-      // html_redirect():
-      // create file 'redirect.html' if it not exists
-      function html_redirect( file_path, content ) {
-        fs.exists( file_path, function( exists ) {
-          if( exists ) {
-            fs.unlink( file_path, function( err ) {
-              if( err ) return error( '_add_value(), fs.unlink(): Cannot delete file, path: ' + file_path );
-              
-              de&&ug( '_add_value(), fs.unlink(): file deleted, path : ' + file_path );
-              
-              write_file( file_path, content );
-            } ); // fs.unlink();
-          } else {
-            write_file( file_path, content );
-          } // if() ... else
-        } ); // fs.exists()
-      } // html_redirect()
-      
+      // read a file, parse it content to a JSON object,
+      // and call a callback function
       function read_file( file_path, f ) {
-        fs.readFile( file_path, 'utf8', function( err, content ) {
-          if( err ) return error( '_add_value(), fs.readFile(): Cannot read file, path: ' + file_path );
+        fs.readFile( file_path,  function( err, content ) {
+          if( err ) return error( '_add_value(), read_file(): Cannot read file, error: ' + log.s( err ) + ', path: ' + file_path );
           
           try {
-            de&&ug( '_add_value(), read file, content: ' + content + ', path: ' + file_path );
+            de&&ug( '_add_value(), read_file(): content: ' + content + ', path: ' + file_path );
             
             content = JSON.parse( content );
             
             f && f( content );
           } catch( e ) {
-            error( '_add_value(), fs.readFile(): Cannot parse JSON object'
+            error( '_add_value(), read_file(): Cannot parse JSON object'
               + ', error: '   + log.s( e )
               + ', content: ' + log.s( content )
               + ', path: '    + file_path
             );
           } // try ... catch()
-        } ) // fs.readFile()
+        } ); // fs.readFile()
       } // read_file()
+      
+      // html_redirect():
+      // create file 'redirect.html' if it not exists
+      // if parameter 'replace_old = true', relace the redirect.html file with a new one
+      function html_redirect( dirname, content, replace_old ) {
+        var redirect_path = dirname + '/redirect.html';
+        
+        fs.exists( redirect_path, function( exists ) {
+          if( exists ) {
+            replace_old && fs.unlink( redirect_path, function( err ) {
+              if( err ) return error( '_add_value(), fs.unlink(): Cannot delete file, error: ' + log.s( err ) + ', path: ' + redirect_path );
+              
+              de&&ug( '_add_value(), fs.unlink(): file deleted, path : ' + redirect_path );
+              
+              write_file( redirect_path, content );
+            } ); // fs.unlink();
+          } else {
+            write_file( redirect_path, content );
+          } // if() ... else
+        } ); // fs.exists()
+      } // html_redirect()
       
       function error( message ) {
         de&&ug( message );
@@ -167,17 +183,18 @@
     
     _remove_value: function( transaction, value ) {
       var entry_path       = this._get_path( value.path )
-        , manifest_path    = ( value.type === 'directory' ? entry_path : path.dirname( entry_path ) ) + '/.manifest.json'
-        , manifest_content = this._directories_manifest[ manifest_path ]
+        , manifest_content = this._directories_manifest[ entry_path ]
       ;
       
       if( ! manifest_content ) {
-        de&&ug( '_remove_value(), .manifest.json content not found, path: ' + manifest_path );
+        de&&ug( '_remove_value(), .manifest.json content not found, path: ' + entry_path );
         
         return transaction.emit_nothing();
       }
       
-      Super._remove_value.call( this, transaction, [ extend_2( { manifest: manifest_content }, value ) ] );
+      Super._remove_value.call( this, transaction, extend_2( { manifest: manifest_content }, value ) );
+      
+      delete this._directories_manifest[ entry_path ];
       
       return this;
     } // _remove_value()

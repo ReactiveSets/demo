@@ -134,9 +134,9 @@ var carousel_images = require( './carousel_images.js' )
   , projects_images = require( './projects_images.js' )
   , dropbox_images  = entries
       
-      .delay( 100 )
+      .delay( 1000 )
       
-      .directory_manifest()
+      .directory_manifest( 'http://www.castorcad.com/albums.html' )
       
       .trace( 'manifests' )
 ;
@@ -171,10 +171,10 @@ var albums_images = dropbox_images
   
   .join( projects, [ [ 'projects_dirname', 'projects_dirname' ] ], images_metadata )
   
-  .auto_increment()
+  .auto_increment( { attribute: 'order' } )
   
   .dropbox_public_urls()
-
+  
   .set_flow( 'albums_images' )
   
   .trace( 'albums images' )
@@ -193,7 +193,7 @@ var albums_thumbnails = dropbox_images
   .dropbox_public_urls()
   
   .set_flow( 'albums_thumbnails' )
-
+  
   .trace( 'albums thumbnails' )
 ;
 
@@ -389,7 +389,7 @@ function images_metadata( image, project ) {
 
 function thumbnails_metadata( thumbnail, image ) {
   return {
-      id              : image.id
+      order           : image.order
     , architect_id    : image.architect_id
     , architect_name  : image.architect_name
     , project_name    : image.project_name

@@ -50,6 +50,7 @@ server.bootstrap_photo_album( album_thumbnails_node, album_carousel_node, {
   , query          : by_architect_id
   , play           : false
   , css_classes    : { images: '' }
+  , order_id       : [ { id: 'order' } ]
 } );
 
 
