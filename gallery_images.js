@@ -19,38 +19,103 @@
 */
 "use strict";
 
-var gallery_images = ( this.XS || require( 'excess' ).XS ).xs
-  .set( [
-    { path: 'images/gallery-01.jpg' },
-    { path: 'images/gallery-02.jpg' },
-    { path: 'images/gallery-03.jpg' },
-    { path: 'images/gallery-04.jpg' },
-    { path: 'images/gallery-05.jpg' },
-    { path: 'images/gallery-06.jpg' },
-    { path: 'images/gallery-07.jpg' },
-    { path: 'images/gallery-08.jpg' },
-    { path: 'images/gallery-09.jpg' },
-    { path: 'images/gallery-10.jpg' },
-    { path: 'images/gallery-11.jpg' },
-    { path: 'images/gallery-12.jpg' },
-    { path: 'images/gallery-13.jpg' },
-    { path: 'images/gallery-14.jpg' },
-    { path: 'images/gallery-15.jpg' },
-    { path: 'images/gallery-16.jpg' },
-    { path: 'images/gallery-17.jpg' },
-    { path: 'images/gallery-18.jpg' },
-    { path: 'images/gallery-19.jpg' },
-    { path: 'images/gallery-20.jpg' },
-    { path: 'images/gallery-21.jpg' },
-    { path: 'images/gallery-22.jpg' },
-    { path: 'images/gallery-23.jpg' },
-    { path: 'images/gallery-24.jpg' },
-    { path: 'images/gallery-25.jpg' },
-    { path: 'images/gallery-26.jpg' },
-    { path: 'images/gallery-27.jpg' }
-  ] )
-  .set_flow( 'gallery_images' )
-  .auto_increment()
+var xs   = require( 'excess' )
+  , path = require(  'path'  )
 ;
 
-if ( typeof module != 'undefined' ) module.exports = gallery_images;
+require( 'excess/lib/server/file.js'       );
+require( 'excess/lib/filter.js'            );
+require( 'excess/lib/order.js'             );
+require( 'excess/lib/join.js'              );
+require( 'excess/lib/server/thumbnails.js' );
+
+require( './js/dropbox.js' );
+
+// gallery images
+var images = xs
+  
+  .set( [ { path: '~/Dropbox/Apps/CastorCAD/gallery' } ] )
+  
+  .watch_directories()
+  
+  .filter( [ { type : 'file'} ] )
+  
+  .alter( alter_images, { no_clone: true } )
+;
+
+// create gallery thumbnails
+images.thumbnails( { path: 'thumbnails/', width: 125, height: 80, base_directory: __dirname } );
+
+// gallery thumbnails
+var thumbnails = xs
+  
+  .set( [ { path: '~/Dropbox/Apps/CastorCAD/gallery/thumbnails' } ] )
+  
+  .watch_directories()
+  
+  .alter( alter_thumbnails, { no_clone: true } )
+;
+
+module.exports = xs
+  .union( [
+      images
+        
+        .join( thumbnails, [ [ 'image_name', 'image_source_name' ] ], served_images )
+        
+        .set_flow( 'gallery_images' )
+        
+        // .trace( 'gallery images' )
+        
+        // .set()
+        
+    , thumbnails
+        
+        .join( images, [ [ 'image_source_name', 'image_name' ] ], served_thumbnails )
+        
+        .set_flow( 'gallery_thumbnails' )
+        
+        // .trace( 'gallery thumbnails' )
+        
+        // .set()
+  ] )
+  
+  .alter( add_dropbox_filepath )
+  
+  .dropbox_public_urls()
+  
+  .trace( 'public urls' )
+  
+  .set()
+;
+
+return;
+
+function served_images( image, thumbnail ) {
+  return { path: image.path };
+} // served_images()
+
+function served_thumbnails( thumbnail, image ) {
+  return { path: thumbnail.path };
+} // served_thumbnails()
+
+function alter_images( image ) {
+  var image_path = image.path;
+  
+  return {
+      path      : image_path
+    , image_name: path.basename( image_path )
+  };
+} // alter_images()
+
+function alter_thumbnails( thumbnail ) {
+  var thumbnail_path = thumbnail.path;
+  
+  return {
+      path             : thumbnail_path
+    , image_source_name: path.basename( thumbnail_path ).replace( '-125x80', '' )
+  };
+} // alter_thumbnails()
+
+function add_dropbox_filepath( image ) {
+  image.dropbox_filepath = image.path.match( '~/Dropbox/Apps/CastorCAD/(.*)' )[ 1 ]
+} // add_dropbox_filepath()

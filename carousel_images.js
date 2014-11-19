@@ -19,14 +19,19 @@
 */
 "use strict";
 
-var carousel_images = ( this.XS || require( 'excess' ).XS ).xs
-  .set( [
-    { path: 'images/carousel-01.jpg' },
-    { path: 'images/carousel-02.jpg' },
-    { path: 'images/carousel-03.jpg' }
-  ] )
-  .set_flow( 'carousel_images' )
-  .auto_increment()
-;
+var xs = require( 'excess' );
 
-if ( typeof module != 'undefined' ) module.exports = carousel_images;
+require( 'excess/lib/server/file.js' );
+
+module.exports = xs
+  
+  .set( [ { path: '~/Dropbox/Apps/CastorCAD/carousel' } ] )
+  
+  .watch_directories()
+  
+  .auto_increment( { attribute: 'id' } )
+  
+  .set_flow( 'carousel_images' )
+  
+  .trace( 'carousel images' )
+;
