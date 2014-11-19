@@ -67,7 +67,6 @@
            http://www.dropboxwiki.com/tips-and-tricks/using-the-official-dropbox-command-line-interface-cli
      
   */
-  
   function Dropbox_Public_URLs( options ) {
     Set.call( this, [], options );
     
@@ -161,36 +160,39 @@
       ;
       
       switch( typeof cache[ file_path ] ) {
-        case 'undefined' :
+        case 'undefined': // First time file_path is requested, or previously failed
           cache[ file_path ] = function( emit_url ) {
             dropbox_url_events.on( file_path, emit_url );
           };
           
           client.shares( file_path, { short_url: false }, function( status, public_url ) {
-            if( status === 200 ) {
+            var v;
+            
+            if ( status === 200 ) {
               de&&ug( 'client.shares(), status: ' + status + ', public url: ' + log.s( public_url ) );
               
-              var v = extend_2( { uri: public_url.url.replace( 'www.dropbox.com', 'dl.dropboxusercontent.com' ) }, value );
+              v = extend_2( { uri: public_url.url.replace( 'www.dropbox.com', 'dl.dropboxusercontent.com' ) }, value );
               
               delete v.dropbox_filepath
               
               cache[ file_path ] = v;
-              
-              dropbox_url_events.emit( file_path, v );
             } else {
-              de&&ug( 'client.shares(), public url not found, file_path: ' + file_path );
+              de&&ug( 'client.shares(), public url not found, file_path: ' + file_path + ', status: ' + status );
               
-              transaction.emit_nothing();
+              v = null;
               
-              delete cache[ file_path ];
+              delete cache[ file_path ]; // next _add_value of the same path will retry
             }
+            
+            dropbox_url_events.emit( file_path, v ); // notify all waiting _add_value()
           } );
+        // Fall-through to listen on file_path event
         
-        case 'function' :
+        case 'function': // client.shares() has not returned yet, wait
           cache[ file_path ]( emit_url );
         break;
         
-        case 'object' :
+        case 'object': // client,shares() has returned a valid public url
           emit_url( cache[ file_path ] );
         break;
       } // switch typeof cache[ file_path ]
@@ -198,9 +200,13 @@
       return this;
       
       function emit_url( value ) {
-        de&&ug( 'emit_url(), url : ' + log.s( value ) );
+        de&&ug( 'emit_url(), url : ' + log.s( value ) + ', tid: ' + transaction.get_tid() );
         
-        Super._add_value.call( that, transaction, value );
+        if ( value ) {
+          Super._add_value.call( that, transaction, value );
+        } else {
+          transaction.emit_nothing();
+        }
       } // emit_url()
     }, // _add_value()
     
@@ -211,21 +217,21 @@
         , that               = this
       ;
       
+      if( ! client ) return this._wait_for_configuration( function() { that._remove_value( transaction, value ) } );
+      
       switch( typeof cache[ file_path ] ) {
-        case 'undefined' :
+        case 'undefined':
           de&&ug( '_remove_value(), public url not found -> nothing to remove, file_path: ' + file_path );
           
           transaction.emit_nothing();
         break;
         
-        case 'function' :
+        case 'function':
           dropbox_url_events.on( file_path, remove_url );
         break;
         
-        case 'object' :
+        case 'object':
           remove_url( cache[ file_path ] );
-          
-          delete cache[ file_path ];
         break;
       } // switch typeof cache[ file_path ]
       
@@ -235,6 +241,8 @@
         de&&ug( 'remove_url(), value : ' + log.s( value ) );
         
         Super._remove_value.call( that, transaction, value );
+        
+        delete cache[ file_path ];
       } // remove_url()
     } // _remove_value()
   }; } ); // Dropbox_Public_URLs instance methods
@@ -243,4 +251,7 @@
      module exports
   */
   
-  de&&ug( "module loaded" ); } ( this ); // dropbox_public_urls.js
+  de&&ug( "module loaded" );
+}( this );
+
+// dropbox.js
