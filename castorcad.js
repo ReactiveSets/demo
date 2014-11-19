@@ -56,22 +56,6 @@ module.exports = function( servers ) {
    Load and Serve Assets
 */
 
-// watch Dropbox directories
-var dropbox_directories = xs
-      .set( [ { path: '~/Dropbox/Apps/CastorCAD/albums' } ] )
-      
-      .union()
-  
-  , entries = dropbox_directories.watch_directories()
-;
-
-entries
-  
-  .filter( [ { type: 'directory' } ] )
-  
-  ._add_destination( dropbox_directories )
-;
-
 var client_min = xs
   .union( [
     xs.set( [
@@ -111,11 +95,7 @@ var client_min = xs
     .require_resolve(),
     
     xs.set( [
-      { path: 'contact_form_fields.js' },
-      { path: 'gallery_images.js'      },
-      { path: 'carousel_images.js'     },
-      { path: 'albums_images.js'       },
-      { path: 'projects_images.js'     }
+      { path: 'contact_form_fields.js' }
     ] )
   ] )
   
@@ -131,83 +111,26 @@ var client_min = xs
 // carousel images, gallery images and projects images thumbnails
 var carousel_images = require( './carousel_images.js' )
   , gallery_images  = require( './gallery_images.js'  )
-  , projects_images = require( './projects_images.js' )
-  , dropbox_images  = entries
-      
-      .delay( 1000 )
-      
-      .directory_manifest( 'http://www.castorcad.com/albums.html' )
-      
-      .trace( 'manifests' )
+  //, projects_images = require( './projects_images.js' )
+  , albums_images   = require( './albums_images.js'   )
 ;
 
-// architects
-var architects = dropbox_images
-  
-  .filter( [ { type: 'directory', depth: 1 } ] )
-  
-  .alter( alter_architects )
-  
-  .trace( 'architects' )
-;
-
-// projects
-var projects = dropbox_images
-  
-  .filter( [ { type: 'directory', depth: 2 } ] )
-  
-  .alter( alter_projects )
-  
-  .join( architects, [ [ 'architects_dirname', 'architects_dirname' ] ], projects_architects )
-  
-  .trace( 'projects' )
-;
-
-var albums_images = dropbox_images
-  
-  .filter( [ { type: 'file', depth: 4, extension: 'jpg' }, { type: 'file', depth: 4, extension: 'png' } ] )
-  
-  .alter( alter_images )
-  
-  .join( projects, [ [ 'projects_dirname', 'projects_dirname' ] ], images_metadata )
-  
-  .auto_increment( { attribute: 'order' } )
-  
-  .dropbox_public_urls()
-  
-  .set_flow( 'albums_images' )
-  
-  .trace( 'albums images' )
-;
-
-albums_images.thumbnails( { path: 'thumbnails/', width: 638, height: 360, base_directory: __dirname } );
-
-var albums_thumbnails = dropbox_images
-  
-  .filter( [ { type: 'file', depth: 5, extension: 'jpg' }, { type: 'file', depth: 5, extension: 'png' } ] )
-  
-  .alter( alter_thumbnails )
-  
-  .join( albums_images, [ [ 'images_dirname', 'images_dirname' ], [ 'image_source', 'image_basename' ] ], thumbnails_metadata )
-  
-  .dropbox_public_urls()
-  
-  .set_flow( 'albums_thumbnails' )
-  
-  .trace( 'albums thumbnails' )
-;
-
-
-var gallery_thumbnails = gallery_images
-  .thumbnails( { width: 125, height: 80, base_directory: __dirname } )
-  .set_flow( 'gallery_thumbnails' )
-;
-
+/*
 var projects_thumbnails = projects_images
   .thumbnails( { width: 700, height: 520, base_directory: __dirname } )
   .set_flow( 'projects_thumbnails' )
 ;
-
+*/
+var dropbox_assets = xs
+  
+  .union( [ carousel_images, albums_images, gallery_images/*, projects_images*/ ] )
+  
+  .alter( add_dropbox_filepath )
+  
+  .delay( 3000 )
+  
+  .dropbox_public_urls()
+;
 
 var files = xs
   .set( [
@@ -246,7 +169,6 @@ var files = xs
     
   ] )
   .auto_increment()
-  .union( [ carousel_images, gallery_images, gallery_thumbnails, projects_images, projects_thumbnails ] )
   .watch( { base_directory: __dirname } )
   .union( [ client_min ] )
 ;
@@ -261,15 +183,7 @@ var contact_form_fields = require( "./contact_form_fields.js" )
 
 // Serve contact_form_fields to socket.io clients
 contact_form_fields
-  .union( [
-      carousel_images    .to_uri()
-    , gallery_images     .to_uri()
-    , gallery_thumbnails .to_uri()
-    , projects_images    .to_uri()
-    , projects_thumbnails.alter( path_to_uri )
-    , albums_images
-    , albums_thumbnails
-  ] )
+  .union( [ dropbox_assets ] )
   
   .trace( 'contact_form_fields, images and thumbnails to clients' )
   
@@ -324,86 +238,8 @@ contact_form_fields
   .trace( 'email sent' )
 ;
 
-function alter_architects( file ) {
-  file.architect_id       = file.manifest.id;
-  file.architects_dirname = file.path;
-
-  delete file.manifest;
-} // alter_architects()
-
-function alter_projects( file ) {
-  file.project_id         = file.manifest.id;
-  file.architects_dirname = path.dirname( file.path );
-  file.projects_dirname   = file.path;
-
-  delete file.manifest;
-} // alter_projects()
-
-function alter_images( file ) {
-  var a = file.path.split( '/' );
-
-  file.projects_dirname = a.slice( 0, a.length - 2 ).join( '/' );
-  file.images_dirname   = a.slice( 0, a.length - 1 ).join( '/' );
-  file.image_id         = file.manifest.id;
-
-  delete file.manifest;
-} // alter_images()
-
-function alter_thumbnails( file ) {
-  var a = file.path.split( '/' );
-
-  file.images_dirname = a.slice( 0, a.length - 2 ).join( '/' );
-  file.image_source   = a[ a.length - 1 ].split( '-' )[ 0 ] + '.' + file.extension;
-
-  file.thumbnail_id  = file.manifest.id;
-
-  delete file.manifest;
-} // _thumbnails()
-
-function projects_architects( project, architect ) {
-  return {
-      architect_id    : architect.architect_id
-    , project_id      : project.project_id
-    , projects_dirname: project.projects_dirname
-  };
-} // architects_projects()
-
-function images_metadata( image, project ) {
-  var filepath         = image.path
-    , dropbox_filepath = filepath.match( '~/Dropbox/Apps/CastorCAD/(.*)' )[ 1 ]
-    , array            = dropbox_filepath.split( '/' )
-  ;
-
-  return {
-      architect_id    : project.architect_id
-    , architect_name  : array[ 1 ]
-    , project_name    : array[ 2 ]
-    , image_name      : array[ 3 ]
-    , path            : filepath
-    , dropbox_filepath: dropbox_filepath
-    , date            : image.mtime
-    , images_dirname  : image.images_dirname
-    , image_basename  : path.basename( filepath )
-  };
-} // images_metadata()
-
-function thumbnails_metadata( thumbnail, image ) {
-  return {
-      order           : image.order
-    , architect_id    : image.architect_id
-    , architect_name  : image.architect_name
-    , project_name    : image.project_name
-    , image_name      : image.image_name
-    , path            : thumbnail.path
-    , dropbox_filepath: thumbnail.path.match( '~/Dropbox/Apps/CastorCAD/(.*)' )[ 1 ]
-    , date            : image.date
-  };
-} // images_thumbnails()
-
-function path_to_uri( entry ) {
-  entry.uri = entry.path;
-  
-  delete entry.path;
-}
+function add_dropbox_filepath( image ) {
+  image.dropbox_filepath = image.path.match( '~/Dropbox/Apps/CastorCAD/(.*)' )[ 1 ]
+} // add_dropbox_filepath()
 
 } // module.exports

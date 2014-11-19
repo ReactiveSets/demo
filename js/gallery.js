@@ -10,13 +10,16 @@ var $  = jQuery
   , gallery_carousel_node   = document.getElementById( 'gallery_carousel'   )
 ;
 
+server.flow( 'gallery_images' ).trace( 'gallery_images' ).set();
+
 server
   .bootstrap_photo_album( gallery_thumbnails_node, gallery_carousel_node, {
       album_name     : 'gallery_images'
     , images_flow    : 'gallery_images'
     , thumbnails_flow: 'gallery_thumbnails'
-    , auto_start     : true
-    , download       : false
+    // , auto_start     : true
+    // , download       : false
+    // , order_id       : [ { id: 'path' } ]
   } )
 ;
 

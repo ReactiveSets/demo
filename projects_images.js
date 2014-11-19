@@ -18,9 +18,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 "use strict";
-
+/*
 var projects_images = ( this.XS || require( 'excess' ).XS ).xs
   .set( [
     { path: 'images/project-01.jpg' },
@@ -35,3 +34,31 @@ var projects_images = ( this.XS || require( 'excess' ).XS ).xs
 ;
 
 if ( typeof module != 'undefined' ) module.exports = projects_images;
+*/
+var xs = require( 'excess' );
+
+require( 'excess/lib/server/file.js' );
+
+// projects images
+var images = xs  
+  
+  .set( [ { path: '~/Dropbox/Apps/CastorCAD/projects' } ] )
+  
+  .watch_directories()
+  
+  .auto_increment( { attribute: 'id' } )
+  
+  .set_flow( 'projects_images' )
+  
+  .trace( 'projects images' )
+;
+
+// projects thumbnails
+var thumbnails = images
+  
+  .thumbnails( { path: 'thumbnails/', width: 700, height: 520, base_directory: __dirname } )
+  
+  .set_flow( 'projects_thumbnails' )
+;
+ 
+module.exports = xs.union( [ images, thumbnails ] );
