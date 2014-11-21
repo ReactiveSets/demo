@@ -20,18 +20,18 @@
 "use strict";
 
 !function( exports ) {
-  var XS           = require( 'excess/lib/pipelet.js' ).XS
+  var RS           = require( 'toubkal/lib/pipelet.js' ).RS
     , dropbox      = require( 'dbox' )
     , path         = require( 'path' )
     , EventEmitter = require( 'events' ).EventEmitter
   ;
   
-  var xs       = XS.xs
-    , log      = XS.log
-    , extend_2 = XS.extend_2
-    , Code     = XS.Code
-    , Pipelet  = XS.Pipelet
-    , Set      = XS.Set
+  var rs       = RS.rs
+    , log      = RS.log
+    , extend_2 = RS.extend_2
+    , Code     = RS.Code
+    , Pipelet  = RS.Pipelet
+    , Set      = RS.Set
   ;
   
   /* -------------------------------------------------------------------------------------------
@@ -40,7 +40,7 @@
   var de = true;
   
   function ug( m ) {
-    log( "xs dropbox, " + m );
+    log( "dropbox, " + m );
   } // ug()
   
   /* -------------------------------------------------------------------------------------------
@@ -70,15 +70,15 @@
   function Dropbox_Public_URLs( options ) {
     Set.call( this, [], options );
     
-    this._dropbox_url_events    = new EventEmitter();
-    this._configuration_waiters = [];
-    this._output._fetch         = this._fetch;
-    this._cache                 = {};
-    this._dropbox_client        = null;
+    this._dropbox_url_events = new EventEmitter();
+    this._dropbox_waiters    = [];
+    this._output._fetch      = this._fetch;
+    this._cache              = {};
+    this._dropbox_client     = null;
     
     var that = this;
     
-    xs
+    rs
       .configuration( options )
       
       .filter( [ { pipelet: 'dropbox_public_urls' } ] )
@@ -105,7 +105,7 @@
           .client( credentials.accessToken )
         ;
         
-        var waiters = that._configuration_waiters, l = waiters.length;
+        var waiters = that._dropbox_waiters, l = waiters.length;
         
         if ( l ) {
           de&&ug( 'initialize_dropbox(), configuration is ready, calling ' + l + ' waiters' );
@@ -115,7 +115,6 @@
           this.configuration_waiters = [];
         }
       }
-      
     } // initialize_dropbox()
   } // Dropbox_Public_URLs()
   
@@ -139,35 +138,35 @@
       return this;
     }, // _fetch()
     
-    _wait_for_configuration: function( handler ) {
-      this._configuration_waiters.push( handler );
+    _wait_for_dropbox: function( handler ) {
+      this._dropbox_waiters.push( handler );
       
-      de&&ug( '_wait_for_configuration(), configuration_waiters: ' + this._configuration_waiters.length );
+      de&&ug( '_wait_for_dropbox(), configuration_waiters: ' + this._dropbox_waiters.length );
       
       return this;
-    }, // _wait_for_configuration()
+    }, // _wait_for_dropbox()
     
     _add_value: function( transaction, value ) {
       var client = this._dropbox_client
-        , cache  = this._cache
         , that   = this
       ;
       
-      if( ! client ) return this._wait_for_configuration( function() { that._add_value( transaction, value ) } );
+      if ( ! client ) return this._wait_for_dropbox( function() { that._add_value( transaction, value ) } );
       
       var dropbox_url_events = this._dropbox_url_events
+        , cache              = this._cache
         , file_path          = value.dropbox_filepath
+        , v                  = cache[ file_path ]
       ;
       
-      switch( typeof cache[ file_path ] ) {
+      switch( typeof v ) {
         case 'undefined': // First time file_path is requested, or previously failed
-          cache[ file_path ] = function( emit_url ) {
-            dropbox_url_events.on( file_path, emit_url );
+          v = cache[ file_path ] = function( emit_url ) {
+            // Register event once to prevent further calls after path is removed and added back later
+            dropbox_url_events.once( file_path, emit_url );
           };
           
           client.shares( file_path, { short_url: false }, function( status, public_url ) {
-            var v;
-            
             if ( status === 200 ) {
               de&&ug( 'client.shares(), status: ' + status + ', public url: ' + log.s( public_url ) );
               
@@ -179,9 +178,9 @@
             } else {
               de&&ug( 'client.shares(), public url not found, file_path: ' + file_path + ', status: ' + status );
               
-              v = null;
+              v = null; // ToDo: consider alternatively to emit exception downstream
               
-              delete cache[ file_path ]; // next _add_value of the same path will retry
+              delete cache[ file_path ]; // next _add_value() of the same path will retry
             }
             
             dropbox_url_events.emit( file_path, v ); // notify all waiting _add_value()
@@ -189,18 +188,18 @@
         // Fall-through to listen on file_path event
         
         case 'function': // client.shares() has not returned yet, wait
-          cache[ file_path ]( emit_url );
+          v( emit_url ); // register event to call emit_url() in the context of this transaction
         break;
         
         case 'object': // client,shares() has returned a valid public url
-          emit_url( cache[ file_path ] );
+          emit_url( v );
         break;
       } // switch typeof cache[ file_path ]
       
       return this;
       
       function emit_url( value ) {
-        de&&ug( 'emit_url(), url : ' + log.s( value ) + ', tid: ' + transaction.get_tid() );
+        de&&ug( 'emit_url(), url : ' + log.s( value ) + ', t number: ' + transaction.number );
         
         if ( value ) {
           Super._add_value.call( that, transaction, value );
@@ -211,38 +210,44 @@
     }, // _add_value()
     
     _remove_value: function( transaction, value ) {
-      var dropbox_url_events = this._dropbox_url_events
-        , cache              = this._cache
-        , file_path          = value.dropbox_filepath
-        , that               = this
+      var that = this;
+      
+      if ( ! this._dropbox_client ) return this._wait_for_dropbox( function() { that._remove_value( transaction, value ) } );
+      
+      var cache     = this._cache
+        , file_path = value.dropbox_filepath
+        , v         = cache[ file_path ]
       ;
       
-      if( ! client ) return this._wait_for_configuration( function() { that._remove_value( transaction, value ) } );
-      
-      switch( typeof cache[ file_path ] ) {
-        case 'undefined':
+      switch( typeof v ) {
+        case 'undefined': // First time file_path is requested, or previously failed
+          // ToDo: this should go to the anti-state, unless previous attempt had failed
           de&&ug( '_remove_value(), public url not found -> nothing to remove, file_path: ' + file_path );
           
-          transaction.emit_nothing();
+          remove_url();
         break;
         
-        case 'function':
-          dropbox_url_events.on( file_path, remove_url );
+        case 'function': // client.shares() from _add_value() has not returned yet, wait
+          v( remove_url ); // register event to call remove_url() in the context of this transaction
         break;
         
-        case 'object':
-          remove_url( cache[ file_path ] );
+        case 'object': // There is a valid public url
+          remove_url( v );
         break;
       } // switch typeof cache[ file_path ]
       
       return this;
       
       function remove_url( value ) {
-        de&&ug( 'remove_url(), value : ' + log.s( value ) );
+        de&&ug( 'remove_url(), value : ' + log.s( value ) + ', t number: ' + transaction.number );
         
-        Super._remove_value.call( that, transaction, value );
-        
-        delete cache[ file_path ];
+        if ( value ) {
+          Super._remove_value.call( that, transaction, value );
+          
+          delete cache[ file_path ];
+        } else {
+          transaction.emit_nothing();
+        }
       } // remove_url()
     } // _remove_value()
   }; } ); // Dropbox_Public_URLs instance methods
