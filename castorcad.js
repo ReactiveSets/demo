@@ -19,24 +19,24 @@
 */
 "use strict";
 
-var XS     = require( 'excess' ).XS
+var RS     = require( 'toubkal' ).RS
   , path   = require(  'path'  )
-  , xs     = XS.xs
-  , log    = XS.log
-  , extend = XS.extend
+  , rs     = RS.rs
+  , log    = RS.log
+  , extend = RS.extend
 ;
 
-require( 'excess/lib/server/file.js'              );
-require( 'excess/lib/server/http.js'              );
-require( 'excess/lib/server/socket_io_clients.js' );
-require( 'excess/lib/server/uglify.js'            );
-require( 'excess/lib/server/mailer.js'            );
-require( 'excess/lib/server/thumbnails.js'        );
+require( 'toubkal/lib/server/file.js'              );
+require( 'toubkal/lib/server/http.js'              );
+require( 'toubkal/lib/server/socket_io_clients.js' );
+require( 'toubkal/lib/server/uglify.js'            );
+require( 'toubkal/lib/server/mailer.js'            );
+require( 'toubkal/lib/server/thumbnails.js'        );
 
-require( 'excess/lib/uri.js'   );
-require( 'excess/lib/join.js'  );
-require( 'excess/lib/order.js' );
-require( 'excess/lib/form.js'  );
+require( 'toubkal/lib/uri.js'   );
+require( 'toubkal/lib/join.js'  );
+require( 'toubkal/lib/order.js' );
+require( 'toubkal/lib/form.js'  );
 
 require( './js/dropbox.js'            );
 require( './js/directory_manifest.js' );
@@ -56,45 +56,45 @@ module.exports = function( servers ) {
    Load and Serve Assets
 */
 
-var client_min = xs
+var client_min = rs
   .union( [
-    xs.set( [
+    rs.set( [
       { path: 'js/es5.js'   },
       { path: 'js/json2.js' },
       { path: 'js/uuid.js'  }
     ] ),
     
-    xs.set( [
-      // xs.core
-      { name: 'excess/lib/xs.js'           },
-      { name: 'excess/lib/code.js'         },
-      { name: 'excess/lib/query.js'        },
-      { name: 'excess/lib/transactions.js' },
-      { name: 'excess/lib/pipelet.js'      },
-      { name: 'excess/lib/filter.js'       },
-      { name: 'excess/lib/order.js'        },
-      { name: 'excess/lib/aggregate.js'    },
-      { name: 'excess/lib/join.js'         },
-      { name: 'excess/lib/events.js'       },
-      { name: 'excess/lib/uri.js'          },
-      { name: 'excess/lib/last.js'         },
+    rs.set( [
+      // rs.core
+      { name: 'toubkal/lib/rs.js'           },
+      { name: 'toubkal/lib/code.js'         },
+      { name: 'toubkal/lib/query.js'        },
+      { name: 'toubkal/lib/transactions.js' },
+      { name: 'toubkal/lib/pipelet.js'      },
+      { name: 'toubkal/lib/filter.js'       },
+      { name: 'toubkal/lib/order.js'        },
+      { name: 'toubkal/lib/aggregate.js'    },
+      { name: 'toubkal/lib/join.js'         },
+      { name: 'toubkal/lib/events.js'       },
+      { name: 'toubkal/lib/uri.js'          },
+      { name: 'toubkal/lib/last.js'         },
       
-      // xs.ui
-      { name: 'excess/lib/selector.js'                },
-      { name: 'excess/lib/client/animation_frames.js' },
-      { name: 'excess/lib/client/url.js'              },
-      { name: 'excess/lib/form.js'                    },
-      { name: 'excess/lib/load_images.js'             },
-      { name: 'excess/lib/bootstrap_photo_album.js'   },
-      { name: 'excess/lib/bootstrap_carousel.js'      },
+      // rs.ui
+      { name: 'toubkal/lib/selector.js'                },
+      { name: 'toubkal/lib/client/animation_frames.js' },
+      { name: 'toubkal/lib/client/url.js'              },
+      { name: 'toubkal/lib/form.js'                    },
+      { name: 'toubkal/lib/load_images.js'             },
+      { name: 'toubkal/lib/bootstrap_photo_album.js'   },
+      { name: 'toubkal/lib/bootstrap_carousel.js'      },
       
       // socket.io server access
-      { name: 'excess/lib/socket_io_crossover.js' },
-      { name: 'excess/lib/socket_io_server.js'    }
+      { name: 'toubkal/lib/socket_io_crossover.js' },
+      { name: 'toubkal/lib/socket_io_server.js'    }
     ] )
     .require_resolve(),
     
-    xs.set( [
+    rs.set( [
       { path: 'contact_form_fields.js' }
     ] )
   ] )
@@ -105,7 +105,7 @@ var client_min = xs
   
   .order( [ { id: 'id' } ] ) // order loaded files
   
-  .uglify( 'js/xs-0.2.4.min.js', { warnings: false } )
+  .uglify( 'js/toubkal-0.2.4.min.js', { warnings: false } )
 ;
 
 // carousel images, gallery images and projects images thumbnails
@@ -121,7 +121,7 @@ var projects_thumbnails = projects_images
   .set_flow( 'projects_thumbnails' )
 ;
 */
-var dropbox_assets = xs
+var dropbox_assets = rs
   
   .union( [ carousel_images, albums_images, gallery_images/*, projects_images*/ ] )
   
@@ -132,7 +132,7 @@ var dropbox_assets = xs
   .dropbox_public_urls()
 ;
 
-var files = xs
+var files = rs
   .set( [
     // HTML pages
     { path: 'index.html'   },
@@ -233,7 +233,7 @@ contact_form_fields
   
   .trace( 'send email' )
   
-  .send_mail( xs.configuration() )
+  .send_mail( rs.configuration() )
   
   .trace( 'email sent' )
 ;

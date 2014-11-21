@@ -1,8 +1,8 @@
 // carousel.js
 !function ( exports ) {
 /*
-var xs = XS.xs
-  , descriptions = xs
+var rs = RS.rs
+  , descriptions = rs
       .set( [
         {
           title      :   "CastorCAD",
@@ -21,12 +21,12 @@ var xs = XS.xs
       ] )
       .auto_increment()
   
-  , carousel_images = xs
+  , carousel_images = rs
       .socket_io_server()
       .flow( 'carousel_images' )
 ;
 
-carousel_images = xs
+carousel_images = rs
   .union( [ exports.carousel_images.to_uri(), carousel_images ] )
   
   .unique_set()
@@ -39,11 +39,11 @@ carousel_images = xs
 
 // function join()
 function join( image, description ) {
-  return XS.extend( { title: description.title, description: description.description }, image );
+  return RS.extend( { title: description.title, description: description.description }, image );
 } // join()
 */
 
-xs
+rs
   .socket_io_server()
   
   .flow( 'carousel_images' )

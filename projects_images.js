@@ -20,7 +20,7 @@
 
 "use strict";
 /*
-var projects_images = ( this.XS || require( 'excess' ).XS ).xs
+var projects_images = ( this.RS || require( 'toubkal' ).RS ).rs
   .set( [
     { path: 'images/project-01.jpg' },
     { path: 'images/project-02.jpg' },
@@ -35,12 +35,12 @@ var projects_images = ( this.XS || require( 'excess' ).XS ).xs
 
 if ( typeof module != 'undefined' ) module.exports = projects_images;
 */
-var xs = require( 'excess' );
+var rs = require( 'toubkal' );
 
-require( 'excess/lib/server/file.js' );
+require( 'toubkal/lib/server/file.js' );
 
 // projects images
-var images = xs  
+var images = rs  
   
   .set( [ { path: '~/Dropbox/Apps/CastorCAD/projects' } ] )
   
@@ -61,4 +61,4 @@ var thumbnails = images
   .set_flow( 'projects_thumbnails' )
 ;
  
-module.exports = xs.union( [ images, thumbnails ] );
+module.exports = rs.union( [ images, thumbnails ] );

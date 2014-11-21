@@ -6,11 +6,11 @@
 // 3b5f50cb-fcae-4a79-b712-606219231cff  BSEM
 
 var $  = jQuery
-  , xs = XS.xs
+  , rs = RS.rs
   
-  , server = xs.socket_io_server()
+  , server = rs.socket_io_server()
   
-  , by_architect_id = xs
+  , by_architect_id = rs
       
       .url_events()
       

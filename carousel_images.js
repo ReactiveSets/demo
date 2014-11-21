@@ -19,11 +19,11 @@
 */
 "use strict";
 
-var xs = require( 'excess' );
+var rs = require( 'toubkal' );
 
-require( 'excess/lib/server/file.js' );
+require( 'toubkal/lib/server/file.js' );
 
-module.exports = xs
+module.exports = rs
   
   .set( [ { path: '~/Dropbox/Apps/CastorCAD/carousel' } ] )
   

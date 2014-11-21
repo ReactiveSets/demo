@@ -20,16 +20,16 @@
 "use strict";
 
 !function( exports ) {
-  var xs           = require( 'excess/lib/pipelet.js' )
+  var rs           = require( 'toubkal/lib/pipelet.js' )
     , path         = require( 'path' )
     , fs           = require(  'fs'  )
     
-    , XS           = xs.XS
-    , log          = XS.log
-    , File_Set     = XS.File_Set
+    , RS           = rs.RS
+    , log          = RS.log
+    , File_Set     = RS.File_Set
     
-    , uuid_v4      = XS.uuid_v4
-    , extend_2     = XS.extend_2
+    , uuid_v4      = RS.uuid_v4
+    , extend_2     = RS.extend_2
   ;
   
   /* -------------------------------------------------------------------------------------------
@@ -38,7 +38,7 @@
   var de = true;
   
   function ug( m ) {
-    log( "xs directory manifest, " + m );
+    log( "rs directory manifest, " + m );
   } // ug()
   
   /* -------------------------------------------------------------------------------------------

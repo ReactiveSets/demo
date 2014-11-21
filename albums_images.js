@@ -19,22 +19,22 @@
 */
 "use strict";
 
-var xs   = require( 'excess' )
+var rs   = require( 'toubkal' )
   , path = require(  'path'  )
 ;
 
-// excess required modules
-require( 'excess/lib/filter.js'            );
-require( 'excess/lib/join.js'              );
-require( 'excess/lib/server/file.js'       );
-require( 'excess/lib/server/thumbnails.js' );
+// toubkal required modules
+require( 'toubkal/lib/filter.js'            );
+require( 'toubkal/lib/join.js'              );
+require( 'toubkal/lib/server/file.js'       );
+require( 'toubkal/lib/server/thumbnails.js' );
 
 // castorcad required modules
 require( './js/dropbox.js'            );
 require( './js/directory_manifest.js' );
 
 // watch Dropbox albums directories
-var albums_directories = xs
+var albums_directories = rs
       
       .set( [ { path: '~/Dropbox/Apps/CastorCAD/albums' } ] )
       
@@ -117,7 +117,7 @@ var thumbnails = entries_manifests
   .trace( 'albums thumbnails' )
 ;
 
-module.exports = xs.union( [ images, thumbnails ] );
+module.exports = rs.union( [ images, thumbnails ] );
 
 // -------------------------------------------------------------------------------------------------------
 // alter / merge functions :

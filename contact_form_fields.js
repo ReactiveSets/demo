@@ -19,7 +19,7 @@
 */
 "use strict";
 
-var contact_form_fields = ( this.XS || require( 'excess' ).XS ).xs
+var contact_form_fields = ( this.RS || require( 'toubkal' ).RS ).rs
   .set(
     [
       {

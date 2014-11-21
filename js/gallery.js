@@ -2,9 +2,9 @@
 !function( exports ) {
 
 var $  = jQuery
-  , xs = XS.xs
+  , rs = RS.rs
   
-  , server      = xs.socket_io_server()
+  , server      = rs.socket_io_server()
     
   , gallery_thumbnails_node = document.getElementById( 'gallery_thumbnails' )
   , gallery_carousel_node   = document.getElementById( 'gallery_carousel'   )

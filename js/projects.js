@@ -3,12 +3,12 @@
 !function ( exports ) {
 
 var $  = jQuery
-  , xs     = XS.xs
-  , extend = XS.extend
+  , rs     = RS.rs
+  , extend = RS.extend
   
-  , server = xs.socket_io_server()
+  , server = rs.socket_io_server()
   
-  , descriptions = xs
+  , descriptions = rs
       .set( [
         { title: 'Hotel Ambassadeurs', city: 'Marrakech' , date: '03/2014' },
         {                              city: 'Casablanca', date: '02/2014' },
@@ -35,7 +35,7 @@ var $  = jQuery
   , projects_carousel_node   = document.getElementById( 'projects_carousel'   )
 ;
 
-xs.union( [ projects_thumbnails, projects_images ] )
+rs.union( [ projects_thumbnails, projects_images ] )
   
   .bootstrap_photo_album( projects_thumbnails_node, projects_carousel_node, {
       album_name     : 'projects'

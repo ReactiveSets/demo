@@ -19,20 +19,20 @@
 */
 "use strict";
 
-var xs   = require( 'excess' )
+var rs   = require( 'toubkal' )
   , path = require(  'path'  )
 ;
 
-require( 'excess/lib/server/file.js'       );
-require( 'excess/lib/filter.js'            );
-require( 'excess/lib/order.js'             );
-require( 'excess/lib/join.js'              );
-require( 'excess/lib/server/thumbnails.js' );
+require( 'toubkal/lib/server/file.js'       );
+require( 'toubkal/lib/filter.js'            );
+require( 'toubkal/lib/order.js'             );
+require( 'toubkal/lib/join.js'              );
+require( 'toubkal/lib/server/thumbnails.js' );
 
 require( './js/dropbox.js' );
 
 // gallery images
-var images = xs
+var images = rs
   
   .set( [ { path: '~/Dropbox/Apps/CastorCAD/gallery' } ] )
   
@@ -47,7 +47,7 @@ var images = xs
 images.thumbnails( { path: 'thumbnails/', width: 125, height: 80, base_directory: __dirname } );
 
 // gallery thumbnails
-var thumbnails = xs
+var thumbnails = rs
   
   .set( [ { path: '~/Dropbox/Apps/CastorCAD/gallery/thumbnails' } ] )
   
@@ -56,7 +56,7 @@ var thumbnails = xs
   .alter( alter_thumbnails, { no_clone: true } )
 ;
 
-module.exports = xs
+module.exports = rs
   .union( [
       images
         

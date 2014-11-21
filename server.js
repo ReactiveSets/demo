@@ -19,12 +19,12 @@
 */
 "use strict";
 
-var XS  = require( 'excess' ).XS
-  , xs  = XS.xs
-  , log = XS.log
+var RS  = require( 'toubkal' ).RS
+  , rs  = RS.rs
+  , log = RS.log
 ;
 
-require( 'excess/lib/server/http.js' );
+require( 'toubkal/lib/server/http.js' );
 
 /* -------------------------------------------------------------------------------------------
    de&&ug()
@@ -38,7 +38,7 @@ function ug( m ) {
 /* -------------------------------------------------------------------------------------------
    Start HTTP Servers
 */
-var servers = xs.set( [
+var servers = rs.set( [
     { id: 1, ip_address: '0.0.0.0', port: 8080 },
   ] )
   .http_servers()
