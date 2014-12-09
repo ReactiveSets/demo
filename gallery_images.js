@@ -29,32 +29,51 @@ require( 'toubkal/lib/order.js'             );
 require( 'toubkal/lib/join.js'              );
 require( 'toubkal/lib/server/thumbnails.js' );
 
-require( './js/dropbox.js' );
+// watch Dropbox gallery directory
+var gallery_directory = rs
+      
+      .set( [ { path: '~/Dropbox/Apps/CastorCAD/gallery' } ] )
+      
+      .union()
+  
+  , gallery_entries = gallery_directory.watch_directories()
+;
+ 
+gallery_entries
+ 
+  .filter( [ { type: 'directory' } ] )
+  
+  ._add_destination( gallery_directory )
+;
 
 // gallery images
-var images = rs
+var images = gallery_entries
   
-  .set( [ { path: '~/Dropbox/Apps/CastorCAD/gallery' } ] )
-  
-  .watch_directories()
-  
-  .filter( [ { type : 'file'} ] )
+  .filter( [ { type : 'file', depth: 1 } ] )
   
   .alter( alter_images, { no_clone: true } )
+  
+  .trace( 'gallery images' )
+  
+  .set()
 ;
 
 // create gallery thumbnails
-images.thumbnails( { path: 'thumbnails/', width: 125, height: 80, base_directory: __dirname } );
+images.thumbnails( { path: '/thumbnails/', width: 125, height: 80, base_directory: __dirname } );
 
 // gallery thumbnails
-var thumbnails = rs
+var thumbnails = gallery_entries
   
-  .set( [ { path: '~/Dropbox/Apps/CastorCAD/gallery/thumbnails' } ] )
-  
-  .watch_directories()
+  .filter( [ { type : 'file', depth: 2 } ] )
   
   .alter( alter_thumbnails, { no_clone: true } )
+  
+  .trace( 'gallery thumbnails' )
+  
+  .set()
 ;
+
+return;
 
 module.exports = rs
   .union( [
@@ -77,13 +96,9 @@ module.exports = rs
         // .trace( 'gallery thumbnails' )
         
         // .set()
-  ] )
+  ] ) // rs.union( images & thumbnails )
   
-  .alter( add_dropbox_filepath )
-  
-  .dropbox_public_urls()
-  
-  .trace( 'public urls' )
+  .trace( 'gallery images and thumbnails' )
   
   .set()
 ;
@@ -91,11 +106,11 @@ module.exports = rs
 return;
 
 function served_images( image, thumbnail ) {
-  return { path: image.path };
+  return { path: image.path, file_name: image.image_name };
 } // served_images()
 
 function served_thumbnails( thumbnail, image ) {
-  return { path: thumbnail.path };
+  return { path: thumbnail.path, file_name: thumbnail.image_source_name };
 } // served_thumbnails()
 
 function alter_images( image ) {
@@ -115,7 +130,3 @@ function alter_thumbnails( thumbnail ) {
     , image_source_name: path.basename( thumbnail_path ).replace( '-125x80', '' )
   };
 } // alter_thumbnails()
-
-function add_dropbox_filepath( image ) {
-  image.dropbox_filepath = image.path.match( '~/Dropbox/Apps/CastorCAD/(.*)' )[ 1 ]
-} // add_dropbox_filepath()
