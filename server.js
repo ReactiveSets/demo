@@ -2,7 +2,7 @@
     
     ----
     
-    Copyright (C) 2013, Connected Sets
+    Copyright (C) 2013, Reactive Sets
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -44,4 +44,4 @@ var servers = rs.set( [
   .http_servers()
 ;
 
-require( './castorcad.js' )( servers.virtual_http_servers( [ 'castorcad.com', 'www.castorcad.com', 'castorcad' ] ) );
+require( './castorcad.js' )( servers.virtual_http_servers( [ 'castorcad.com', 'www.castorcad.com', 'castorcad', '127.0.0.1' ] ) );

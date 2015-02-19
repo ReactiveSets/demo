@@ -2,7 +2,7 @@
     
     ----
     
-    Copyright (C) 2013, Connected Sets
+    Copyright (C) 2013, Reactive Sets
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -19,9 +19,9 @@
 */
 "use strict";
 
-var RS     = require( 'toubkal' ).RS
+var rs     = require( 'toubkal' )
   , path   = require(  'path'  )
-  , rs     = RS.rs
+  , RS     = rs.RS
   , log    = RS.log
   , extend = RS.extend
 ;
@@ -105,7 +105,7 @@ var client_min = rs
   
   .order( [ { id: 'id' } ] ) // order loaded files
   
-  .uglify( 'js/toubkal-0.2.4.min.js', { warnings: false } )
+  .uglify( 'js/toubkal-0.2.7.min.js', { warnings: false } )
 ;
 
 // carousel images, gallery images and projects images thumbnails
