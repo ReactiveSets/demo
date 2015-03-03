@@ -111,19 +111,13 @@ var client_min = rs
 // carousel images, gallery images and projects images thumbnails
 var carousel_images = require( './carousel_images.js' )
   , gallery_images  = require( './gallery_images.js'  )
-  //, projects_images = require( './projects_images.js' )
+  , projects_images = require( './projects_images.js' )
   , albums_images   = require( './albums_images.js'   )
 ;
 
-/*
-var projects_thumbnails = projects_images
-  .thumbnails( { width: 700, height: 520, base_directory: __dirname } )
-  .set_flow( 'projects_thumbnails' )
-;
-*/
 var dropbox_assets = rs
   
-  .union( [ carousel_images, albums_images, gallery_images/*, projects_images*/ ] )
+  .union( [ carousel_images, albums_images, gallery_images, projects_images ] )
   
   .alter( add_dropbox_filepath )
   

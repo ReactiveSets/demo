@@ -2,7 +2,7 @@
     
     ----
     
-    Copyright (C) 2013, Connected Sets
+    Copyright (C) 2013, Reactive Sets
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -17,48 +17,108 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 "use strict";
-/*
-var projects_images = ( this.RS || require( 'toubkal' ).RS ).rs
-  .set( [
-    { path: 'images/project-01.jpg' },
-    { path: 'images/project-02.jpg' },
-    { path: 'images/project-03.jpg' },
-    { path: 'images/project-04.jpg' }
-    // { path: 'images/project-05.jpg' },
-    // { path: 'images/project-06.jpg' }
-  ] )
-  .set_flow( 'projects_images' )
-  .auto_increment()
+
+var rs   = require( 'toubkal' )
+  , path = require(  'path'  )
 ;
 
-if ( typeof module != 'undefined' ) module.exports = projects_images;
-*/
-var rs = require( 'toubkal' );
-
-require( 'toubkal/lib/server/file.js' );
-
-// projects images
-var images = rs  
+// watch Dropbox projects directory
+var projects_directory = rs
+      
+      .set( [ { path: '~/Dropbox/Apps/CastorCAD/projects' } ] )
+      
+      .union()
   
-  .set( [ { path: '~/Dropbox/Apps/CastorCAD/projects' } ] )
-  
-  .watch_directories()
-  
-  .auto_increment( { attribute: 'id' } )
-  
-  .set_flow( 'projects_images' )
-  
-  .trace( 'projects images' )
-;
-
-// projects thumbnails
-var thumbnails = images
-  
-  .thumbnails( { path: 'thumbnails/', width: 700, height: 520, base_directory: __dirname } )
-  
-  .set_flow( 'projects_thumbnails' )
+  , projects_entries = projects_directory.watch_directories()
 ;
  
-module.exports = rs.union( [ images, thumbnails ] );
+projects_entries
+ 
+  .filter( [ { type: 'directory' } ] )
+  
+  ._add_destination( projects_directory )
+;
+
+// projects images
+var images = projects_entries
+  
+  .filter( [ { type : 'file', depth: 1 } ] )
+  
+  .alter( alter_images, { no_clone: true } )
+  
+  .trace( 'projects images' )
+  
+  .set()
+;
+
+// create projects thumbnails
+images.thumbnails( { path: '/thumbnails/', width: 700, height: 520, base_directory: __dirname } );
+
+// projects thumbnails
+var thumbnails = projects_entries
+  
+  .filter( [ { type : 'file', depth: 2 } ] )
+  
+  .alter( alter_thumbnails, { no_clone: true } )
+  
+  .trace( 'projects thumbnails' )
+  
+  .set()
+;
+
+module.exports = rs
+  .union( [
+      images
+        
+        .join( thumbnails, [ [ 'image_name', 'image_source_name' ] ], served_images )
+        
+        .set_flow( 'projects_images' )
+        
+        // .trace( 'projects images' )
+        
+        // .set()
+        
+    , thumbnails
+        
+        .join( images, [ [ 'image_source_name', 'image_name' ] ], served_thumbnails )
+        
+        .set_flow( 'projects_thumbnails' )
+        
+        // .trace( 'projects thumbnails' )
+        
+        // .set()
+  ] ) // rs.union( images & thumbnails )
+  
+  .trace( 'projects images and thumbnails' )
+  
+  .set()
+;
+
+return;
+
+function served_images( image, thumbnail ) {
+  return { path: image.path, file_name: image.image_name };
+} // served_images()
+
+function served_thumbnails( thumbnail, image ) {
+  return { path: thumbnail.path, file_name: thumbnail.image_source_name };
+} // served_thumbnails()
+
+function alter_images( image ) {
+  var image_path = image.path;
+  
+  return {
+      path      : image_path
+    , image_name: path.basename( image_path )
+  };
+} // alter_images()
+
+function alter_thumbnails( thumbnail ) {
+  var thumbnail_path = thumbnail.path;
+  
+  return {
+      path             : thumbnail_path
+    , image_source_name: path.basename( thumbnail_path ).replace( '-700x520', '' )
+  };
+} // alter_thumbnails()

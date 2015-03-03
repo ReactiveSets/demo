@@ -2,7 +2,7 @@
   CastorCAD Modal Window style
 */
 
-.xs-modal {
+.rs-modal {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -11,7 +11,7 @@
   background: rgba( 0, 0, 0, 0.8 );
 }
 
-.xs-modal .xs-modal-close {
+.rs-modal .rs-modal-close {
   width: 50px;
   xheight: 30px;
   xbackground: url( "../images/sprite.png" ) 0 1px no-repeat;

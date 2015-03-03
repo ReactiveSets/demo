@@ -21,15 +21,15 @@ var $  = jQuery
       
   , projects_thumbnails = server
       .flow( 'projects_thumbnails' )
-      .set()
-      .join( descriptions, [ [ 'id', 'id' ] ], join_projects_thumbnails, { left: true } )
-      .trace( 'projects_thumbnails' )
+      // .set()
+      // .join( descriptions, [ [ 'id', 'id' ] ], join_projects_thumbnails, { left: true } )
+      // .trace( 'projects_thumbnails' )
   
   , projects_images = server
       .flow( 'projects_images' )
-      .set()
-      .join( descriptions, [ [ 'id', 'id' ] ], join_projects_images,     { left: true } )
-      .trace( 'projects_images' )
+      // .set()
+      // .join( descriptions, [ [ 'id', 'id' ] ], join_projects_images,     { left: true } )
+      // .trace( 'projects_images' )
       
   , projects_thumbnails_node = document.getElementById( 'projects_thumbnails' )
   , projects_carousel_node   = document.getElementById( 'projects_carousel'   )

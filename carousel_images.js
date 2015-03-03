@@ -21,8 +21,6 @@
 
 var rs = require( 'toubkal' );
 
-require( 'toubkal/lib/server/file.js' );
-
 module.exports = rs
   
   .set( [ { path: '~/Dropbox/Apps/CastorCAD/carousel' } ] )

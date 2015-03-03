@@ -15,6 +15,8 @@ return;
 
 // open modal window
 function _open( e ) {
+  console.log( 'here trash', e.target.nodeName === 'IMG' );
+  
   if( e.target.nodeName === 'IMG' ) $( '.rs-modal' ).removeClass( 'hide' );
 }
 

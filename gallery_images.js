@@ -23,12 +23,6 @@ var rs   = require( 'toubkal' )
   , path = require(  'path'  )
 ;
 
-require( 'toubkal/lib/server/file.js'       );
-require( 'toubkal/lib/filter.js'            );
-require( 'toubkal/lib/order.js'             );
-require( 'toubkal/lib/join.js'              );
-require( 'toubkal/lib/server/thumbnails.js' );
-
 // watch Dropbox gallery directory
 var gallery_directory = rs
       
@@ -52,10 +46,6 @@ var images = gallery_entries
   .filter( [ { type : 'file', depth: 1 } ] )
   
   .alter( alter_images, { no_clone: true } )
-  
-  .trace( 'gallery images' )
-  
-  .set()
 ;
 
 // create gallery thumbnails
@@ -67,10 +57,6 @@ var thumbnails = gallery_entries
   .filter( [ { type : 'file', depth: 2 } ] )
   
   .alter( alter_thumbnails, { no_clone: true } )
-  
-  .trace( 'gallery thumbnails' )
-  
-  .set()
 ;
 
 module.exports = rs
@@ -81,19 +67,11 @@ module.exports = rs
         
         .set_flow( 'gallery_images' )
         
-        // .trace( 'gallery images' )
-        
-        // .set()
-        
     , thumbnails
         
         .join( images, [ [ 'image_source_name', 'image_name' ] ], served_thumbnails )
         
         .set_flow( 'gallery_thumbnails' )
-        
-        // .trace( 'gallery thumbnails' )
-        
-        // .set()
   ] ) // rs.union( images & thumbnails )
   
   .trace( 'gallery images and thumbnails' )
