@@ -21,6 +21,7 @@
 
 !function( exports ) {
   var RS           = require( 'toubkal/lib/pipelet.js' ).RS
+    , Query        = RS.Query
     , dropbox      = require( 'dbox' )
     , path         = require( 'path' )
     , EventEmitter = require( 'events' ).EventEmitter
@@ -122,7 +123,7 @@
      .dropbox_public_urls( options )
   */
   Set.Build( 'dropbox_public_urls', Dropbox_Public_URLs, function( Super ) { return {
-    _fetch: function( receiver ) {
+    _fetch: function( receiver, query ) {
       var cache  = this.pipelet._cache
         , values = []
       ;
@@ -131,6 +132,10 @@
         var v = cache[ key ];
         
         if( typeof v === 'object' ) values.push( v );
+      }
+      
+      if ( query ) {
+        values = new Query( query ).generate().filter( values );
       }
       
       receiver( values, true );
