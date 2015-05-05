@@ -52,10 +52,27 @@ function ug( m ) {
 
 module.exports = function( servers ) {
 
+var client_assets = require( 'toubkal/lib/client/client_assets.js' );
+
 /* -------------------------------------------------------------------------------------------
    Load and Serve Assets
 */
 
+var toubkal_min = rs
+  .union( [
+      client_assets.toubkal
+    , rs.set( [ { path: 'contact_form_fields.js' } ] )
+  ] )
+  
+  .auto_increment()
+  
+  .watch( { base_directory: __dirname } )
+  
+  .order( [ { id: 'id' } ] ) // order loaded files
+  
+  .uglify( 'js/toubkal-0.2.7.min.js', { warnings: false } )
+;
+/*
 var client_min = rs
   .union( [
     rs.set( [
@@ -107,7 +124,7 @@ var client_min = rs
   
   .uglify( 'js/toubkal-0.2.7.min.js', { warnings: false } )
 ;
-
+*/
 // carousel images, gallery images and projects images thumbnails
 var carousel_images = require( './carousel_images.js' )
   , gallery_images  = require( './gallery_images.js'  )
@@ -164,7 +181,7 @@ var files = rs
   ] )
   .auto_increment()
   .watch( { base_directory: __dirname } )
-  .union( [ client_min ] )
+  .union( [ toubkal_min ] )
 ;
 
 servers.http_listen( files );
