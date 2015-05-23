@@ -52,19 +52,15 @@ function ug( m ) {
 
 module.exports = function( servers ) {
 
+var client_assets = require( 'toubkal/lib/client/client_assets.js' );
+
 /* -------------------------------------------------------------------------------------------
    Load and Serve Assets
 */
-
-var assets = require( 'toubkal/lib/client/client_assets.js' );
-
-var client_min = rs
+var toubkal_min = rs
   .union( [
-    assets.toubkal,
-    
-    rs.set( [
-      { path: 'contact_form_fields.js' }
-    ] )
+      client_assets.toubkal
+    , rs.set( [ { path: 'contact_form_fields.js' } ] )
   ] )
   
   .auto_increment()
@@ -132,7 +128,7 @@ var files = rs
   ] )
   .auto_increment()
   .watch( { base_directory: __dirname } )
-  .union( [ client_min ] )
+  .union( [ toubkal_min ] )
 ;
 
 servers.http_listen( files );
