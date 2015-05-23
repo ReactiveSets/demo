@@ -85,9 +85,9 @@
       
       .greedy()
       
-      ._fetch_all( initialize_dropbox )
-      
       ._on( 'add', initialize_dropbox )
+      
+      ._fetch_all( initialize_dropbox )
     ;
     
     return this;

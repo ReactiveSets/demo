@@ -56,43 +56,11 @@ module.exports = function( servers ) {
    Load and Serve Assets
 */
 
+var assets = require( 'toubkal/lib/client/client_assets.js' );
+
 var client_min = rs
   .union( [
-    rs.set( [
-      { path: 'js/es5.js'   },
-      { path: 'js/json2.js' },
-      { path: 'js/uuid.js'  }
-    ] ),
-    
-    rs.set( [
-      // rs.core
-      { name: 'toubkal/lib/rs.js'           },
-      { name: 'toubkal/lib/code.js'         },
-      { name: 'toubkal/lib/query.js'        },
-      { name: 'toubkal/lib/transactions.js' },
-      { name: 'toubkal/lib/pipelet.js'      },
-      { name: 'toubkal/lib/filter.js'       },
-      { name: 'toubkal/lib/order.js'        },
-      { name: 'toubkal/lib/aggregate.js'    },
-      { name: 'toubkal/lib/join.js'         },
-      { name: 'toubkal/lib/events.js'       },
-      { name: 'toubkal/lib/uri.js'          },
-      { name: 'toubkal/lib/last.js'         },
-      
-      // rs.ui
-      { name: 'toubkal/lib/selector.js'                },
-      { name: 'toubkal/lib/client/animation_frames.js' },
-      { name: 'toubkal/lib/client/url.js'              },
-      { name: 'toubkal/lib/form.js'                    },
-      { name: 'toubkal/lib/load_images.js'             },
-      { name: 'toubkal/lib/bootstrap_photo_album.js'   },
-      { name: 'toubkal/lib/bootstrap_carousel.js'      },
-      
-      // socket.io server access
-      { name: 'toubkal/lib/socket_io_crossover.js' },
-      { name: 'toubkal/lib/socket_io_server.js'    }
-    ] )
-    .require_resolve(),
+    assets.toubkal,
     
     rs.set( [
       { path: 'contact_form_fields.js' }
