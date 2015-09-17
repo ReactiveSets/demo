@@ -57,7 +57,7 @@ var toubkal_min = rs
   
   .order( [ { id: 'id' } ] ) // order loaded files
   
-  .uglify( 'js/toubkal-0.2.7.min.js', { warnings: false } )
+  .uglify( 'js/toubkal-min.js', { warnings: false } )
 ;
 
 // carousel images, gallery images and projects images thumbnails
