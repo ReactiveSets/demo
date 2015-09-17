@@ -19,8 +19,8 @@
 */
 "use strict";
 
-var RS  = require( 'toubkal' ).RS
-  , rs  = RS.rs
+var rs  = require( 'toubkal' )
+  , RS  = rs.RS
   , log = RS.log
 ;
 

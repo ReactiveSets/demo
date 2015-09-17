@@ -20,15 +20,15 @@
 "use strict";
 
 !function( exports ) {
-  var RS           = require( 'toubkal/lib/pipelet.js' ).RS
+  var rs           = require( 'toubkal' )
+    , RS           = rs.RS
     , Query        = RS.Query
     , dropbox      = require( 'dbox' )
     , path         = require( 'path' )
     , EventEmitter = require( 'events' ).EventEmitter
   ;
   
-  var rs       = RS.rs
-    , log      = RS.log
+  var log      = RS.log
     , extend_2 = RS.extend_2
     , Code     = RS.Code
     , Pipelet  = RS.Pipelet

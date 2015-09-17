@@ -26,18 +26,6 @@ var rs     = require( 'toubkal' )
   , extend = RS.extend
 ;
 
-require( 'toubkal/lib/server/file.js'              );
-require( 'toubkal/lib/server/http.js'              );
-require( 'toubkal/lib/server/socket_io_clients.js' );
-require( 'toubkal/lib/server/uglify.js'            );
-require( 'toubkal/lib/server/mailer.js'            );
-require( 'toubkal/lib/server/thumbnails.js'        );
-
-require( 'toubkal/lib/uri.js'   );
-require( 'toubkal/lib/join.js'  );
-require( 'toubkal/lib/order.js' );
-require( 'toubkal/lib/form.js'  );
-
 require( './js/dropbox.js'            );
 require( './js/directory_manifest.js' );
 
@@ -52,7 +40,7 @@ function ug( m ) {
 
 module.exports = function( servers ) {
 
-var client_assets = require( 'toubkal/lib/client/client_assets.js' );
+var client_assets = require( 'toubkal/lib/server/client_assets.js' );
 
 /* -------------------------------------------------------------------------------------------
    Load and Serve Assets

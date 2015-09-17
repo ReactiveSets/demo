@@ -19,7 +19,7 @@
 */
 "use strict";
 
-var contact_form_fields = ( this.RS || require( 'toubkal' ).RS ).rs
+var contact_form_fields = ( this.rs || require( 'toubkal' ) )
   .set(
     [
       {

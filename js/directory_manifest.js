@@ -20,7 +20,7 @@
 "use strict";
 
 !function( exports ) {
-  var rs           = require( 'toubkal/lib/pipelet.js' )
+  var rs           = require( 'toubkal' )
     , path         = require( 'path' )
     , fs           = require(  'fs'  )
     

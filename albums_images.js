@@ -23,12 +23,6 @@ var rs   = require( 'toubkal' )
   , path = require(  'path'  )
 ;
 
-// toubkal required modules
-require( 'toubkal/lib/filter.js'            );
-require( 'toubkal/lib/join.js'              );
-require( 'toubkal/lib/server/file.js'       );
-require( 'toubkal/lib/server/thumbnails.js' );
-
 // castorcad required modules
 require( './js/dropbox.js'            );
 require( './js/directory_manifest.js' );
