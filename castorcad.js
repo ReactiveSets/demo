@@ -40,25 +40,13 @@ function ug( m ) {
 
 module.exports = function( servers ) {
 
-var client_assets = require( 'toubkal/lib/server/client_assets.js' );
+var client_assets = require( 'toubkal/lib/server/client_assets.js' )
+  , toubkal_min = client_assets.toubkal_min()
+;
 
 /* -------------------------------------------------------------------------------------------
    Load and Serve Assets
 */
-var toubkal_min = rs
-  .union( [
-      client_assets.toubkal
-    , rs.set( [ { path: 'contact_form_fields.js' } ] )
-  ] )
-  
-  .auto_increment()
-  
-  .watch( { base_directory: __dirname } )
-  
-  .order( [ { id: 'id' } ] ) // order loaded files
-  
-  .uglify( 'js/toubkal-min.js', { warnings: false } )
-;
 
 // carousel images, gallery images and projects images thumbnails
 var carousel_images = require( './carousel_images.js' )
@@ -94,6 +82,7 @@ var files = rs
     { path: 'css/modal.css'            },
     
     // JS files
+    { path: 'contact_form_fields.js'   },
     { path: 'js/hammer.js'             },
     { path: 'js/navigation.js'         },
     { path: 'js/modal.js'              },
