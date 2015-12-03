@@ -83,7 +83,7 @@ var images = entries_manifests
   
   .filter( [ { type: 'file', depth: 4, extension: 'jpg' }, { type: 'file', depth: 4, extension: 'png' } ] )
   
-  .alter( alter_images, { no_clone: true } )
+  .map( alter_images )
   
   .join( projects, [ [ 'projects_dirname', 'projects_dirname' ] ], images_metadata )
   
@@ -102,7 +102,7 @@ var thumbnails = entries_manifests
   
   .filter( [ { type: 'file', depth: 5, extension: 'jpg' }, { type: 'file', depth: 5, extension: 'png' } ] )
   
-  .alter( alter_thumbnails, { no_clone: true } )
+  .map( alter_thumbnails )
   
   .join( images, [ [ 'image_source_dirname', 'image_dirname' ], [ 'image_source_name', 'image_basename' ] ], thumbnails_metadata )
   

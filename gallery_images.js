@@ -45,7 +45,7 @@ var images = gallery_entries
   
   .filter( [ { type : 'file', depth: 1 } ] )
   
-  .alter( alter_images, { no_clone: true } )
+  .map( alter_images )
 ;
 
 // create gallery thumbnails
@@ -56,7 +56,7 @@ var thumbnails = gallery_entries
   
   .filter( [ { type : 'file', depth: 2 } ] )
   
-  .alter( alter_thumbnails, { no_clone: true } )
+  .map( alter_thumbnails )
 ;
 
 module.exports = rs

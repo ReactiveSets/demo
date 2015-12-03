@@ -130,15 +130,15 @@ contact_form_fields
   .trace( 'contact form received from client' )
   
   // Validate form, just in case the contact form code has been altered on the client
-  .form_validate( 'contact_form', contact_form_fields )
+  .validate( contact_form_fields )
   
-  .trace( 'form_validate' )
+  .trace( 'validate' )
   
   .flow( 'contact_form' ) // filter errors out
   
   .trace( 'validated form' )
   
-  .alter( function( form ) {
+  .map( function( form ) {
     var full_name = form[ 'full-name' ];
     
     return {
@@ -164,7 +164,7 @@ contact_form_fields
         + '<p>Message:<p>'
         + '<p>' + form.text + '</p>'
     };
-  }, { no_clone: true } )
+  } )
   
   .trace( 'send email' )
   
