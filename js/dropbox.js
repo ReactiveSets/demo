@@ -29,7 +29,7 @@
   ;
   
   var log      = RS.log
-    , extend_2 = RS.extend_2
+    , extend_2 = RS.extend._2
     , Code     = RS.Code
     , Pipelet  = RS.Pipelet
     , Set      = RS.Set
@@ -86,9 +86,9 @@
       
       .greedy()
       
-      ._on( 'add', initialize_dropbox )
+      ._output.on( 'add', initialize_dropbox )
       
-      ._fetch_all( initialize_dropbox )
+      .fetch_all( initialize_dropbox )
     ;
     
     return this;
