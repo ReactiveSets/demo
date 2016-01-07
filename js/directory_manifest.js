@@ -29,7 +29,7 @@
     , File_Set     = RS.File_Set
     
     , uuid_v4      = RS.uuid_v4
-    , extend_2     = RS.extend_2
+    , extend_2     = RS.extend._2
   ;
   
   /* -------------------------------------------------------------------------------------------
@@ -141,7 +141,7 @@
             f && f( content );
           } catch( e ) {
             error( '_add_value(), read_file(): Cannot parse JSON object'
-              + ', error: '   + log.s( e )
+              + ', error: '   + e
               + ', content: ' + log.s( content )
               + ', path: '    + file_path
             );
