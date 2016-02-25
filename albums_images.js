@@ -57,7 +57,7 @@ var entries_manifests = albums_entries
 // architects
 var architects = entries_manifests
   
-  .unique_set() // prevent duplicated entries until bug fix in watch_directories()
+  .unique() // prevent duplicated entries until bug fix in watch_directories()
   
   .filter( [ { type: 'directory', depth: 1 } ] )
   

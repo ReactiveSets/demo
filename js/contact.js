@@ -13,14 +13,14 @@
   
 
   // use exports.contact_form_fields to load form fields faster
-  // use unique_set() to prevent duplicated fields once connected to socket server
+  // use unique() to prevent duplicated fields once connected to socket server
   // this allows fast loading and dynamic fields
   
   contact_form_fields = rs
-    // ToDo: fix unique_set()
+    // ToDo: fix unique()
     .union( [ exports.contact_form_fields/*, contact_form_fields*/ ] )
     
-    .unique_set()
+    .unique()
     
     .order( [ { id: "order_id" } ] )
     

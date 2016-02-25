@@ -29,7 +29,7 @@ var rs = RS.rs
 carousel_images = rs
   .union( [ exports.carousel_images.to_uri(), carousel_images ] )
   
-  .unique_set()
+  .unique()
   
   .load_images()
   
