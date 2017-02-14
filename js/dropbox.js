@@ -69,15 +69,15 @@
      
   */
   function Dropbox_Public_URLs( options ) {
+    var that = this;
+    
     Set.call( this, [], options );
     
-    this._dropbox_url_events = new EventEmitter();
-    this._dropbox_waiters    = [];
-    this._output._fetch      = this._fetch;
-    this._cache              = {};
-    this._dropbox_client     = null;
-    
-    var that = this;
+    this._dropbox_url_events      = new EventEmitter();
+    this._dropbox_waiters         = [];
+    this._output.fetch_unfiltered = fetch_unfiltered;
+    this._cache                   = {};
+    this._dropbox_client          = null;
     
     rs
       .configuration( options )
@@ -113,40 +113,34 @@
           
           for ( var i = -1; ++i < l; ) waiters[ i ].call( that );
           
-          this.configuration_waiters = [];
+          that._dropbox_waiters = [];
         }
       }
     } // initialize_dropbox()
+    
+    function fetch_unfiltered( receiver ) {
+      var cache  = that._cache
+        , values = []
+      ;
+      
+      for ( var key in cache ) {
+        var v = cache[ key ];
+        
+        if ( typeof v === 'object' ) values.push( v );
+      }
+      
+      receiver( values, true );
+    } // fetch_unfiltered()
   } // Dropbox_Public_URLs()
   
   /* -------------------------------------------------------------------------------------------
      .dropbox_public_urls( options )
   */
   Set.Build( 'dropbox_public_urls', Dropbox_Public_URLs, function( Super ) { return {
-    _fetch: function( receiver, query ) {
-      var cache  = this.pipelet._cache
-        , values = []
-      ;
-      
-      for( var key in cache ) {
-        var v = cache[ key ];
-        
-        if( typeof v === 'object' ) values.push( v );
-      }
-      
-      if ( query ) {
-        values = new Query( query ).generate().filter( values );
-      }
-      
-      receiver( values, true );
-      
-      return this;
-    }, // _fetch()
-    
     _wait_for_dropbox: function( handler ) {
       this._dropbox_waiters.push( handler );
       
-      de&&ug( '_wait_for_dropbox(), configuration_waiters: ' + this._dropbox_waiters.length );
+      de&&ug( '_wait_for_dropbox(), waiters:', this._dropbox_waiters.length );
       
       return this;
     }, // _wait_for_dropbox()
@@ -156,7 +150,9 @@
         , that   = this
       ;
       
-      if ( ! client ) return this._wait_for_dropbox( function() { that._add_value( transaction, value ) } );
+      if ( ! client )
+        return this._wait_for_dropbox( function() { that._add_value( transaction, value ) } )
+      ;
       
       var dropbox_url_events = this._dropbox_url_events
         , cache              = this._cache
@@ -217,7 +213,9 @@
     _remove_value: function( transaction, value ) {
       var that = this;
       
-      if ( ! this._dropbox_client ) return this._wait_for_dropbox( function() { that._remove_value( transaction, value ) } );
+      if ( ! this._dropbox_client )
+        return this._wait_for_dropbox( function() { that._remove_value( transaction, value ) } )
+      ;
       
       var cache     = this._cache
         , file_path = value.dropbox_filepath
